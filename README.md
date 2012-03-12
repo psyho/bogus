@@ -109,7 +109,7 @@ Bogus.configure do |config|
 end
 
 shared_context 'fakes' do
-  fake(:geocoder) # same as let(:geocoder) { Bogus.fake_for(:geocoder.to_s.classify) }
+  fake(:geocoder) # same as let(:geocoder) { Bogus.fake_for(:geocoder) }
   fake(:finds_users)
 end
 
