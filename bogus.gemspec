@@ -6,10 +6,10 @@ Gem::Specification.new do |s|
   s.name        = "bogus"
   s.version     = Bogus::VERSION
   s.authors     = ["Adam Pohorecki"]
-  s.email       = ["adam.pohorecki@llp.pl"]
-  s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.email       = ["adam@pohorecki.pl"]
+  s.homepage    = "https://github.com/psyho/bogus"
+  s.summary     = %q{Create fakes to make your isolated unit tests reliable.}
+  s.description = %q{Decreases the need to write integration tests by ensuring that the things you stub or mock actually exist.}
 
   s.rubyforge_project = "bogus"
 
@@ -17,8 +17,4 @@ Gem::Specification.new do |s|
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
-
-  # specify any dependencies here; for example:
-  # s.add_development_dependency "rspec"
-  # s.add_runtime_dependency "rest-client"
 end
