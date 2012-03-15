@@ -1,5 +1,7 @@
 # Bogus
 
+[![build status](https://secure.travis-ci.org/psyho/bogus.png)](http://travis-ci.org/psyho/bogus)
+
 ## What is Bogus?
 
 Bogus aims to make your unit tests more reliable by ensuring that you don't stub or mock methods that don't actually exist in the mocked objects.
