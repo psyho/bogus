@@ -7,7 +7,7 @@ Feature: Faking existing classes
     Given a file named "logger.rb" with:
     """ruby
     class Logger
-      def self.info(message)
+      def info(message)
       end
     end
     """
@@ -15,7 +15,7 @@ Feature: Faking existing classes
     And a file named "foo.rb" with:
     """ruby
     class Foo
-      def self.do_something(logger = Logger)
+      def self.do_something(logger = Logger.new)
         logger.info("hello world")
         true
       end
