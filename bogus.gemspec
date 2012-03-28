@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'dependor'
 
-  s.add_development_dependency 'rspec'
+  s.add_development_dependency 'rspec', "2.8.0"
   s.add_development_dependency 'cucumber'
   s.add_development_dependency 'aruba'
 
