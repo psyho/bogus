@@ -3,11 +3,17 @@ Feature: Faking existing classes
   Bogus makes it easy to create fakes, which behave like a null-object and
   have the same interface as the object being faked.
 
-  Scenario: Calling methods that exist on real object
+  Background:
     Given a file named "foo.rb" with:
     """ruby
     class Logger
       def info(message)
+      end
+
+      def warn(message)
+      end
+
+      def self.foo(bar)
       end
     end
 
@@ -19,13 +25,9 @@ Feature: Faking existing classes
     end
     """
 
-    And a file named "foo_spec.rb" with:
+  Scenario: Calling methods that exist on real object
+    Then spec file with following content should pass:
     """ruby
-    require 'bogus'
-    require 'bogus/rspec'
-
-    require_relative 'foo'
-
     describe Foo do
       fake(:logger)
 
@@ -35,5 +37,18 @@ Feature: Faking existing classes
     end
     """
 
-    When I run `rspec foo_spec.rb`
-    Then all the specs should pass
+  Scenario: Fakes have null-object semantics
+    Then spec file with following content should pass:
+    """ruby
+    describe "logger fake" do
+      fake(:logger)
+
+      it "returns self from all methods" do
+        logger.info("hello").should == logger
+      end
+
+      it "makes method chaining possible" do
+        logger.info("hello").warn("world").should == logger
+      end
+    end
+    """
