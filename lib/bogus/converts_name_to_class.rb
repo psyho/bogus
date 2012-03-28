@@ -1,6 +1,10 @@
 module Bogus
   class ConvertsNameToClass
-    include Dependor::Constructor(:search_modules)
+    extend Takes
+
+    class CanNotFindClass < RuntimeError; end
+
+    takes :search_modules
 
     def convert(name)
       class_name = camelize(name)
@@ -10,6 +14,8 @@ module Bogus
         klass = mod.const_get(class_name) rescue nil
         break if klass
       end
+
+      raise CanNotFindClass.new("Can not locate class for name: #{name}") unless klass
 
       klass
     end

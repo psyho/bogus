@@ -30,9 +30,11 @@ describe Bogus::ConvertsNameToClass do
     converts_name_to_class.convert(:bam).should == Bar::Bam
   end
 
-  it "returns nil if it can't find the class" do
+  it "raises an error if it can't find the class" do
     converts_name_to_class = Bogus::ConvertsNameToClass.new([Foo])
 
-    converts_name_to_class.convert(:bam).should be_nil
+    expect do
+      converts_name_to_class.convert(:bam)
+    end.to raise_error(Bogus::ConvertsNameToClass::CanNotFindClass)
   end
 end
