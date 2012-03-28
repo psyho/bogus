@@ -23,13 +23,6 @@ Feature: Faking existing classes
         true
       end
     end
-
-    module Bar
-      class Baz
-        def baz
-        end
-      end
-    end
     """
 
   Scenario: Calling methods that exist on real object
@@ -62,28 +55,6 @@ Feature: Faking existing classes
 
   Scenario: Taking the guesswork out of finding a class to copy
     Given pending
-
-  Scenario: Classes that come from different modules
-    Then spec file with following content should pass:
-    """ruby
-
-    Bogus.configure do |c|
-      c.search_modules << Bar
-    end
-
-    describe "logger class fake" do
-      fake(:logger)
-      fake(:baz)
-
-      it "finds classes in global namespace" do
-        logger.info("hello")
-      end
-
-      it "finds classes in specified modules" do
-        baz.baz
-      end
-    end
-    """
 
   Scenario: Fakes which are classes
     Then spec file with following content should pass:
