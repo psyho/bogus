@@ -1,7 +1,7 @@
 module Bogus
   module RSpecExtensions
-    def fake(name)
-      let(name) { Bogus.fake_for(name) }
+    def fake(name, opts = {})
+      let(name) { Bogus.fake_for(name, opts) }
     end
   end
 end

@@ -52,3 +52,29 @@ Feature: Faking existing classes
       end
     end
     """
+
+  Scenario: Taking the guesswork out of finding a class to copy
+    Given pending
+
+  Scenario: Fakes which are classes
+    Then spec file with following content should pass:
+    """ruby
+    describe "logger class fake" do
+      fake(:logger, as: :class)
+
+      it "is a class" do
+        logger.should be_a(Class)
+      end
+
+      it "has the same name as original class" do
+        logger.name.should == Logger.name
+      end
+
+      it "has same methods as original class" do
+        logger.foo('something')
+      end
+    end
+    """
+
+  Scenario: Fakes which are random objects
+    Given pending

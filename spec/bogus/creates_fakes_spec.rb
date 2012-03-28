@@ -1,129 +1,35 @@
 require_relative '../spec_helper'
 
 describe Bogus::CreatesFakes do
-  module SampleMethods
-    def foo
-    end
+  let(:fake_class) { stub(:fake_class, :new => fake_instance) }
+  let(:fake_instance) { stub(:fake_instance) }
+  let(:converts_name_to_class) { stub(:converts_name_to_class) }
+  let(:copies_classes) { stub(:copies_classes) }
+  let(:creates_fakes) { Bogus::CreatesFakes.new(copies_classes, converts_name_to_class) }
 
-    def bar(x)
-    end
-
-    def baz(x, *y)
-    end
-
-    def bam(opts = {})
-    end
-
-    def baa(x, &block)
-    end
+  module Foo
   end
 
-  shared_examples_for 'the copied class' do
-    it "copies methods with no arguments" do
-      subject.should respond_to(:foo)
-      subject.foo
-    end
-
-    it "copies methods with explicit arguments" do
-      subject.should respond_to(:bar)
-
-      subject.method(:bar).arity.should == 1
-
-      subject.bar('hello')
-    end
-
-    it "copies methods with variable arguments" do
-      subject.should respond_to(:baz)
-
-      subject.baz('hello', 'foo', 'bar', 'baz')
-    end
-
-    it "copies methods with default arguments" do
-      subject.should respond_to(:bam)
-
-      subject.bam
-      subject.bam(hello: 'world')
-    end
-
-    it "copies methods with block arguments" do
-      subject.should respond_to(:baa)
-
-      subject.baa('hello')
-      subject.baa('hello') {}
-    end
-
-    it "makes the methods chainable" do
-      subject.foo.bar('hello').baz('hello', 'world', 'foo').bam.baa('foo')
-    end
+  before do
+    converts_name_to_class.should_receive(:convert).with(:foo).and_return(Foo)
+    copies_classes.should_receive(:copy).with(Foo).and_return(fake_class)
   end
 
-  let(:method_stringifier) { Bogus::MethodStringifier.new }
-  let(:creates_fakes) { Bogus::CreatesFakes.new(method_stringifier) }
-  let(:fake_class) { creates_fakes.create_class(klass) }
-  let(:fake) { fake_class.new }
-
-  class FooWithInstanceMethods
-    include SampleMethods
+  it "creates a new instance of copied class by default" do
+    creates_fakes.create(:foo).should == fake_instance
   end
 
-  context "instance methods" do
-    let(:klass) { FooWithInstanceMethods }
-    subject{ fake }
-
-    it_behaves_like 'the copied class'
+  it "creates a new instance of copied class if called with as: :instance" do
+    creates_fakes.create(:foo, as: :instance).should == fake_instance
   end
 
-  context "constructors" do
-    let(:klass) {
-      Class.new do
-        def initialize(hello)
-        end
-      end
-    }
-
-    it "adds a constructor that allows passing any number of arguments" do
-      fake_class.new('hello', 'w', 'o', 'r', 'l', 'd') { test }
-    end
+  it "copies class but does not create an instance if called with as: :class" do
+    creates_fakes.create(:foo, as: :class).should == fake_class
   end
 
-  class ClassWithClassMethods
-    extend SampleMethods
-  end
-
-  context "class methods" do
-    let(:klass) { ClassWithClassMethods }
-    subject{ fake_class }
-
-    it_behaves_like 'the copied class'
-  end
-
-  context "identification" do
-    module SomeModule
-      class SomeClass
-      end
-    end
-
-    let(:klass) { SomeModule::SomeClass }
-
-    it "should copy the class name" do
-      fake.class.name.should == 'SomeModule::SomeClass'
-    end
-
-    it "should override kind_of?" do
-      fake.should be_kind_of(SomeModule::SomeClass)
-    end
-
-    it "should override instance_of?" do
-      fake.should be_instance_of(SomeModule::SomeClass)
-    end
-
-    it "should override is_a?" do
-      fake.should be_a(SomeModule::SomeClass)
-    end
-
-    # TODO
-    it "should override kind_of?/instance_of? for base classes of copied class"
-    it "should override kind_of? for modules included into copied class"
+  it "raises an error if the as mode is not known" do
+    expect do
+      creates_fakes.create(:foo, as: :something)
+    end.to raise_error(Bogus::CreatesFakes::UnknownMode)
   end
 end
-
