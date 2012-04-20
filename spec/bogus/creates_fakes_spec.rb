@@ -10,26 +10,42 @@ describe Bogus::CreatesFakes do
   module Foo
   end
 
-  before do
-    converts_name_to_class.should_receive(:convert).with(:foo).and_return(Foo)
-    copies_classes.should_receive(:copy).with(Foo).and_return(fake_class)
+  module Bar
   end
 
-  it "creates a new instance of copied class by default" do
-    creates_fakes.create(:foo).should == fake_instance
+  context "without block" do
+    before do
+      converts_name_to_class.should_receive(:convert).with(:foo).and_return(Foo)
+      copies_classes.should_receive(:copy).with(Foo).and_return(fake_class)
+    end
+
+    it "creates a new instance of copied class by default" do
+      creates_fakes.create(:foo).should == fake_instance
+    end
+
+    it "creates a new instance of copied class if called with as: :instance" do
+      creates_fakes.create(:foo, as: :instance).should == fake_instance
+    end
+
+    it "copies class but does not create an instance if called with as: :class" do
+      creates_fakes.create(:foo, as: :class).should == fake_class
+    end
+
+    it "raises an error if the as mode is not known" do
+      expect do
+        creates_fakes.create(:foo, as: :something)
+      end.to raise_error(Bogus::CreatesFakes::UnknownMode)
+    end
   end
 
-  it "creates a new instance of copied class if called with as: :instance" do
-    creates_fakes.create(:foo, as: :instance).should == fake_instance
-  end
+  context "with block" do
+    before do
+      converts_name_to_class.should_receive(:convert).never
+      copies_classes.should_receive(:copy).with(Bar).and_return(fake_class)
+    end
 
-  it "copies class but does not create an instance if called with as: :class" do
-    creates_fakes.create(:foo, as: :class).should == fake_class
-  end
-
-  it "raises an error if the as mode is not known" do
-    expect do
-      creates_fakes.create(:foo, as: :something)
-    end.to raise_error(Bogus::CreatesFakes::UnknownMode)
+    it "uses the class provided" do
+      creates_fakes.create(:foo){Bar}.should == fake_instance
+    end
   end
 end

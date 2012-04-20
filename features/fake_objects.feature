@@ -54,7 +54,21 @@ Feature: Faking existing classes
     """
 
   Scenario: Taking the guesswork out of finding a class to copy
-    Given pending
+    Then spec file with following content should pass:
+    """ruby
+    class OtherLogger
+      def info(msg)
+      end
+    end
+
+    describe "logger fake" do
+      fake(:logger) { OtherLogger }
+
+      it "uses the class provided in block instead of the guessed one" do
+        logger.class.name.should == "OtherLogger"
+      end
+    end
+    """
 
   Scenario: Fakes which are classes
     Then spec file with following content should pass:
@@ -76,5 +90,5 @@ Feature: Faking existing classes
     end
     """
 
-  Scenario: Fakes which are random objects
+  Scenario: Fakes which are objects
     Given pending

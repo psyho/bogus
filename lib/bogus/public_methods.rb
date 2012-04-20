@@ -1,8 +1,8 @@
 module Bogus
   module PublicMethods
 
-    def fake_for(*args)
-      return inject.creates_fakes.create(*args)
+    def fake_for(*args, &block)
+      return inject.creates_fakes.create(*args, &block)
     end
 
     def configure(&block)
