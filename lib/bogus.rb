@@ -13,7 +13,6 @@ module Bogus
   autoload :RSpecExtensions,           'bogus/rspec_extensions'
   autoload :Stub,                      'bogus/stub'
   autoload :RRProxy,                   'bogus/rr_proxy'
-  autoload :StubbingNonExistentMethod, 'bogus/stubbing_non_existent_method'
   autoload :Takes,                     'bogus/takes'
   autoload :VerifiesStubDefinition,    'bogus/verifies_stub_definition'
   autoload :VERSION,                   'bogus/version'

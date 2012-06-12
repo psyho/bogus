@@ -23,7 +23,7 @@ describe Bogus::MockingDSL do
       baz = ExampleFoo.new
       expect do
         Stubber.stub(baz).does_not_exist("bar") { :return_value }
-      end.to raise_error(Bogus::StubbingNonExistentMethod)
+      end.to raise_error(NameError)
     end
   end
 end

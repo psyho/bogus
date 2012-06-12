@@ -22,13 +22,24 @@ Feature: Safe stubbing
     end
     """
 
-  Scenario: Stubbing methods that does not exist on real object
+  Scenario: Stubbing methods that do not exist on real object
     Then spec file with following content should fail:
     """ruby
     describe Library do
       it "does something" do
         library = Library.new
         stub(library).buy("some book") { :bought }
+      end
+    end
+    """
+
+  Scenario: Stubbing methods with wrong number of arguments
+    Then spec file with following content should fail:
+    """ruby
+    describe Library do
+      it "does something" do
+        library = Library.new
+        stub(library).checkout("some book", "another book") { :bought }
       end
     end
     """
