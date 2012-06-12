@@ -10,5 +10,9 @@ module Bogus
     def search_modules
       configuration.search_modules
     end
+
+    def rr_proxy
+      Bogus::RRProxy
+    end
   end
 end
