@@ -276,6 +276,7 @@ MIT. See the LICENSE file.
 
 Everything. This is a README driven project.
 
-## Author
+## Authors
 
-Adam Pohorecki
+* [Adam Pohorecki](http://github.com/psyho)
+* [Paweł Pierzchała](http://github.com/wrozka)
