@@ -12,6 +12,7 @@ module Bogus
       add_constructor(copy_class)
       override_kind_and_instance_of(klass, copy_class)
       override_class_name(klass, copy_class)
+      override_to_s(klass, copy_class)
 
       return copy_class
     end
@@ -57,6 +58,18 @@ module Bogus
           "#{klass.name}"
         end
       RUBY
+    end
+
+    def override_to_s(klass, copy_class)
+      def copy_class.to_s
+        name
+      end
+
+      copy_class.class_eval do
+        def to_s
+          "#<#{self.class}:0x#{object_id.to_s(16)}>"
+        end
+      end
     end
 
     def method_as_string(method)

@@ -121,6 +121,14 @@ describe Bogus::CopiesClasses do
       fake.should be_a(SomeModule::SomeClass)
     end
 
+    it "should include class name in the output of fake's class #to_s" do
+      fake.class.to_s.should include(klass.name)
+    end
+
+    it "should include class name in the output of fake's #to_s" do
+      fake.to_s.should include(klass.name)
+    end
+
     # TODO
     it "should override kind_of?/instance_of? for base classes of copied class"
     it "should override kind_of? for modules included into copied class"
