@@ -1,5 +1,10 @@
 Feature: Safe stubbing
 
+  Most Ruby test double libraries let you stub methods that don't exist.
+  Bogus is different in this respect: not only does it not allow stubbing 
+  methods that don't exist, it also ensures that the number of arguments
+  you pass to those methods matches the method definition.
+
   Background:
     Given a file named "foo.rb" with:
     """ruby
