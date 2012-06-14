@@ -6,20 +6,20 @@ Feature: Faking existing classes
   Background:
     Given a file named "foo.rb" with:
     """ruby
-    class Logger
-      def info(message)
+    class Library
+      def checkout(book)
       end
 
-      def warn(message)
+      def return_book(book)
       end
 
-      def self.foo(bar)
+      def self.look_up(book)
       end
     end
 
-    class Foo
-      def self.do_something(logger = Logger.new)
-        logger.info("hello world")
+    class Student
+      def self.learn(library = Library.new)
+        library.checkout("hello world")
         true
       end
     end
@@ -28,11 +28,11 @@ Feature: Faking existing classes
   Scenario: Calling methods that exist on real object
     Then spec file with following content should pass:
     """ruby
-    describe Foo do
-      fake(:logger)
+    describe Student do
+      fake(:library)
 
       it "does something" do
-        Foo.do_something(logger).should be_true
+        Student.learn(library).should be_true
       end
     end
     """
@@ -40,15 +40,15 @@ Feature: Faking existing classes
   Scenario: Fakes have null-object semantics
     Then spec file with following content should pass:
     """ruby
-    describe "logger fake" do
-      fake(:logger)
+    describe "library fake" do
+      fake(:library)
 
       it "returns self from all methods" do
-        logger.info("hello").should == logger
+        library.checkout("hello").should == library
       end
 
       it "makes method chaining possible" do
-        logger.info("hello").warn("world").should == logger
+        library.checkout("hello").return_book("world").should == library
       end
     end
     """
@@ -56,16 +56,16 @@ Feature: Faking existing classes
   Scenario: Taking the guesswork out of finding a class to copy
     Then spec file with following content should pass:
     """ruby
-    class OtherLogger
-      def info(msg)
+    class PublicLibrary
+      def checkout(book)
       end
     end
 
     describe "logger fake" do
-      fake(:logger) { OtherLogger }
+      fake(:library) { PublicLibrary }
 
       it "uses the class provided in block instead of the guessed one" do
-        logger.class.name.should == "OtherLogger"
+        library.class.name.should == "PublicLibrary"
       end
     end
     """
@@ -73,19 +73,19 @@ Feature: Faking existing classes
   Scenario: Fakes which are classes
     Then spec file with following content should pass:
     """ruby
-    describe "logger class fake" do
-      fake(:logger, as: :class)
+    describe "library class fake" do
+      fake(:library, as: :class)
 
       it "is a class" do
-        logger.should be_a(Class)
+        library.should be_a(Class)
       end
 
       it "has the same name as original class" do
-        logger.name.should == Logger.name
+        library.name.should == Library.name
       end
 
       it "has same methods as original class" do
-        logger.foo('something')
+        library.look_up('something')
       end
     end
     """
