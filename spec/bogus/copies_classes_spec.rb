@@ -133,5 +133,42 @@ describe Bogus::CopiesClasses do
     it "should override kind_of?/instance_of? for base classes of copied class"
     it "should override kind_of? for modules included into copied class"
   end
+
+  shared_examples_for 'spying' do
+    def should_record(method, *args)
+      subject.should_receive(:__record__).with(method, *args)
+      subject.send(method, *args)
+    end
+
+    it "records method calls with no arguments" do
+      should_record(:foo)
+    end
+
+    it "records method calls with explicit arguments" do
+      should_record(:bar, 'hello')
+    end
+
+    it "records method calls with variable arguments" do
+      should_record(:baz, 'hello', 'foo', 'bar', 'baz')
+    end
+
+    it "records method calls with default arguments" do
+      should_record(:bam, hello: 'world')
+    end
+  end
+
+  context "spying on an instance" do
+    let(:klass) { FooWithInstanceMethods }
+    subject{ fake }
+
+    include_examples 'spying'
+  end
+
+  context "spying on copied class" do
+    let(:klass) { ClassWithClassMethods }
+    subject { fake_class }
+
+    include_examples 'spying'
+  end
 end
 

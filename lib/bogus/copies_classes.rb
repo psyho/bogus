@@ -13,6 +13,7 @@ module Bogus
       override_kind_and_instance_of(klass, copy_class)
       override_class_name(klass, copy_class)
       override_to_s(klass, copy_class)
+      add_interaction_recording(copy_class)
 
       return copy_class
     end
@@ -40,6 +41,11 @@ module Bogus
         def initialize(*args)
         end
       end
+    end
+
+    def add_interaction_recording(klass)
+      klass.send(:include, RecordInteractions)
+      klass.extend(RecordInteractions)
     end
 
     def override_kind_and_instance_of(klass, copy_class)
@@ -73,7 +79,9 @@ module Bogus
     end
 
     def method_as_string(method)
-      @method_stringifier.stringify(method, "self")
+      args = @method_stringifier.arguments_as_string(method.parameters)
+      args.gsub!(' = {}', '')
+      @method_stringifier.stringify(method, "__record__(:#{method.name}, #{args})")
     end
 
   end

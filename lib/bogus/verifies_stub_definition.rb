@@ -18,7 +18,7 @@ class Bogus::VerifiesStubDefinition
   end
 
   def stubbing_non_existent_method!(object, method_name)
-    raise NameError, "#{object} does not respond to #{method_name}"
+    raise NameError, "#{object.inspect} does not respond to #{method_name}"
   end
 
   def under_number_of_required_arguments?(method, args_count)

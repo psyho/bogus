@@ -10,6 +10,7 @@ module Bogus
   autoload :MethodStringifier,         'bogus/method_stringifier'
   autoload :MockingDSL,                'bogus/mocking_dsl'
   autoload :PublicMethods,             'bogus/public_methods'
+  autoload :RecordInteractions,        'bogus/record_interactions'
   autoload :RSpecExtensions,           'bogus/rspec_extensions'
   autoload :Stub,                      'bogus/stub'
   autoload :RRProxy,                   'bogus/rr_proxy'
