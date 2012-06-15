@@ -6,6 +6,7 @@ module Bogus
   autoload :CopiesClasses,             'bogus/copies_classes'
   autoload :CreatesFakes,              'bogus/creates_fakes'
   autoload :CreatesStubs,              'bogus/creates_stubs'
+  autoload :Fake,                      'bogus/fake'
   autoload :Injector,                  'bogus/injector'
   autoload :MethodStringifier,         'bogus/method_stringifier'
   autoload :MockingDSL,                'bogus/mocking_dsl'
