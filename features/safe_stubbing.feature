@@ -18,6 +18,7 @@ Feature: Safe stubbing
     Then spec file with following content should pass:
     """ruby
     describe Library do
+
       it "does something" do
         library = Library.new
         stub(library).checkout("some book") { :checked_out }

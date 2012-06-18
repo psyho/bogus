@@ -1,3 +1,25 @@
+Given /^a spec file named "([^"]*)" with:$/ do |file_name, string|
+  @spec_file_names ||= []
+  @spec_file_names << file_name
+
+  steps %Q{
+    Given a file named "#{file_name}" with:
+    """ruby
+    require 'bogus'
+    require 'bogus/rspec'
+    require 'rr'
+
+    require_relative 'foo'
+
+    RSpec.configure do |config|
+      config.mock_with :rr
+    end
+
+    #{string}
+    """
+  }
+end
+
 Then /^the specs should fail$/ do
   steps %Q{
     Then the output should not contain "0 failures"
@@ -16,21 +38,14 @@ When /^I run spec with the following content:$/ do |string|
   file_name = 'foo_spec.rb'
 
   steps %Q{
-    Given a file named "#{file_name}" with:
+    Given a spec file named "#{file_name}" with:
     """ruby
-    require 'bogus'
-    require 'bogus/rspec'
-    require 'rr'
-
-    require_relative 'foo'
-
-    RSpec.configure do |config|
-      config.mock_with :rr
-    end
-
     #{string}
     """
-    When I run `rspec #{file_name}`
+  }
+
+  steps %Q{
+    When I run `rspec #{@spec_file_names.join(' ')}`
   }
 end
 
