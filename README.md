@@ -107,7 +107,7 @@ require 'bogus/rspec'
 
 Bogus.configure do |config|
   config.spy_by_default = true
-  config.stub_dsl = :rspec # only :rspec available for now
+  config.stub_dsl = :rr # only :rr available for now
 end
 
 shared_context 'fakes' do
@@ -128,7 +128,7 @@ describe SuggestsFollowings
 
     # this will actually fail if FindsUsers does not have a near_point method
     # that takes 2 arguments
-    finds_users.should_receive(:near_point).with(user.location, 50).and_return(users)
+    mock(finds_users).near_point(user.location, 50) { users }
 
     subject.suggestions_for(user).should == [user_with_followers]
   end
@@ -147,8 +147,8 @@ describe ListsUsersNearCity
     location = Location.new(1, 2)
     users = [new_user, new_user]
 
-    geocoder.should_receive(:location_for).with("New York").and_return(location)
-    finds_users.should_receive(:near_point).with(location, 10).and_return(users)
+    mock(geocoder).location_for("New York") { location }
+    mock(finds_users).near_point(location, 10) { users }
 
     subject.users(city).should == users
   end
@@ -158,43 +158,6 @@ end
 ```
 
 As you can see, by using Bogus you can keep writing truly isolated unit tests just like you are used to, but with higher degree of security, because Bogus makes sure, that the methods you are stubbing actually exist and take same arguments.
-
-## Spies vs stubs
-
-You can also take advantage of the built-in spying facilities in Bogus:
-
-```ruby
-describe ListsUsersNearCity
-  include_context "fakes"
-
-  let(:city) { new_city(name: "New York") }
-  let(:location) { Location.new(1, 2) }
-  let(:users) { [new_user, new_user] }
-
-  subject { ListsUsersNearCity.new(finds_users, geocoder) }
-
-  before do
-    geocoder.stub(:location_for => location)
-    finds_users.stub(near_point => users)
-
-    @returned_users = subject.users(city)
-  end
-
-  it "returns users near center of the city" do
-    @returned_users.should == users
-  end
-
-  it "geocodes the city name" do
-    geocoder.should have_received(:location_for).with(city.name)
-  end
-
-  it "lists users in the geocoded location" do
-    finds_users.should have_received(:near_point).with(location, 10)
-  end
-
-  # ...
-end
-```
 
 ## Bogus and commands
 
@@ -239,31 +202,54 @@ describe ChangesPassword do
   it "sends the email notification" do
     subject.change_password(user, 'old', 'new')
     
-    sends_email_notifications.should have_received(:notify_password_changed).with(user)
+    # no need to set up the stub on sends_email_notifications for this to work
+    sends_email_notifications.should have_received.notify_password_changed(user)
   end
 end
 ```
 
 The beautiful thing is, that even if you don't care about testing something (like logging in this example), you still get the benefit of ensuring that the interface matches, even in a fully isolated test.
 
-## Contracts
+## Contract tests
 
-Being able to make sure that the methods you stub actually exist is neat, but why stop there?
-You can define arbitrary contracts on arguments, return values and exceptions thrown to make sure that the interface you specify in different spec files is really consistent.
+Knowing that a method exists and takes the right number of parameters is great, but why stop there?
+Bogus can also make sure that the interface you stub is actually tested somewhere with the correct arguments and return value.
 
 ```ruby
-Bogus.contract(:geocoder) do
-  arguments(:location_for) do |address|
-    address.should_not be_nil
-    address.should be_an_instance_of(String)
-  end
+describe ChangesPassword do
+  fake(:sends_email_notifications)
+  fake(:logger)
 
-  return_value(:location_for) do |value|
-    value.should be_an_instance_of(Location)
-  end
+  let(:user) { new_user }
 
-  exceptions(:location_for) do |exception_class|
-    exception_class.should be_one_of(Geocoder::NoResults, Geocoder::HttpError)
+  subject{ ChangesPassword.new(sends_email_notifications, logger) }
+
+  it "sends the email notification" do
+    subject.change_password(user, 'old', 'new')
+    
+    sends_email_notifications.should have_received.notify_password_changed(user)
+  end
+end
+```
+
+In the above spec, SendsEmailNotifications#notify_password_changed is specified as a method that takes a user as an argument.
+Thanks to Bogus, we already know that there is a class named SendsEmailNotifications and it has a #notify_password_changed method that takes one argument.
+But how can we be sure that this argument is a User, and not a String for example?
+
+Here's how Bogus can help with this problem:
+
+```ruby
+describe SendsEmailNotifications do
+  verify_contract(:sends_email_notifications)
+
+  let(:sends_email_notifications) { SendsEmailNotifications.new }
+
+  it "send email notifications" do
+    user = new_user
+
+    sends_email_notifications.notify_password_changed(user)
+
+    # ...
   end
 end
 ```
@@ -274,7 +260,9 @@ MIT. See the LICENSE file.
 
 ## TODO:
 
-Everything. This is a README driven project.
+This is a README driven project, so don't expect stuff in the README to be implemented ;P
+
+See the features directory for the completed functionality.
 
 ## Authors
 
