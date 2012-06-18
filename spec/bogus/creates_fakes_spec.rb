@@ -1,10 +1,10 @@
 require_relative '../spec_helper'
 
 describe Bogus::CreatesFakes do
-  let(:fake_class) { stub(:fake_class, :new => fake_instance) }
-  let(:fake_instance) { stub(:fake_instance) }
-  let(:converts_name_to_class) { stub(:converts_name_to_class) }
-  let(:copies_classes) { stub(:copies_classes) }
+  let(:fake_class) { stub() }
+  let(:fake_instance) { stub() }
+  let(:converts_name_to_class) { stub() }
+  let(:copies_classes) { stub() }
   let(:creates_fakes) { Bogus::CreatesFakes.new(copies_classes, converts_name_to_class) }
 
   module Foo
@@ -13,10 +13,12 @@ describe Bogus::CreatesFakes do
   module Bar
   end
 
+  before { stub(fake_class).new{fake_instance} }
+
   context "without block" do
     before do
-      converts_name_to_class.should_receive(:convert).with(:foo).and_return(Foo)
-      copies_classes.should_receive(:copy).with(Foo).and_return(fake_class)
+      mock(converts_name_to_class).convert(:foo) { Foo }
+      mock(copies_classes).copy(Foo) { fake_class }
     end
 
     it "creates a new instance of copied class by default" do
@@ -40,12 +42,18 @@ describe Bogus::CreatesFakes do
 
   context "with block" do
     before do
-      converts_name_to_class.should_receive(:convert).never
-      copies_classes.should_receive(:copy).with(Bar).and_return(fake_class)
+      stub(converts_name_to_class).convert
+      mock(copies_classes).copy(Bar) { fake_class }
     end
 
     it "uses the class provided" do
       creates_fakes.create(:foo){Bar}.should == fake_instance
+    end
+
+    it "does not convert the class name" do
+      creates_fakes.create(:foo) { Bar}
+
+      copies_classes.should_not have_received.convert
     end
   end
 end

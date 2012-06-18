@@ -7,7 +7,7 @@ describe Bogus::CreatesStubs do
 
   it "creates stubs" do
     object = stub
-    Bogus::Stub.should_receive(:new).with(object, rr_proxy, verifies_stub_definition).and_return(:the_stub)
+    mock(Bogus::Stub).new(object, rr_proxy, verifies_stub_definition) { :the_stub }
 
     creates_stubs.create(object).should == :the_stub
   end
