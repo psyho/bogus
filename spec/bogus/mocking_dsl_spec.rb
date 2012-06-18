@@ -26,4 +26,37 @@ describe Bogus::MockingDSL do
       end.to raise_error(NameError)
     end
   end
+
+  describe "#have_received" do
+    context "with a fake object" do
+      let(:the_fake) { Bogus.fake_for(:example_foo) }
+
+      it "allows verifying that fakes have correct interfaces" do
+        the_fake.foo("test")
+
+        the_fake.should Stubber.have_received.foo("test")
+      end
+
+      it "does not allow verifying on non-existent methods" do
+        expect {
+          the_fake.should Stubber.have_received.bar("test")
+        }.to raise_error(NameError)
+      end
+
+      it "does not allow verifying on methods with a wrong argument count" do
+        expect {
+          the_fake.should Stubber.have_received.foo("test", "test 2")
+        }.to raise_error(ArgumentError)
+      end
+    end
+
+    it "can be used with plain old Ruby objects" do
+      object = ExampleFoo.new
+      stub(object).foo
+
+      object.foo('test')
+
+      object.should Stubber.have_received.foo("test")
+    end
+  end
 end

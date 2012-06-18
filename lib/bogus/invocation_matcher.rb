@@ -13,7 +13,8 @@ module Bogus
         @verifies_stub_definition.verify!(subject, name, args)
       end
 
-      super(subject.__inner_object__)
+      return super(subject.__inner_object__) if subject.respond_to?(:__inner_object__)
+      return super(subject)
     end
 
     def method_missing(name, *args, &block)
