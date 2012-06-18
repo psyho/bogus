@@ -8,6 +8,7 @@ module Bogus
   autoload :CreatesStubs,              'bogus/creates_stubs'
   autoload :Fake,                      'bogus/fake'
   autoload :Injector,                  'bogus/injector'
+  autoload :InvocationMatcher,         'bogus/invocation_matcher'
   autoload :MethodStringifier,         'bogus/method_stringifier'
   autoload :MockingDSL,                'bogus/mocking_dsl'
   autoload :PublicMethods,             'bogus/public_methods'

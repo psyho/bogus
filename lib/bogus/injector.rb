@@ -14,5 +14,13 @@ module Bogus
     def rr_proxy
       Bogus::RRProxy
     end
+
+    def create_stub(object)
+      inject(Bogus::Stub, object: object)
+    end
+
+    def invocation_matcher(method = nil)
+      inject(Bogus::InvocationMatcher, method: method)
+    end
   end
 end
