@@ -1,6 +1,7 @@
 require 'dependor'
 
 module Bogus
+  autoload :AddsRecording,             'bogus/adds_recording'
   autoload :Configuration,             'bogus/configuration'
   autoload :ConvertsNameToClass,       'bogus/converts_name_to_class'
   autoload :CopiesClasses,             'bogus/copies_classes'
@@ -8,17 +9,22 @@ module Bogus
   autoload :CreatesStubs,              'bogus/creates_stubs'
   autoload :Fake,                      'bogus/fake'
   autoload :Injector,                  'bogus/injector'
+  autoload :InteractionsRepository,    'bogus/interactions_repository'
   autoload :InvocationMatcher,         'bogus/invocation_matcher'
   autoload :MethodStringifier,         'bogus/method_stringifier'
   autoload :MockingDSL,                'bogus/mocking_dsl'
+  autoload :OverwritesClasses,         'bogus/overwrites_classes'
+  autoload :ProxyClass,                'bogus/proxy_class'
   autoload :PublicMethods,             'bogus/public_methods'
-  autoload :RecordInteractions,        'bogus/record_interactions'
-  autoload :RSpecExtensions,           'bogus/rspec_extensions'
-  autoload :Stub,                      'bogus/stub'
   autoload :RRProxy,                   'bogus/rr_proxy'
+  autoload :RSpecExtensions,           'bogus/rspec_extensions'
+  autoload :RecordInteractions,        'bogus/record_interactions'
+  autoload :RecordingProxy,            'bogus/recording_proxy'
+  autoload :Stub,                      'bogus/stub'
   autoload :Takes,                     'bogus/takes'
-  autoload :VerifiesStubDefinition,    'bogus/verifies_stub_definition'
   autoload :VERSION,                   'bogus/version'
+  autoload :VerifiesContracts,         'bogus/verifies_contracts'
+  autoload :VerifiesStubDefinition,    'bogus/verifies_stub_definition'
 
   extend PublicMethods
 end

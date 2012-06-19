@@ -2,7 +2,15 @@ module Bogus
   module PublicMethods
 
     def fake_for(*args, &block)
-      return inject.creates_fakes.create(*args, &block)
+      inject.creates_fakes.create(*args, &block)
+    end
+
+    def record_calls_for(name)
+      inject.adds_recording.add(name)
+    end
+
+    def verify_contract!(fake_name)
+      inject.verifies_contracts.verify(fake_name)
     end
 
     def configure(&block)

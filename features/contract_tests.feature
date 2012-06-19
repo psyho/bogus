@@ -39,9 +39,19 @@ Feature: Contract tests
       it "checks out books" do
         library = Library.new
 
-        library.checkout("Moby Dick")
-        
+        library.checkout("Moby Dick 2: The ulitmate")
+
         # ...
       end
+    end
+    """
+
+  Scenario: Verifing that stubbed methods are tested
+    Given pending
+    Then spec file with following content should fail:
+    """ruby
+    describe Library do
+      verify_contract(:library)
+
     end
     """
