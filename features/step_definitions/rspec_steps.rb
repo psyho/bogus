@@ -22,15 +22,13 @@ end
 
 Then /^the specs should fail$/ do
   steps %Q{
-    Then the output should not contain "0 failures"
-    And the exit status should not be 0
+    Then the exit status should not be 0
   }
 end
 
 Then /^all the specs should pass$/ do
   steps %Q{
-    Then the output should contain "0 failures"
-    And the exit status should be 0
+    Then the exit status should be 0
   }
 end
 
