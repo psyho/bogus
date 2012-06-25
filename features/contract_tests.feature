@@ -39,7 +39,7 @@ Feature: Contract tests
       it "checks out books" do
         library = Library.new
 
-        library.checkout("Moby Dick 2: The ulitmate")
+        library.checkout("Moby Dick")
 
         # ...
       end
