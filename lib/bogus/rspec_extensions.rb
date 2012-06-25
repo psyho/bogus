@@ -14,5 +14,15 @@ module Bogus
       end
     end
   end
+
+  module MockingDSL
+    def stub(object)
+      Bogus.create_stub(object)
+    end
+
+    def have_received(method = nil)
+      Bogus.have_received(method)
+    end
+  end
 end
 

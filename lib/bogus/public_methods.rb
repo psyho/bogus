@@ -25,6 +25,14 @@ module Bogus
       @injector = Bogus::Injector.new
     end
 
+    def create_stub(object)
+      inject.create_stub(object)
+    end
+
+    def have_received(method = nil)
+      inject.invocation_matcher(method)
+    end
+
     private
 
     def inject

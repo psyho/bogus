@@ -10,4 +10,8 @@ class Bogus::InteractionsRepository
   def recorded?(fake_name, method, *args)
     @interactions[fake_name].include?([method, *args])
   end
+
+  def for_fake(fake_name)
+    @interactions[fake_name]
+  end
 end

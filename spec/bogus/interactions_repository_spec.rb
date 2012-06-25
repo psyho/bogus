@@ -30,4 +30,10 @@ describe Bogus::InteractionsRepository do
 
     interactions_repository.recorded?(:foo, :bar, 1).should be_false
   end
+
+  it "returns a list of interactions for given fake" do
+    interactions_repository.record(:foo, :bar, 1, 2)
+
+    interactions_repository.for_fake(:foo).should == [[:bar, 1, 2]]
+  end
 end

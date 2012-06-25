@@ -1,14 +1,25 @@
 require 'spec_helper'
 
-describe Bogus::VerifiesContracts, pending: "work in progress" do
-  it "verifies the contract" do
-    stubbed_interactions = stub
-    real_interactions = stub
+describe Bogus::VerifiesContracts do
+  let(:real_interactions) { stub }
+  let(:stubbed_interactions) { stub }
+  let(:verifies_contracts) { isolate(Bogus::VerifiesContracts) }
 
-    verifies_contracts = Bogus::VerifiesContracts.new(stubbed_interactions, real_interactions)
+  it "fails unmatched calls" do
+    stub(stubbed_interactions).for_fake(:fake_name) { [[:method, 1, 2, 3]] }
+    stub(real_interactions).recorded?(:fake_name, :method, 1, 2, 3) { false }
 
-    stub(real_interactions).for_fake(:fake_name) { [[:method, 1, 2, 3]] }
+    expect {
+      verifies_contracts.verify(:fake_name)
+    }.to raise_error(Bogus::ContractNotFulfilled)
+  end
 
-    stubbed_interactions.recorded?(:fake_name, :method, 1, 2, 3)
+  it "passes with all calls matched" do
+    stub(stubbed_interactions).for_fake(:fake_name) { [[:method, 1, 2, 3]] }
+    stub(real_interactions).recorded?(:fake_name, :method, 1, 2, 3) { true }
+
+    expect {
+      verifies_contracts.verify(:fake_name)
+    }.not_to raise_error
   end
 end

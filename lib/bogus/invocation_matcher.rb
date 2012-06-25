@@ -2,15 +2,17 @@ require 'rr'
 
 module Bogus
   class InvocationMatcher < RR::Adapters::Rspec::InvocationMatcher
-    def initialize(method, verifies_stub_definition)
+    def initialize(method, verifies_stub_definition, records_stub_interactions)
       super(method)
       @verifies_stub_definition = verifies_stub_definition
+      @records_stub_interactions = records_stub_interactions
       @stubbed_method_calls = []
     end
 
     def matches?(subject)
       @stubbed_method_calls.each do |name, args|
         @verifies_stub_definition.verify!(subject, name, args)
+        @records_stub_interactions.record(subject, name, args)
       end
 
       return super(subject.__inner_object__) if subject.respond_to?(:__inner_object__)

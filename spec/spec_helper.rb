@@ -1,4 +1,5 @@
 require 'bogus'
+require 'dependor/rspec'
 
 require 'rr'
 
