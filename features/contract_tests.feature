@@ -47,11 +47,26 @@ Feature: Contract tests
     """
 
   Scenario: Verifing that stubbed methods are tested
-    Given pending
     Then spec file with following content should fail:
     """ruby
     describe Library do
       verify_contract(:library)
 
+    end
+    """
+
+  Scenario: Verifying that methods are tested with right arguments
+    Then spec file with following content should fail:
+    """ruby
+    describe Library do
+      verify_contract(:library)
+
+      it "checks out books" do
+        library = Library.new
+
+        library.checkout("Moby Dick 2: The ulitmate")
+
+        # ...
+      end
     end
     """
