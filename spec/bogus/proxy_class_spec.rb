@@ -6,6 +6,10 @@ describe Bogus::ProxyClass do
       def checkout(book, user)
         :checkouted
       end
+
+      def self.find_by_address(address)
+        :the_library
+      end
     end
   end
 
@@ -29,5 +33,19 @@ describe Bogus::ProxyClass do
     proxy_class.new.checkout("Moby Dick", "Bob")
 
     interactions_repository.should have_received.record(:fake_name, :checkout, "Moby Dick", "Bob")
+  end
+
+  it "responds to every method that the original class responds to" do
+    proxy_class.should respond_to(:find_by_address)
+  end
+
+  it "delegates interactions with the proxy class to wrapped class" do
+    proxy_class.find_by_address("some address").should == :the_library
+  end
+
+  it "records interactions with the proxy class" do
+    proxy_class.find_by_address("some address")
+
+    interactions_repository.should have_received.record(:fake_name, :find_by_address, "some address")
   end
 end
