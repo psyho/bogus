@@ -6,8 +6,8 @@ describe Bogus::VerifiesContracts do
   let(:verifies_contracts) { isolate(Bogus::VerifiesContracts) }
 
   it "fails unmatched calls" do
-    stub(stubbed_interactions).for_fake(:fake_name) { [[:method, 1, 2, 3]] }
-    stub(real_interactions).recorded?(:fake_name, :method, 1, 2, 3) { false }
+    stub(stubbed_interactions).for_fake(:fake_name) { [Bogus::Interaction.new(:method, [1, 2, 3])] }
+    stub(real_interactions).recorded?(:fake_name, Bogus::Interaction.new(:method, [1, 2, 3])) { false }
 
     expect {
       verifies_contracts.verify(:fake_name)
@@ -15,8 +15,8 @@ describe Bogus::VerifiesContracts do
   end
 
   it "passes with all calls matched" do
-    stub(stubbed_interactions).for_fake(:fake_name) { [[:method, 1, 2, 3]] }
-    stub(real_interactions).recorded?(:fake_name, :method, 1, 2, 3) { true }
+    stub(stubbed_interactions).for_fake(:fake_name) { [Bogus::Interaction.new(:method, [1, 2, 3])] }
+    stub(real_interactions).recorded?(:fake_name, Bogus::Interaction.new(:method, [1, 2, 3])) { true }
 
     expect {
       verifies_contracts.verify(:fake_name)

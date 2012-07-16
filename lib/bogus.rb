@@ -11,6 +11,7 @@ module Bogus
   autoload :Fake,                      'bogus/fake'
   autoload :FakeRegistry,              'bogus/fake_registry'
   autoload :Injector,                  'bogus/injector'
+  autoload :Interaction,               'bogus/interaction'
   autoload :InteractionsRepository,    'bogus/interactions_repository'
   autoload :InvocationMatcher,         'bogus/invocation_matcher'
   autoload :MethodStringifier,         'bogus/method_stringifier'

@@ -5,7 +5,7 @@ class Bogus::VerifiesContracts
 
   def verify(fake_name)
     stubbed_interactions.for_fake(fake_name).each do |interaction|
-      unless real_interactions.recorded?(fake_name, *interaction)
+      unless real_interactions.recorded?(fake_name, interaction)
         raise Bogus::ContractNotFulfilled
       end
     end
