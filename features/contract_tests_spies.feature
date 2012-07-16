@@ -1,4 +1,4 @@
-Feature: Contract tests
+Feature: Contract tests with spies
 
   Background:
     Given a file named "foo.rb" with:
