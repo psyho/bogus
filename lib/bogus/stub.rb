@@ -8,7 +8,7 @@ class Bogus::Stub < BasicObject
 
   def method_missing(name, *args, &block)
     @verifies_stub_definition.verify!(@object, name, args)
-    @records_stub_interactions.record(@object, name, args)
+    @records_stub_interactions.record(@object, name, args, &block)
     @stub.__send__(name, *args, &block)
   end
 end

@@ -13,6 +13,13 @@ describe Bogus::InteractionsRepository do
     recorded?(:foo, :bar, 1, 2, 3).should be_true
   end
 
+  it "considers the interaction recorded if it returned the same value as passed block" do
+    interactions_repository.record(:foo, :bar) { "a result" }
+    interaction = Bogus::Interaction.new(:bar, []) { "a result" }
+
+    interactions_repository.recorded?(:foo, interaction).should be_true
+  end
+
   it "does not consider any interactions recorded prior to any recordings" do
     recorded?(:foo, :bar, 1).should be_false
   end

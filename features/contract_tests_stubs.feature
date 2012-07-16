@@ -54,7 +54,6 @@ Feature: Contract tests with stubs
     end
     """
 
-  @wip
   Scenario: Fails when stubbed methods are not called on real object
     Then spec file with following content should fail:
     """ruby

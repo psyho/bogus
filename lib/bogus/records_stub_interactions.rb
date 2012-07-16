@@ -3,9 +3,9 @@ class Bogus::RecordsStubInteractions
 
   takes :stubbed_interactions, :fake_registry
 
-  def record(object, method_name, args)
+  def record(object, method_name, args, &block)
     fake_name = fake_registry.name(object)
-    stubbed_interactions.record(fake_name, method_name, *args) if fake_name
+    stubbed_interactions.record(fake_name, method_name, *args, &block) if fake_name
   end
 
 end

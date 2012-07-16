@@ -6,8 +6,9 @@ class Bogus::RecordingProxy < BasicObject
   end
 
   def method_missing(name, *args, &block)
-    @interactions_repository.record(@fake_name, name, *args, &block)
-    @instance.__send__(name, *args, &block)
+    returned_value = @instance.__send__(name, *args, &block)
+    @interactions_repository.record(@fake_name, name, *args) { returned_value }
+    returned_value
   end
 
   def respond_to?(name)
