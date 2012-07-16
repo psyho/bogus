@@ -22,7 +22,7 @@ end
 
 Then /^the specs should fail$/ do
   steps %Q{
-    Then the exit status should not be 0
+    Then the exit status should be 1
   }
 end
 
