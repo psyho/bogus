@@ -268,3 +268,4 @@ See the features directory for the completed functionality.
 
 * [Adam Pohorecki](http://github.com/psyho)
 * [Paweł Pierzchała](http://github.com/wrozka)
+* [Marek Nowak](https://github.com/yundt)
