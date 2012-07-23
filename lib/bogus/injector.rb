@@ -25,7 +25,13 @@ module Bogus
     end
 
     def create_stub(object)
-      inject(Bogus::Stub, object: object)
+      stub = rr_proxy.stub(object)
+      inject(Bogus::Double, object: object, double: stub)
+    end
+
+    def create_mock(object)
+      mock = rr_proxy.mock(object)
+      inject(Bogus::Double, object: object, double: mock)
     end
 
     def invocation_matcher(method = nil)
@@ -40,8 +46,8 @@ module Bogus
       @real_interactions ||= inject(Bogus::InteractionsRepository)
     end
 
-    def stubbed_interactions
-      @stubbed_interactions ||= inject(Bogus::InteractionsRepository)
+    def doubled_interactions
+      @doubled_interactions ||= inject(Bogus::InteractionsRepository)
     end
 
     def create_proxy_class(fake_name, klass)

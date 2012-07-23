@@ -59,4 +59,18 @@ describe Bogus::MockingDSL do
       object.should Stubber.have_received.foo("test")
     end
   end
+
+  class Mocker
+    extend Bogus::MockingDSL
+  end
+
+  describe "#mock" do
+    it "allows mocking the existing methods" do
+      baz = ExampleFoo.new
+
+      Mocker.mock(baz).foo("bar") { :return_value }
+
+      baz.foo("bar").should == :return_value
+    end
+  end
 end

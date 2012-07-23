@@ -23,6 +23,10 @@ module Bogus
     def have_received(method = nil)
       Bogus.have_received(method)
     end
+
+    def mock(object)
+      Bogus.create_mock(object)
+    end
   end
 end
 
