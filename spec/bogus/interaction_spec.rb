@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe Bogus::Interaction do
+  class SomeError < StandardError; end
+
   same = [
     [[:foo, [:bar], "value"], [:foo, [:bar], "value"]],
     [[:foo, [:bar]], [:foo, [:bar], "value"]],
@@ -41,5 +43,26 @@ describe Bogus::Interaction do
 
       first.should_not == second
     end
+  end
+
+  it "differs exceptions from empty return values" do
+    first = Bogus::Interaction.new(:foo, :bar) { raise SomeError }
+    second = Bogus::Interaction.new(:foo, :bar) { nil }
+
+    first.should_not == second
+  end
+
+  it "differs raised exceptions from ones just returned from the block" do
+    first = Bogus::Interaction.new(:foo, :bar) { raise SomeError }
+    second = Bogus::Interaction.new(:foo, :bar) { SomeError }
+
+    first.should_not == second
+  end
+
+  it "considers exceptions of the same type as equal" do
+    first = Bogus::Interaction.new(:foo, :bar) { raise SomeError }
+    second = Bogus::Interaction.new(:foo, :bar) { raise SomeError }
+
+    first.should == second
   end
 end

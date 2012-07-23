@@ -3,31 +3,31 @@ Feature: Contract tests with mocks
   Background:
     Given a file named "foo.rb" with:
     """ruby
-      class Library
-        def initialize
-          @books = []
-        end
-
-        def has_book?(book)
-          @books.include?(book)
-        end
-
-        def checkout(book)
-          @books.delete(book)
-        end
-
-        def return(book)
-          @books << book
-        end
+    class Library
+      def initialize
+        @books = []
       end
 
-      class Student
-        def read(book, library = Library.new)
-          if library.has_book?(book)
-            library.checkout(book)
-          end
+      def has_book?(book)
+        @books.include?(book)
+      end
+
+      def checkout(book)
+        @books.delete(book)
+      end
+
+      def return(book)
+        @books << book
+      end
+    end
+
+    class Student
+      def read(book, library = Library.new)
+        if library.has_book?(book)
+          library.checkout(book)
         end
       end
+    end
     """
     And a spec file named "student_spec.rb" with:
     """ruby
