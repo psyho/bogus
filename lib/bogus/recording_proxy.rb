@@ -1,9 +1,6 @@
 class Bogus::RecordingProxy < BasicObject
-  def initialize(instance, fake_name, interactions_repository)
-    @instance = instance
-    @fake_name = fake_name
-    @interactions_repository = interactions_repository
-  end
+  extend ::Bogus::Takes
+  takes :instance, :fake_name, :interactions_repository
 
   def method_missing(name, *args, &block)
     returned_value = @instance.__send__(name, *args, &block)
