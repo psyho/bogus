@@ -7,9 +7,7 @@ describe Bogus::Double do
 
   let(:object) { "strings have plenty of methods to call" }
 
-  let(:bogus_double) do
-    Bogus::Double.new(object, rr_double, verifies_stub_definition, records_double_interactions)
-  end
+  let(:bogus_double) { isolate(Bogus::Double, double: rr_double) }
 
   before do
     stub(verifies_stub_definition).verify!
