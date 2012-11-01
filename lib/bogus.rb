@@ -1,36 +1,13 @@
 require 'dependor'
 
-module Bogus
-  autoload :AddsRecording,             'bogus/adds_recording'
-  autoload :Configuration,             'bogus/configuration'
-  autoload :ContractNotFulfilled,      'bogus/contract_not_fulfilled'
-  autoload :ConvertsNameToClass,       'bogus/converts_name_to_class'
-  autoload :CopiesClasses,             'bogus/copies_classes'
-  autoload :CreatesAnonymousStubs,     'bogus/creates_anonymous_stubs'
-  autoload :CreatesFakes,              'bogus/creates_fakes'
-  autoload :Double,                    'bogus/double'
-  autoload :Fake,                      'bogus/fake'
-  autoload :FakeRegistry,              'bogus/fake_registry'
-  autoload :Injector,                  'bogus/injector'
-  autoload :Interaction,               'bogus/interaction'
-  autoload :InteractionPresenter,      'bogus/interaction_presenter'
-  autoload :InteractionsRepository,    'bogus/interactions_repository'
-  autoload :InvocationMatcher,         'bogus/invocation_matcher'
-  autoload :MethodStringifier,         'bogus/method_stringifier'
-  autoload :MockingDSL,                'bogus/rspec_extensions'
-  autoload :OverwritesClasses,         'bogus/overwrites_classes'
-  autoload :ProxyClass,                'bogus/proxy_class'
-  autoload :PublicMethods,             'bogus/public_methods'
-  autoload :RRProxy,                   'bogus/rr_proxy'
-  autoload :RSpecExtensions,           'bogus/rspec_extensions'
-  autoload :RecordInteractions,        'bogus/record_interactions'
-  autoload :RecordingProxy,            'bogus/recording_proxy'
-  autoload :RecordsDoubleInteractions, 'bogus/records_double_interactions'
-  autoload :RegistersCreatedFakes,     'bogus/registers_created_fakes'
-  autoload :Takes,                     'bogus/takes'
-  autoload :VERSION,                   'bogus/version'
-  autoload :VerifiesContracts,         'bogus/verifies_contracts'
-  autoload :VerifiesStubDefinition,    'bogus/verifies_stub_definition'
+require_relative 'bogus/takes'
+require_relative 'bogus/record_interactions'
+require_relative 'bogus/rspec_extensions'
 
+all_files = Dir[File.expand_path('../**/*.rb', __FILE__)]
+all_files = all_files.reject{|f| f.include?('bogus/rspec') }.sort
+all_files.each { |f| require f }
+
+module Bogus
   extend PublicMethods
 end
