@@ -5,6 +5,7 @@ class Bogus::VerifiesStubDefinition
 
   def verify!(object, method_name, args)
     stubbing_non_existent_method!(object, method_name) unless object.respond_to?(method_name)
+    return unless object.methods.include?(method_name)
     method = object.method(method_name)
     wrong_number_of_arguments!(method, args) if under_number_of_required_arguments?(method, args.size)
     wrong_number_of_arguments!(method, args) if over_number_of_allowed_arguments?(method, args.size)

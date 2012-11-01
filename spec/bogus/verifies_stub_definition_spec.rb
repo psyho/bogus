@@ -67,5 +67,28 @@ describe Bogus::VerifiesStubDefinition do
       it_disallows_argument_numbers :var_args, 0
     end
   end
+
+  class UsesMethodMissing
+    def respond_to?(method)
+      method == :foo
+    end
+
+    def method_missing(name, *args, &block)
+      return super unless name == :foo
+      :bar
+    end
+  end
+
+  context "with objects that use method missing" do
+    let(:object) { UsesMethodMissing.new }
+
+    it "allows stubbing methods that the object responds to" do
+      it_allows(:foo, [])
+    end
+
+    it "disallows stubbing methods that the object does not respond to" do
+      it_disallows(:bar, [], NameError)
+    end
+  end
 end
 
