@@ -10,6 +10,7 @@ module Bogus
     end
 
     def arguments_as_string(arguments)
+      arguments = fill_in_missing_names(arguments)
       arguments.map{|type, name| argument_to_string(name, type) }.compact.join(', ')
     end
 
@@ -24,6 +25,17 @@ module Bogus
         "#{name} = {}"
       else
         raise "unknown argument type: #{type}"
+      end
+    end
+
+    def fill_in_missing_names(arguments)
+      noname_count = 0
+      arguments.map do |type, name|
+        unless name
+          name = "_noname_#{noname_count}"
+          noname_count += 1
+        end
+        [type, name]
       end
     end
 

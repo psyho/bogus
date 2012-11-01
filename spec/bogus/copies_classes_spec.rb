@@ -171,5 +171,19 @@ describe Bogus::CopiesClasses do
 
     include_examples 'spying'
   end
+
+  class SomeModel
+    def save(*)
+      # ignores arguments
+    end
+  end
+
+  context "copying classes with methods with nameless parameters" do
+    let(:klass) { SomeModel }
+
+    it "copies those methods" do
+      fake.should respond_to(:save)
+    end
+  end
 end
 
