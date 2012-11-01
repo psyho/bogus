@@ -5,9 +5,7 @@ Given /^a spec file named "([^"]*)" with:$/ do |file_name, string|
   steps %Q{
     Given a file named "#{file_name}" with:
     """ruby
-    require 'bogus'
     require 'bogus/rspec'
-    require 'rr'
 
     require_relative 'foo'
 
