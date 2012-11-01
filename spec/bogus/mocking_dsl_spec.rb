@@ -73,4 +73,44 @@ describe Bogus::MockingDSL do
       baz.foo("bar").should == :return_value
     end
   end
+
+  describe "#fake" do
+    include Bogus::MockingDSL
+
+    it "creates objects that can be stubbed" do
+      greeter = fake
+
+      stub(greeter).greet("Jake") { "Hello Jake" }
+
+      greeter.greet("Jake").should == "Hello Jake"
+    end
+
+    it "creates objects that can be mocked" do
+      greeter = fake
+
+      mock(greeter).greet("Jake") { "Hello Jake" }
+
+      greeter.greet("Jake").should == "Hello Jake"
+    end
+
+    it "creates objects with some methods stubbed by default" do
+      greeter = fake(greet: "Hello Jake")
+
+      greeter.greet("Jake").should == "Hello Jake"
+    end
+
+    it "creates objects that can be spied upon" do
+      greeter = fake
+
+      greeter.greet("Jake")
+
+      greeter.should have_received.greet("Jake")
+    end
+
+    it "allows chaining interactions" do
+      greeter = fake(foo: "bar")
+
+      greeter.baz.foo.should == "bar"
+    end
+  end
 end

@@ -6,6 +6,7 @@ module Bogus
   autoload :ContractNotFulfilled,      'bogus/contract_not_fulfilled'
   autoload :ConvertsNameToClass,       'bogus/converts_name_to_class'
   autoload :CopiesClasses,             'bogus/copies_classes'
+  autoload :CreatesAnonymousStubs,     'bogus/creates_anonymous_stubs'
   autoload :CreatesFakes,              'bogus/creates_fakes'
   autoload :Double,                    'bogus/double'
   autoload :Fake,                      'bogus/fake'

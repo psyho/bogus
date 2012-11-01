@@ -16,16 +16,20 @@ module Bogus
   end
 
   module MockingDSL
-    def stub(object)
-      Bogus.create_stub(object)
+    def fake(*args)
+      Bogus.create_anonymous_stub(*args)
     end
 
-    def have_received(method = nil)
-      Bogus.have_received(method)
+    def stub(*args)
+      Bogus.create_stub(*args)
     end
 
-    def mock(object)
-      Bogus.create_mock(object)
+    def have_received(*args)
+      Bogus.have_received(*args)
+    end
+
+    def mock(*args)
+      Bogus.create_mock(*args)
     end
   end
 end
