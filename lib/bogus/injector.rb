@@ -15,47 +15,59 @@ module Bogus
       Bogus::RRProxy
     end
 
+    def rr_shadow(object)
+      inject(Bogus::RRShadow, object: object)
+    end
+
     def fake_registry
-      @fake_registry ||= inject(Bogus::FakeRegistry)
+      @fake_registry ||= inject(FakeRegistry)
     end
 
     def creates_fakes
-      creates_fakes = inject(Bogus::CreatesFakes)
-      inject(Bogus::RegistersCreatedFakes, creates_fakes: creates_fakes)
+      creates_fakes = inject(CreatesFakes)
+      inject(RegistersCreatedFakes, creates_fakes: creates_fakes)
     end
 
     def create_stub(object)
-      stub = rr_proxy.stub(object)
-      inject(Bogus::Double, object: object, double: stub)
+      shadow = gets_shadow.for(object)
+      inject(Double, object: object, double: shadow.stub)
     end
 
     def create_mock(object)
-      mock = rr_proxy.mock(object)
-      inject(Bogus::Double, object: object, double: mock)
+      shadow = gets_shadow.for(object)
+      inject(Double, object: object, double: shadow.mock)
     end
 
     def invocation_matcher(method = nil)
-      inject(Bogus::InvocationMatcher, method: method)
+      inject(InvocationMatcher, method: method)
     end
 
     def interactions_repository
       raise "Specify either real_interactions or stubbed_interactions"
     end
 
+    def double_tracker
+      @double_tracker ||= inject(TracksExistenceOfTestDoubles)
+    end
+
+    def clear_tracked_doubles
+      @double_tracker = nil
+    end
+
     def real_interactions
-      @real_interactions ||= inject(Bogus::InteractionsRepository)
+      @real_interactions ||= inject(InteractionsRepository)
     end
 
     def doubled_interactions
-      @doubled_interactions ||= inject(Bogus::InteractionsRepository)
+      @doubled_interactions ||= inject(InteractionsRepository)
     end
 
     def create_proxy_class(fake_name, klass)
-      inject(Bogus::ProxyClass, fake_name: fake_name, klass: klass)
+      inject(ProxyClass, fake_name: fake_name, klass: klass)
     end
 
     def create_recording_proxy(instance, fake_name)
-      inject(Bogus::RecordingProxy,
+      inject(RecordingProxy,
         instance: instance,
         fake_name: fake_name,
         interactions_repository: real_interactions)

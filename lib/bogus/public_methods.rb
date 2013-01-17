@@ -41,6 +41,15 @@ module Bogus
       inject.creates_anonymous_stubs.create(*args)
     end
 
+    def ensure_all_expectations_satisfied!
+      doubles = inject.double_tracker.doubles
+      inject.ensures_all_interactions_satisfied.ensure_satisfied!(doubles)
+    end
+
+    def clear_expectations
+      inject.clear_tracked_doubles
+    end
+
     private
 
     def inject

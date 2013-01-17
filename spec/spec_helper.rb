@@ -3,6 +3,8 @@ require 'dependor/rspec'
 
 require 'rr'
 
+require_relative 'support/sample_fake'
+
 RSpec.configure do |config|
   config.color_enabled = true
   config.mock_framework = :rr

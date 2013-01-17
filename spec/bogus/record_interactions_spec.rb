@@ -12,16 +12,16 @@ describe Bogus::RecordInteractions do
   it "allows verifying that interactions happened" do
     sample.__record__(:foo, 1, 2, 3)
 
-    sample.__inner_object__.should have_received.foo(1, 2, 3)
+    sample.__shadow__.has_received(:foo, [1,2,3]).should be_true
   end
 
   it "allows verifying that interactions didn't happen" do
     sample.__record__(:bar)
 
-    sample.__inner_object__.should_not have_received.foo
+    sample.__shadow__.has_received(:foo, [1,2,3]).should be_false
   end
 
-  it "returns self from record" do
+  it "returns self from record by default" do
     sample.__record__(:foo).should == sample
   end
 end

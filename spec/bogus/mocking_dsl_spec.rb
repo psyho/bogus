@@ -65,12 +65,28 @@ describe Bogus::MockingDSL do
   end
 
   describe "#mock" do
-    it "allows mocking the existing methods" do
-      baz = ExampleFoo.new
+    let(:baz) { Bogus.fake_for(:example_foo) { ExampleFoo } }
 
+    before do
       Mocker.mock(baz).foo("bar") { :return_value }
+    end
 
+    it "allows mocking the existing methods" do
       baz.foo("bar").should == :return_value
+    end
+
+    it "raises errors when mocks were not called" do
+      expect {
+        Bogus.ensure_all_expectations_satisfied!
+      }.to raise_error(Bogus::NotAllExpectationsSatisfied)
+    end
+
+    it "clears the data between tests" do
+      Bogus.clear_expectations
+
+      expect {
+        Bogus.ensure_all_expectations_satisfied!
+      }.not_to raise_error(Bogus::NotAllExpectationsSatisfied)
     end
   end
 

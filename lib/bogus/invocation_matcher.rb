@@ -15,7 +15,11 @@ module Bogus
         @records_double_interactions.record(subject, name, args)
       end
 
-      return super(subject.__inner_object__) if subject.respond_to?(:__inner_object__)
+      if subject.respond_to?(:__shadow__)
+        shadow = subject.__shadow__
+        return @stubbed_method_calls.all?{|name, args| shadow.has_received(name, args)}
+      end
+
       return super(subject)
     end
 

@@ -76,3 +76,19 @@ Feature: Spies
       end
     end
     """
+
+  Scenario: Spying on previously stubbed methods
+    Then spec file with following content should pass:
+    """ruby
+    describe Student do
+      fake(:library)
+
+      it "studies using books from library" do
+        stub(library).checkout("Moby Dick") { "checked out" }
+
+        library.checkout("Moby Dick").should == "checked out"
+
+        library.should have_received.checkout("Moby Dick")
+      end
+    end
+    """

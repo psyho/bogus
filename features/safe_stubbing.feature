@@ -60,3 +60,17 @@ Feature: Safe stubbing
       end
     end
     """
+ 
+  @known_bug
+  Scenario: Stubbing methods multiple times
+    Then spec file with following content should fail:
+    """ruby
+    describe Library do
+      it "stubbing with too many arguments" do
+        library = Library.new
+
+        stub(library).checkout("some book") { :bought }
+        stub(library).checkout("book", "and one argument too many") { :whatever }
+      end
+    end
+    """
