@@ -5,3 +5,5 @@ tmp/*
 .rvmrc
 tags
 .rbx
+tags
+gems.tags
