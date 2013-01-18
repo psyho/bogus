@@ -2,6 +2,7 @@ require 'dependor'
 
 require_relative 'bogus/takes'
 require_relative 'bogus/record_interactions'
+require_relative 'bogus/proxies_method_calls'
 require_relative 'bogus/rspec_extensions'
 
 all_files = Dir[File.expand_path('../**/*.rb', __FILE__)]

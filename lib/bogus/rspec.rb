@@ -5,7 +5,6 @@ RSpec.configure do |config|
   config.include Bogus::MockingDSL
 
   config.after(:each) do
-    Bogus.ensure_all_expectations_satisfied!
-    Bogus.clear_expectations
+    Bogus.after_each_test
   end
 end

@@ -2,10 +2,10 @@ module Bogus
   class Shadow
     attr_reader :calls
 
-    def initialize(object)
-      @object = object
+    def initialize(&default_return_value)
       @calls = []
       @stubs = {}
+      @defaults = Hash.new(default_return_value)
       @required = Set.new
     end
 
@@ -22,21 +22,14 @@ module Bogus
     def stubs(name, *args, &return_value)
       interaction = Interaction.new(name, args)
       add_stub(interaction, return_value)
+      override_default(name, args, return_value)
       @required.delete(interaction)
-    end
-
-    def stub
-      proxy(:stubs)
+      interaction
     end
 
     def mocks(name, *args, &return_value)
-      interaction = Interaction.new(name, args)
-      add_stub(interaction, return_value)
+      interaction = stubs(name, *args, &return_value)
       @required.add(interaction)
-    end
-
-    def mock
-      proxy(:mocks)
     end
 
     def unsatisfied_interactions
@@ -45,10 +38,9 @@ module Bogus
 
     private
 
-    def proxy(method_name)
-      MethodCallProxy.new do |name, *args, &return_value|
-        __send__(method_name, name, *args, &return_value)
-      end
+    def override_default(method, args, return_value)
+      return unless args == [AnyArgs]
+      @defaults[method] = return_value
     end
 
     def add_stub(interaction, return_value_block)
@@ -56,18 +48,8 @@ module Bogus
     end
 
     def return_value(interaction)
-      return_value = @stubs.fetch(interaction, proc{ @object })
+      return_value = @stubs.fetch(interaction, @defaults[interaction.method])
       return_value.call
-    end
-  end
-
-  class MethodCallProxy < BasicObject
-    def initialize(&on_called)
-      @on_called = on_called
-    end
-
-    def method_missing(name, *args, &block)
-      @on_called.call(name, *args, &block)
     end
   end
 end

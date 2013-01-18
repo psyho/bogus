@@ -1,13 +1,6 @@
 require 'spec_helper'
 
 describe Bogus::EnsuresAllInteractionsSatisfied do
-  class FakeGetsShadow
-    def for(object)
-      object.__shadow__
-    end
-  end
-
-  let(:gets_shadow) { FakeGetsShadow.new }
   let(:ensures_all_interactions_satisfied) { isolate(Bogus::EnsuresAllInteractionsSatisfied) }
 
   it "does nothing with all interactions satisfied" do
@@ -20,13 +13,13 @@ describe Bogus::EnsuresAllInteractionsSatisfied do
 
   it "raises an error enumerating satisfied and unsatisfied interactions" do
     foo = Samples::FooFake.new
-    foo.__shadow__.mock.foo("a", "b") { "result" }
-    foo.__shadow__.mock.foo("a", "c") { "result 2" }
+    foo.__shadow__.mocks(:foo, "a", "b") { "result" }
+    foo.__shadow__.mocks(:foo, "a", "c") { "result 2" }
     foo.__shadow__.run(:foo, "a", "b")
 
     bar = Samples::FooFake.new
-    bar.__shadow__.stub.foo("a", "b") { "result" }
-    bar.__shadow__.stub.foo("a", "c") { "result 2" }
+    bar.__shadow__.stubs(:foo, "a", "b") { "result" }
+    bar.__shadow__.stubs(:foo, "a", "c") { "result 2" }
     bar.__shadow__.run(:foo, "a", "b")
     bar.__shadow__.run(:foo, "x", "y")
 

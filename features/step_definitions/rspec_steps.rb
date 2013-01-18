@@ -10,7 +10,7 @@ Given /^a spec file named "([^"]*)" with:$/ do |file_name, string|
     require_relative 'foo'
 
     RSpec.configure do |config|
-      config.mock_with :rr
+      config.mock_with Bogus
     end
 
     #{string}

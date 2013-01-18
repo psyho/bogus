@@ -2,7 +2,7 @@ module Bogus
   class CopiesClasses
     extend Takes
 
-    takes :method_stringifier
+    takes :makes_substitute_methods
 
     def copy(klass)
       copy_class = Class.new(Bogus::Fake)
@@ -33,11 +33,7 @@ module Bogus
     end
 
     def method_as_string(method)
-      args = @method_stringifier.arguments_as_string(method.parameters)
-      args_no_defaults = args.gsub(' = {}', '')
-
-      @method_stringifier.stringify(method,
-        "__record__(:#{method.name}, #{args_no_defaults})")
+      makes_substitute_methods.stringify(method)
     end
 
   end

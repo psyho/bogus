@@ -2,8 +2,6 @@ module Bogus
   class EnsuresAllInteractionsSatisfied
     extend Bogus::Takes
 
-    takes :gets_shadow
-
     def ensure_satisfied!(objects)
       unsatisfied = unsatisfied_interactions(objects)
       return if unsatisfied.empty?
@@ -28,7 +26,7 @@ module Bogus
 
     def mapcat_shadows(objects, &block)
       mapped = objects.map do |object|
-        shadow = gets_shadow.for(object)
+        shadow = object.__shadow__
         block.call(object, shadow)
       end
 

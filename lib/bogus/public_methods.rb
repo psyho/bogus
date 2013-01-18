@@ -41,6 +41,21 @@ module Bogus
       inject.creates_anonymous_stubs.create(*args)
     end
 
+    def after_each_test
+      ensure_all_expectations_satisfied!
+      reset_stubbed_methods
+      clear_expectations
+    end
+
+    def setup_mocks_for_rspec
+    end
+
+    def verify_mocks_for_rspec
+    end
+
+    def teardown_mocks_for_rspec
+    end
+
     def ensure_all_expectations_satisfied!
       doubles = inject.double_tracker.doubles
       inject.ensures_all_interactions_satisfied.ensure_satisfied!(doubles)
@@ -50,7 +65,9 @@ module Bogus
       inject.clear_tracked_doubles
     end
 
-    private
+    def reset_stubbed_methods
+      inject.resets_stubbed_methods.reset_all_doubles
+    end
 
     def inject
       @injector ||= Bogus::Injector.new

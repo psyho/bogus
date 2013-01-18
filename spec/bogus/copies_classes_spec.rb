@@ -1,4 +1,4 @@
-require_relative '../spec_helper'
+require 'spec_helper'
 
 describe Bogus::CopiesClasses do
   module SampleMethods
@@ -57,8 +57,9 @@ describe Bogus::CopiesClasses do
     end
   end
 
-  let(:method_stringifier) { Bogus::MethodStringifier.new }
-  let(:copies_classes) { Bogus::CopiesClasses.new(method_stringifier) }
+  let(:method_stringifier) { isolate(Bogus::MethodStringifier) }
+  let(:makes_substitute_methods) { isolate(Bogus::MakesSubstituteMethods) }
+  let(:copies_classes) { isolate(Bogus::CopiesClasses) }
   let(:fake_class) { copies_classes.copy(klass) }
   let(:fake) { fake_class.new }
 

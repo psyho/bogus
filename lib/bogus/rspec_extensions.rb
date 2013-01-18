@@ -31,6 +31,10 @@ module Bogus
     def mock(*args)
       Bogus.create_mock(*args)
     end
+
+    def any_args
+      Bogus::AnyArgs
+    end
   end
 end
 

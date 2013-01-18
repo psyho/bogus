@@ -45,9 +45,10 @@ Feature: Contract tests with mocks
       it "does not check out the book from library if not available" do
         student = Student.new
         mock(library).has_book?("Moby Dick") { false }
-        dont_allow(library).checkout("Moby Dick")
 
         student.read("Moby Dick", library)
+
+        library.should_not have_received.checkout("Moby Dick")
       end
     end
     """

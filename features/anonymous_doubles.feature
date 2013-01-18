@@ -34,7 +34,7 @@ Feature: Anonymous test doubles
       let(:jake) { Student.new("Jake") }
       
       it "allows stubbing any method with any parameters" do
-        stub(library).register_junior { "the card" }
+        stub(library).register_junior(any_args) { "the card" }
 
         jake.sign_up(library)
 

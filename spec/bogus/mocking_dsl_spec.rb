@@ -4,19 +4,36 @@ describe Bogus::MockingDSL do
   class ExampleFoo
     def foo(bar)
     end
+
+    def self.bar(baz)
+      "Hello #{baz}"
+    end
   end
 
   class Stubber
     extend Bogus::MockingDSL
   end
 
-  describe "#stub" do
-    it "allows stubbing the existing methods" do
-      baz = ExampleFoo.new
+  before do
+    Bogus.send(:clear_expectations)
+  end
 
+  describe "#stub" do
+    let(:baz) { ExampleFoo.new }
+
+    it "allows stubbing the existing methods" do
       Stubber.stub(baz).foo("bar") { :return_value }
 
       baz.foo("bar").should == :return_value
+    end
+
+    it "can stub method with any parameters" do
+      Stubber.stub(baz).foo("bar") { :foo_value }
+      Stubber.stub(baz).foo(Stubber.any_args) { :default_value }
+
+      baz.foo("a").should == :default_value
+      baz.foo("b").should == :default_value
+      baz.foo("bar").should == :foo_value
     end
 
     it "does not allow stubbing non-existent methods" do
@@ -24,6 +41,14 @@ describe Bogus::MockingDSL do
       expect do
         Stubber.stub(baz).does_not_exist("bar") { :return_value }
       end.to raise_error(NameError)
+    end
+
+    it "unstubs methods after each test" do
+      Stubber.stub(ExampleFoo).bar("John") { "something else" }
+
+      Bogus.after_each_test
+
+      ExampleFoo.bar("John").should == "Hello John"
     end
   end
 
@@ -65,28 +90,49 @@ describe Bogus::MockingDSL do
   end
 
   describe "#mock" do
-    let(:baz) { Bogus.fake_for(:example_foo) { ExampleFoo } }
+    let(:object) { ExampleFoo.new }
+    let(:fake) { Bogus.fake_for(:example_foo) { ExampleFoo } }
 
-    before do
-      Mocker.mock(baz).foo("bar") { :return_value }
+    shared_examples_for "mocking dsl" do
+      before do
+        Mocker.mock(baz).foo("bar") { :return_value }
+      end
+
+      it "allows mocking the existing methods" do
+        baz.foo("bar").should == :return_value
+      end
+
+      it "verifies that the methods mocked exist" do
+        expect {
+          Mocker.mock(baz).does_not_exist { "whatever" }
+        }.to raise_error(NameError)
+      end
+
+      it "raises errors when mocks were not called" do
+        expect {
+          Bogus.after_each_test
+        }.to raise_error(Bogus::NotAllExpectationsSatisfied)
+      end
+
+      it "clears the data between tests" do
+        Bogus.send(:clear_expectations)
+
+        expect {
+          Bogus.after_each_test
+        }.not_to raise_error(Bogus::NotAllExpectationsSatisfied)
+      end
     end
 
-    it "allows mocking the existing methods" do
-      baz.foo("bar").should == :return_value
+    context "with fakes" do
+      it_behaves_like "mocking dsl" do
+        let(:baz) { fake }
+      end
     end
 
-    it "raises errors when mocks were not called" do
-      expect {
-        Bogus.ensure_all_expectations_satisfied!
-      }.to raise_error(Bogus::NotAllExpectationsSatisfied)
-    end
-
-    it "clears the data between tests" do
-      Bogus.clear_expectations
-
-      expect {
-        Bogus.ensure_all_expectations_satisfied!
-      }.not_to raise_error(Bogus::NotAllExpectationsSatisfied)
+    context "with regular objects" do
+      it_behaves_like "mocking dsl" do
+        let(:baz) { object }
+      end
     end
   end
 

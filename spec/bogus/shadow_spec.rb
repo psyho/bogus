@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Bogus::Shadow do
   let(:object) { Samples::FooFake.new }
-  let(:shadow) { Bogus::Shadow.new(object) }
+  let(:shadow) { Bogus::Shadow.new{ object } }
 
   shared_examples_for "spying on shadows" do
     context "spying" do
@@ -33,7 +33,7 @@ describe Bogus::Shadow do
     class SomeWeirdException < StandardError; end
 
     before do
-      shadow.stub.foo("a", "b") { raise SomeWeirdException, "failed!" }
+      shadow.stubs(:foo, "a", "b") { raise SomeWeirdException, "failed!" }
     end
 
     it "raises the error when called" do
@@ -47,8 +47,7 @@ describe Bogus::Shadow do
 
   context "interactions with no return value" do
     before do
-      # this makes the return value block nil
-      shadow.stub.__send__(:foo, ["a", "b"])
+      shadow.stubs(:foo, ["a", "b"])
     end
 
     it "returns the object" do
@@ -58,9 +57,24 @@ describe Bogus::Shadow do
     include_examples "spying on shadows"
   end
 
+  context "interactions with AnyArgs" do
+    before do
+      shadow.stubs(:foo, "a", "b") { "specific value" }
+      shadow.stubs(:foo, Bogus::AnyArgs) { "default value" }
+    end
+
+    it "changes the default value returned from method" do
+      shadow.run(:foo, "b", "c").should == "default value"
+    end
+
+    it "does not change the specific stubbed values" do
+      shadow.run(:foo, "a", "b").should == "specific value"
+    end
+  end
+
   context "stubbed interactions" do
     before do
-      shadow.stub.foo("a", "b") { "stubbed value" }
+      shadow.stubs(:foo, "a", "b") { "stubbed value" }
     end
 
     it "returns the stubbed value" do
@@ -68,8 +82,8 @@ describe Bogus::Shadow do
     end
 
     it "returns the latest stubbed value" do
-      shadow.stub.foo("a", "b") { "stubbed twice" }
-      shadow.stub.foo("b", "c") { "different params" }
+      shadow.stubs(:foo, "a", "b") { "stubbed twice" }
+      shadow.stubs(:foo, "b", "c") { "different params" }
 
       shadow.run(:foo, "a", "b").should == "stubbed twice"
       shadow.run(:foo, "b", "c").should == "different params"
@@ -85,7 +99,7 @@ describe Bogus::Shadow do
     end
 
     it "adds required interaction when mocking over stubbing" do
-      shadow.mock.foo("a", "b") { "stubbed value" }
+      shadow.mocks(:foo, "a", "b") { "stubbed value" }
 
       shadow.unsatisfied_interactions.should_not be_empty
     end
@@ -95,7 +109,7 @@ describe Bogus::Shadow do
 
   context "mocked interactions" do
     before do
-      shadow.mock.foo("a", "b") { "mocked value" }
+      shadow.mocks(:foo, "a", "b") { "mocked value" }
     end
 
     it "returns the mocked value" do
@@ -103,21 +117,21 @@ describe Bogus::Shadow do
     end
 
     it "overwrites the stubbed value" do
-      shadow.stub.foo("a", "c") { "stubbed value" }
-      shadow.mock.foo("a", "c") { "mocked value" }
+      shadow.stubs(:foo, "a", "c") { "stubbed value" }
+      shadow.mocks(:foo, "a", "c") { "mocked value" }
 
       shadow.run(:foo, "a", "c").should == "mocked value"
     end
 
     it "is overwritten by stubbing" do
-      shadow.mock.foo("a", "c") { "mocked value" }
-      shadow.stub.foo("a", "c") { "stubbed value" }
+      shadow.mocks(:foo, "a", "c") { "mocked value" }
+      shadow.stubs(:foo, "a", "c") { "stubbed value" }
 
       shadow.run(:foo, "a", "c").should == "stubbed value"
     end
 
     it "removes the required interaction when stubbing over mocking" do
-      shadow.stub.foo("a", "b") { "stubbed value" }
+      shadow.stubs(:foo, "a", "b") { "stubbed value" }
 
       shadow.unsatisfied_interactions.should be_empty
     end

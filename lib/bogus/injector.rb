@@ -29,13 +29,11 @@ module Bogus
     end
 
     def create_stub(object)
-      shadow = gets_shadow.for(object)
-      inject(Double, object: object, double: shadow.stub)
+      inject(Double, object: object).stub
     end
 
     def create_mock(object)
-      shadow = gets_shadow.for(object)
-      inject(Double, object: object, double: shadow.mock)
+      inject(Double, object: object).mock
     end
 
     def invocation_matcher(method = nil)

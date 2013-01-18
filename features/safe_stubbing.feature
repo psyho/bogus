@@ -61,7 +61,6 @@ Feature: Safe stubbing
     end
     """
  
-  @known_bug
   Scenario: Stubbing methods multiple times
     Then spec file with following content should fail:
     """ruby

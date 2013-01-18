@@ -1,7 +1,13 @@
 module Bogus
+  module FakeObject
+    # marker for fake objects
+  end
+
   class Fake
     include RecordInteractions
     extend RecordInteractions
+    include FakeObject
+    extend FakeObject
 
     def initialize(*args)
     end

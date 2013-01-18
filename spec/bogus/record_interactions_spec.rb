@@ -7,7 +7,6 @@ describe Bogus::RecordInteractions do
   end
 
   let(:sample) { SampleRecordsInteractions.new }
-  let!(:rr) { Bogus::RRProxy }
 
   it "allows verifying that interactions happened" do
     sample.__record__(:foo, 1, 2, 3)

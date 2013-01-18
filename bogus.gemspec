@@ -19,7 +19,6 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_dependency 'dependor', '>= 0.0.4'
-  s.add_dependency 'rr'
 
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rspec'
@@ -32,4 +31,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'guard-ctags-bundler'
   s.add_development_dependency 'growl'
   s.add_development_dependency 'libnotify'
+  s.add_development_dependency 'rr'
 end

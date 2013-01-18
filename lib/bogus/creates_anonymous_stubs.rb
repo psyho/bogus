@@ -7,7 +7,7 @@ module Bogus
     def create(methods = {})
       object = RespondsToEverything.new
       methods.each do |name, result|
-        create_stub.call(object).__send__(name) { result }
+        create_stub.call(object).__send__(name, Bogus::AnyArgs) { result }
       end
       object
     end
