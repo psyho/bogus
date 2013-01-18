@@ -32,4 +32,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'growl'
   s.add_development_dependency 'libnotify'
   s.add_development_dependency 'rr'
+  s.add_development_dependency 'relish'
 end
