@@ -89,7 +89,7 @@ describe Bogus::MockingDSL do
 
     it "can be used with plain old Ruby objects" do
       object = ExampleFoo.new
-      stub(object).foo
+      Stubber.stub(object).foo(Stubber.any_args)
 
       object.foo('test')
 

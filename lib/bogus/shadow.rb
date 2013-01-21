@@ -36,11 +36,15 @@ module Bogus
       @required.to_a - @calls
     end
 
+    def self.has_shadow?(object)
+      object.respond_to?(:__shadow__)
+    end
+
     private
 
     def override_default(interaction, return_value)
       return unless interaction.any_args?
-      @defaults[interaction.method] = return_value
+      @defaults[interaction.method] = return_value || proc{nil}
     end
 
     def add_stub(interaction, return_value_block)

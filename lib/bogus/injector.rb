@@ -36,8 +36,8 @@ module Bogus
       inject(Double, object: object).mock
     end
 
-    def invocation_matcher(method = nil)
-      inject(InvocationMatcher, method: method)
+    def have_received_matcher
+      inject(HaveReceivedMatcher)
     end
 
     def interactions_repository

@@ -34,7 +34,7 @@ module Bogus
     end
 
     def have_received(*args)
-      inject.invocation_matcher(*args)
+      inject.have_received_matcher(*args)
     end
 
     def create_anonymous_stub(*args)
