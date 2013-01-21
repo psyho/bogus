@@ -28,12 +28,16 @@ module Bogus
       inject(RegistersCreatedFakes, creates_fakes: creates_fakes)
     end
 
+    def create_double(object)
+      inject(Double, object: object)
+    end
+
     def create_stub(object)
-      inject(Double, object: object).stub
+      create_double(object).stub
     end
 
     def create_mock(object)
-      inject(Double, object: object).mock
+      create_double(object).mock
     end
 
     def have_received_matcher

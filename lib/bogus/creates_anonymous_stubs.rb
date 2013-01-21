@@ -2,24 +2,27 @@ module Bogus
   class CreatesAnonymousStubs
     extend Bogus::Takes
 
-    takes :creates_fakes, :create_stub
+    takes :multi_stubber, :creates_fakes, :responds_to_everything
 
-    def create(methods = {})
-      object = RespondsToEverything.new
-      methods.each do |name, result|
-        create_stub.call(object).__send__(name, Bogus::AnyArgs) { result }
+    def create(name = nil, methods = {}, &block)
+      if name.is_a?(Hash)
+        methods = name
+        name = nil
       end
-      object
+
+      fake = responds_to_everything unless name
+
+      fake_opts, methods = split_methods(methods)
+      fake ||= creates_fakes.create(name, fake_opts, &block)
+
+      multi_stubber.stub_all(fake, methods)
     end
 
-    class RespondsToEverything
-      def respond_to?(method)
-        true
-      end
+    private
 
-      def method_missing(name, *args, &block)
-        self
-      end
+    def split_methods(methods)
+      fake_args = proc{ |k,_| [:as].include?(k) }
+      [methods.select(&fake_args), methods.reject(&fake_args)]
     end
   end
 end

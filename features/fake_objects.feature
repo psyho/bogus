@@ -90,5 +90,18 @@ Feature: Faking existing classes
     end
     """
 
-  Scenario: Fakes which are objects
-    Given pending
+  Scenario: Fakes with inline return values
+    Then spec file with following content should pass:
+    """ruby
+    describe "library class fake" do
+      let(:library) { fake(:library, checkout: "checked out", 
+                                     return_book: "returned") }
+
+      it "sets the default return value for provided functions" do
+        library.checkout("Moby Dick").should == "checked out"
+        library.checkout("Three Musketeers").should == "checked out"
+        library.return_book("Moby Dick").should == "returned"
+        library.return_book("Three Musketeers").should == "returned"
+      end
+    end
+    """
