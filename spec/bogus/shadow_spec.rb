@@ -92,8 +92,17 @@ describe Bogus::Shadow do
       shadow.run(:foo, "a", "c").should == "return value"
     end
 
-    it "does not change the return value for other calls"
-    it "allows spying on calls using anything in args"
+    it "does not affect the return value for other calls" do
+      shadow.stubs(:foo, "a", "b") { "specific value" }
+
+      shadow.run(:foo, "a", "b").should == "specific value"
+    end
+
+    it "allows spying on calls using anything in args" do
+      shadow.run(:foo, "a", "b")
+
+      shadow.has_received(:foo, [Bogus::Anything, "b"]).should be_true
+    end
   end
 
   context "stubbed interactions" do
