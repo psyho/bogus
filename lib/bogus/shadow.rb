@@ -4,7 +4,7 @@ module Bogus
 
     def initialize(&default_return_value)
       @calls = []
-      @stubs = {}
+      @stubs = []
       @defaults = Hash.new(default_return_value)
       @required = Set.new
     end
@@ -22,7 +22,7 @@ module Bogus
     def stubs(name, *args, &return_value)
       interaction = Interaction.new(name, args)
       add_stub(interaction, return_value)
-      override_default(name, args, return_value)
+      override_default(interaction, return_value)
       @required.delete(interaction)
       interaction
     end
@@ -38,17 +38,18 @@ module Bogus
 
     private
 
-    def override_default(method, args, return_value)
-      return unless args == [AnyArgs]
-      @defaults[method] = return_value
+    def override_default(interaction, return_value)
+      return unless interaction.any_args?
+      @defaults[interaction.method] = return_value
     end
 
     def add_stub(interaction, return_value_block)
-      @stubs[interaction] = return_value_block if return_value_block
+      @stubs << [interaction, return_value_block] if return_value_block
     end
 
     def return_value(interaction)
-      return_value = @stubs.fetch(interaction, @defaults[interaction.method])
+      _, return_value = @stubs.reverse.find{|i, v| i == interaction}
+      return_value ||= @defaults[interaction.method]
       return_value.call
     end
   end

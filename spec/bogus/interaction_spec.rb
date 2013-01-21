@@ -7,7 +7,11 @@ describe Bogus::Interaction do
     [[:foo, [:bar], "value"], [:foo, [:bar], "value"]],
     [[:foo, [:bar]], [:foo, [:bar], "value"]],
     [[:foo, [:bar], "value"], [:foo, [:bar]]],
-    [[:foo, [:bar]], [:foo, [:bar]]]
+    [[:foo, [:bar]], [:foo, [:bar]]],
+    [[:foo, [Bogus::AnyArgs]], [:foo, [:bar]]],
+    [[:foo, [:bar, Bogus::Anything]], [:foo, [:bar, :baz]]],
+    [[:foo, [:bar, :baz]], [:foo, [:bar, Bogus::Anything]]],
+    [[:foo, [:bar, Bogus::Anything]], [:foo, [Bogus::Anything, :baz]]]
   ]
 
   different = [

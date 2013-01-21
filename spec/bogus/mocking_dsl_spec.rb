@@ -5,6 +5,9 @@ describe Bogus::MockingDSL do
     def foo(bar)
     end
 
+    def hello(greeting, name)
+    end
+
     def self.bar(baz)
       "Hello #{baz}"
     end
@@ -28,12 +31,21 @@ describe Bogus::MockingDSL do
     end
 
     it "can stub method with any parameters" do
-      Stubber.stub(baz).foo("bar") { :foo_value }
       Stubber.stub(baz).foo(Stubber.any_args) { :default_value }
+      Stubber.stub(baz).foo("bar") { :foo_value }
 
       baz.foo("a").should == :default_value
       baz.foo("b").should == :default_value
       baz.foo("bar").should == :foo_value
+    end
+
+    it "can stub method with some wildcard parameters" do
+      Stubber.stub(baz).hello(Stubber.any_args) { :default_value }
+      Stubber.stub(baz).hello("welcome", Stubber.anything) { :greeting_value }
+
+      baz.hello("hello", "adam").should == :default_value
+      baz.hello("welcome", "adam").should == :greeting_value
+      baz.hello("welcome", "rudy").should == :greeting_value
     end
 
     it "does not allow stubbing non-existent methods" do

@@ -51,6 +51,10 @@ describe Bogus::VerifiesStubDefinition do
     it_disallows(:bar, [1], NameError)
   end
 
+  it "allows interactions that use any_args" do
+    it_allows(:three_args, [Bogus::AnyArgs])
+  end
+
   describe "method arity checks" do
     context "method with positive arity" do
       it_allows_argument_numbers :three_args, 3

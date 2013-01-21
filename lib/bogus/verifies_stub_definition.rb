@@ -6,6 +6,7 @@ class Bogus::VerifiesStubDefinition
   def verify!(object, method_name, args)
     stubbing_non_existent_method!(object, method_name) unless object.respond_to?(method_name)
     return unless object.methods.include?(method_name)
+    return if any_args?(args)
     method = object.method(method_name)
     wrong_number_of_arguments!(method, args) if under_number_of_required_arguments?(method, args.size)
     wrong_number_of_arguments!(method, args) if over_number_of_allowed_arguments?(method, args.size)
@@ -34,5 +35,9 @@ class Bogus::VerifiesStubDefinition
     number_of_arguments = method.parameters.count{|type, name| [:opt, :req].include?(type) }
 
     args_count > number_of_arguments
+  end
+
+  def any_args?(args)
+    [Bogus::AnyArgs] == args
   end
 end

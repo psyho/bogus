@@ -35,6 +35,10 @@ module Bogus
     def any_args
       Bogus::AnyArgs
     end
+
+    def anything
+      Bogus::Anything
+    end
   end
 end
 

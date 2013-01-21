@@ -59,17 +59,41 @@ describe Bogus::Shadow do
 
   context "interactions with AnyArgs" do
     before do
-      shadow.stubs(:foo, "a", "b") { "specific value" }
+      shadow.stubs(:foo, "a", "b") { "old specific value" }
       shadow.stubs(:foo, Bogus::AnyArgs) { "default value" }
+      shadow.stubs(:foo, "a", "d") { "new specific value" }
     end
 
     it "changes the default value returned from method" do
       shadow.run(:foo, "b", "c").should == "default value"
     end
 
-    it "does not change the specific stubbed values" do
-      shadow.run(:foo, "a", "b").should == "specific value"
+    it "overwrites the old specific stubbed values" do
+      shadow.run(:foo, "a", "b").should == "default value"
     end
+
+    it "does not affect the new specific stubbed values" do
+      shadow.run(:foo, "a", "d").should == "new specific value"
+    end
+
+    it "allows spying on calls using any args" do
+      shadow.run(:foo, "a", "c")
+
+      shadow.has_received(:foo, [Bogus::AnyArgs]).should be_true
+    end
+  end
+
+  context "interactions that take anything" do
+    before do
+      shadow.stubs(:foo, "a", Bogus::Anything) { "return value" }
+    end
+
+    it "changes the return value for calls that match" do
+      shadow.run(:foo, "a", "c").should == "return value"
+    end
+
+    it "does not change the return value for other calls"
+    it "allows spying on calls using anything in args"
   end
 
   context "stubbed interactions" do

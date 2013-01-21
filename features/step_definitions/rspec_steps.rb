@@ -64,3 +64,17 @@ Then /^spec file with following content should fail:$/ do |string|
     Then the specs should fail
   }
 end
+
+Then /^the following test should pass:$/ do |string|
+  steps %Q{
+    When I run spec with the following content:
+    """ruby
+    describe Bogus do
+      specify do
+        #{string}
+      end
+    end
+    """
+    Then all the specs should pass
+  }
+end
