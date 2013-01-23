@@ -47,4 +47,46 @@ describe Bogus::InteractionsRepository do
 
     interactions_repository.for_fake(:foo).should == [Bogus::Interaction.new(:bar, [1, 2])]
   end
+
+  it "ignores arguments if the recorded interaction was recorded with any_args" do
+    interactions_repository.record(:foo, :bar, Bogus::AnyArgs)
+
+    recorded?(:foo, :bar, 1).should be_true
+  end
+
+  it "ignores arguments if the checked interaction has any_args" do
+    interactions_repository.record(:foo, :bar, 1)
+
+    recorded?(:foo, :bar, Bogus::AnyArgs).should be_true
+  end
+
+  it "takes method name into account when matching interaction with wildcard arguments" do
+    interactions_repository.record(:foo, :baz, 1)
+
+    recorded?(:foo, :bar, Bogus::AnyArgs).should be_false
+  end
+
+  it "ignores arguments if the recorded interaction was recorded with wildcard argument" do
+    interactions_repository.record(:foo, :bar, 1, Bogus::Anything)
+
+    recorded?(:foo, :bar, 1, 2).should be_true
+  end
+
+  it "takes other arguments into account when matching interactions with wildcards" do
+    interactions_repository.record(:foo, :bar, 1, Bogus::Anything)
+
+    recorded?(:foo, :bar, 2, 1).should be_false
+  end
+
+  it "ignores arguments if the checked interaction has any_args" do
+    interactions_repository.record(:foo, :bar, 1, 2)
+
+    recorded?(:foo, :bar, 1, Bogus::Anything).should be_true
+  end
+
+  it "takes method name into account when matching interaction with wildcard arguments" do
+    interactions_repository.record(:foo, :baz, 1, 2)
+
+    recorded?(:foo, :bar, 1, Bogus::Anything).should be_false
+  end
 end
