@@ -23,7 +23,9 @@ Feature: Global fake configuration
     Given a file named "fakes.rb" with:
     """ruby
     Bogus.fakes do
-      library(as: :class, books_by_author: []) { PublicLibrary }
+      fake(:library, as: :class, class: proc{PublicLibrary}) do
+        books_by_author []
+      end
     end
     """
 

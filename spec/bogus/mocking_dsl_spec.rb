@@ -199,7 +199,10 @@ describe Bogus::MockingDSL do
   describe "globally configured fakes" do
     before do
       Bogus.fakes do
-        globally_configured_fake(as: :class, foo: "foo", bar: "bar") { SampleOfConfiguredFake }
+        fake(:globally_configured_fake, as: :class, class: proc{SampleOfConfiguredFake}) do
+          foo "foo"
+          bar { "bar" }
+        end
       end
     end
 
