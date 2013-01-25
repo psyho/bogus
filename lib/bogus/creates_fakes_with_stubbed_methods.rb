@@ -13,12 +13,13 @@ module Bogus
 
       fake = responds_to_everything unless name
 
-      methods, block = get_configuration(name, methods, block)
-
       fake_opts, methods = split_methods(methods)
-      fake ||= creates_fakes.create(name, fake_opts, &block)
+      fake_definition = get_configuration(name, fake_opts, methods, block)
 
-      multi_stubber.stub_all(fake, methods)
+      fake ||= creates_fakes.create(fake_definition.name, fake_definition.opts,
+                                    &fake_definition.class_block)
+
+      multi_stubber.stub_all(fake, fake_definition.stubs)
     end
 
     private
@@ -28,11 +29,12 @@ module Bogus
       [methods.select(&fake_args), methods.reject(&fake_args)]
     end
 
-    def get_configuration(name, methods, block)
-      return [methods, block] unless fake_configuration.include?(name)
-      conf_methods, conf_block = fake_configuration.get(name)
+    def get_configuration(name, fake_opts, methods, block)
+      fake = FakeDefinition.new(name: name, opts: fake_opts, stubs: methods, class_block: block)
+      return fake unless fake_configuration.include?(name)
 
-      [conf_methods.merge(methods), block || conf_block]
+      configured_fake = fake_configuration.get(name)
+      configured_fake.merge(fake)
     end
   end
 end

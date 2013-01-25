@@ -194,6 +194,9 @@ describe Bogus::MockingDSL do
 
     def self.bar(x, y)
     end
+
+    def self.baz
+    end
   end
 
   describe "globally configured fakes" do
@@ -202,6 +205,7 @@ describe Bogus::MockingDSL do
         fake(:globally_configured_fake, as: :class, class: proc{SampleOfConfiguredFake}) do
           foo "foo"
           bar { "bar" }
+          baz { raise "oh noes!" }
         end
       end
     end
@@ -218,6 +222,12 @@ describe Bogus::MockingDSL do
 
       the_fake.foo('a').should == "foo"
       the_fake.bar('a', 'b').should == "baz"
+    end
+
+    it "evaluates the block passed to method in configuration when method is called" do
+      the_fake = Stubber.fake(:globally_configured_fake)
+
+      expect{ the_fake.baz }.to raise_error("oh noes!")
     end
   end
 end

@@ -7,6 +7,18 @@ describe Bogus::FakeConfiguration do
     config.include?(:foo).should be_false
   end
 
+  def class_block(name)
+    config.get(name).class_block
+  end
+
+  def opts(name)
+    config.get(name).opts
+  end
+
+  def stubs(name)
+    config.get(name).stubs
+  end
+
   it "contains configured fakes" do
     config.evaluate do
       fake(:foo, as: :class, class: proc{Samples::Foo}) do
@@ -25,9 +37,9 @@ describe Bogus::FakeConfiguration do
       end
     end
 
-    opts, return_block = config.get(:foo)
-    opts.should == {as: :class, bar: "the bar"}
-    return_block.call.should == Samples::Foo
+    opts(:foo).should == {as: :class}
+    stubs(:foo).should == {bar: "the bar"}
+    class_block(:foo).call.should == Samples::Foo
   end
 
   context "with no class" do
@@ -36,7 +48,9 @@ describe Bogus::FakeConfiguration do
         fake(:foo, as: :class) { bar "bar" }
       end
 
-      config.get(:foo).should == [{as: :class, bar: "bar"}, nil]
+      opts(:foo).should == {as: :class}
+      stubs(:foo).should == {bar: "bar"}
+      class_block(:foo).should be_nil
     end
   end
 
@@ -46,7 +60,9 @@ describe Bogus::FakeConfiguration do
         fake(:foo) { bar "bar" }
       end
 
-      config.get(:foo).should == [{bar: "bar"}, nil]
+      opts(:foo).should == {}
+      stubs(:foo).should == {bar: "bar"}
+      class_block(:foo).should be_nil
     end
   end
 
@@ -56,15 +72,16 @@ describe Bogus::FakeConfiguration do
         fake(:foo) { bar {"bar"} }
       end
 
-      config.get(:foo).should == [{bar: "bar"}, nil]
+      stubs(:foo)[:bar].call.should == "bar"
     end
 
-    it "evaluates the blocks when getting, not when setting" do
+    it "does not evaluate the blocks when getting, nor when setting" do
       config.evaluate do
         fake(:foo) { bar { raise "gotcha" } }
       end
 
-      expect{ config.get(:foo) }.to raise_error
+      block = stubs(:foo)[:bar]
+      expect{ block.call }.to raise_error
     end
   end
 
@@ -74,7 +91,9 @@ describe Bogus::FakeConfiguration do
         fake(:foo, as: :class)
       end
 
-      config.get(:foo).should == [{as: :class}, nil]
+      opts(:foo).should == {as: :class}
+      stubs(:foo).should == {}
+      class_block(:foo).should be_nil
     end
   end
 end

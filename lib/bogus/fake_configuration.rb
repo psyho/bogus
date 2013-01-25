@@ -18,10 +18,7 @@ module Bogus
     end
 
     def get(name)
-      if include?(name)
-        fake = fakes[name]
-        [fake.opts_with_stubs, fake.class_block]
-      end
+      fakes[name]
     end
 
     private
@@ -37,7 +34,7 @@ module Bogus
   end
 
   class FakeDefinition
-    attr_reader :name, :class_block, :opts
+    attr_reader :name, :class_block, :opts, :stubs
 
     def initialize(attrs = {})
       @name = attrs[:name]
@@ -46,12 +43,11 @@ module Bogus
       @stubs = attrs[:stubs] || {}
     end
 
-    def opts_with_stubs
-      opts.merge(stubs)
-    end
-
-    def stubs
-      Hash[@stubs.map{|name, block| [name, block.call]}]
+    def merge(other)
+      FakeDefinition.new(name: other.name,
+                        opts: opts.merge(other.opts),
+                        stubs: stubs.merge(other.stubs),
+                        class_block: other.class_block || class_block)
     end
   end
 
@@ -63,7 +59,7 @@ module Bogus
     end
 
     def add_stub(name, value = nil, &block)
-      stubs[name] = block || proc{value}
+      stubs[name] = block || value
     end
 
     def stubs

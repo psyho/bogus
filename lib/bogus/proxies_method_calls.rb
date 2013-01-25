@@ -12,6 +12,10 @@ module Bogus
       @on_called = on_called
     end
 
+    def raise(*args)
+      ::Kernel.raise(*args)
+    end
+
     def method_missing(name, *args, &block)
       @on_called.call(name, *args, &block)
     end
