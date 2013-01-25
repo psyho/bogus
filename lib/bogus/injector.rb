@@ -4,7 +4,11 @@ module Bogus
     look_in_modules Bogus
 
     def configuration
-      @configuration ||= Bogus::Configuration.new
+      @configuration ||= inject(Configuration)
+    end
+
+    def fake_configuration
+      @fake_configuration ||= inject(FakeConfiguration)
     end
 
     def search_modules

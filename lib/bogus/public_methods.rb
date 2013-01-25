@@ -1,10 +1,5 @@
 module Bogus
   module PublicMethods
-
-    def fake_for(*args, &block)
-      inject.creates_fakes.create(*args, &block)
-    end
-
     def record_calls_for(name)
       inject.adds_recording.add(name)
     end
@@ -37,8 +32,8 @@ module Bogus
       inject.have_received_matcher(*args)
     end
 
-    def create_anonymous_stub(*args)
-      inject.creates_anonymous_stubs.create(*args)
+    def fake_for(*args, &block)
+      inject.creates_fakes_with_stubbed_methods.create(*args, &block)
     end
 
     def after_each_test
@@ -67,6 +62,10 @@ module Bogus
 
     def reset_stubbed_methods
       inject.resets_stubbed_methods.reset_all_doubles
+    end
+
+    def fakes(&block)
+      inject.fake_configuration.evaluate(&block)
     end
 
     def inject

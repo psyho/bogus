@@ -187,4 +187,34 @@ describe Bogus::MockingDSL do
       greeter.baz.foo.should == "bar"
     end
   end
+
+  class SampleOfConfiguredFake
+    def self.foo(x)
+    end
+
+    def self.bar(x, y)
+    end
+  end
+
+  describe "globally configured fakes" do
+    before do
+      Bogus.fakes do
+        globally_configured_fake(as: :class, foo: "foo", bar: "bar") { SampleOfConfiguredFake }
+      end
+    end
+
+    it "returns configured fakes" do
+      the_fake = Stubber.fake(:globally_configured_fake)
+
+      the_fake.foo('a').should == "foo"
+      the_fake.bar('a', 'b').should == "bar"
+    end
+
+    it "allows overwriting stubbed methods" do
+      the_fake = Stubber.fake(:globally_configured_fake, bar: "baz")
+
+      the_fake.foo('a').should == "foo"
+      the_fake.bar('a', 'b').should == "baz"
+    end
+  end
 end

@@ -1,7 +1,7 @@
 module Bogus
   module MockingDSL
-    def fake(*args)
-      Bogus.create_anonymous_stub(*args)
+    def fake(*args, &block)
+      Bogus.fake_for(*args, &block)
     end
 
     def stub(*args)
