@@ -58,6 +58,15 @@ Feature: Anonymous test doubles
     end
     """
 
+  Scenario: Stubbing methods inline by passing a block
+    Then the following test should pass:
+    """ruby
+    library = fake(register_junior: proc{ raise "library full!" })
+    expect {
+      library.register_junior("Jake")
+    }.to raise_error("library full!")
+    """
+
   Scenario: Mocking any method with any parameters
     Then spec file with following content should pass:
     """ruby

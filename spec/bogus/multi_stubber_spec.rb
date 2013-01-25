@@ -13,6 +13,12 @@ describe Bogus::MultiStubber do
     double.stubbed.should == [[:foo, [any_args], 1], [:bar, [any_args], 2]]
   end
 
+  it "uses passed procs as the return value block" do
+    multi_stubber.stub_all(Object.new, foo: proc{ 1 })
+
+    double.stubbed.should == [[:foo, [any_args], 1]]
+  end
+
   class FakeDouble
     def stubbed
       @stubbed ||= []
