@@ -106,18 +106,8 @@ So how would your tests look like if you used Bogus?
 ```ruby
 require 'bogus/rspec'
 
-Bogus.configure do |config|
-  config.spy_by_default = true
-  config.stub_dsl = :rr # only :rr available for now
-end
-
-shared_context 'fakes' do
-  fake(:geocoder) # same as let(:geocoder) { Bogus.fake_for(:geocoder) }
-  fake(:finds_users)
-end
-
 describe SuggestsFollowings
-  include_context "fakes"
+  fake(:finds_users)
 
   let(:user) { new_user }
 
@@ -137,8 +127,9 @@ describe SuggestsFollowings
   # ...
 end
 
-describe ListsUsersNearCity
-  include_context "fakes"
+describe ListsUsersNearCity do
+  fake(:finds_users)
+  fake(:geocoder)
 
   let(:city) { new_city(name: "New York") }
 
@@ -211,6 +202,70 @@ end
 
 The beautiful thing is, that even if you don't care about testing something (like logging in this example), you still get the benefit of ensuring that the interface matches, even in a fully isolated test.
 
+## Global fake configuration
+
+It's really nice to not have to stub all the methods on fakes (or any of them if you follow tell-don't-ask), but it's not always possible.
+
+Consider this repository:
+
+```ruby
+class UsersRepository
+  takes :db
+
+  def recently_registered
+    db.where('created_at > ?', Time.now - 1.day)
+  end
+end
+```
+
+And two of it's collaborators:
+
+```ruby
+class HomePageController
+  takes :users_repository
+
+  def index
+    @recently_registered = users_repository.recently_registered
+  end
+end
+
+class DailyReportGenerator
+  takes :users_repository
+
+  def generate
+    {registered_count: users_repository.recently_registered.count}
+  end
+end
+```
+
+It's likely that tests for both of the collaborators will contain code like the following:
+
+```ruby
+let(:users_repository) { fake(:users_repository, recently_registered: [new_user]) }
+```
+
+Nobody likes to duplicate code like that. That's why Bogus comes with a mechanism for
+globally configuring fakes.
+
+You just input something like the follwing in your spec_helper.rb (or some other spec/support file, 
+like spec/support/fakes.rb):
+
+```ruby
+Bogus.fakes do
+  fake(:users_repository) do
+    recently_registered { [new_user] }
+  end
+end
+```
+
+And now in your tests, you can just put:
+
+```ruby
+fake(:users_repository)
+```
+
+Neat, huh?
+
 ## Contract tests
 
 Knowing that a method exists and takes the right number of parameters is great, but why stop there?
@@ -258,12 +313,6 @@ end
 ## License
 
 MIT. See the LICENSE file.
-
-## TODO:
-
-This is a README driven project, so don't expect stuff in the README to be implemented ;P
-
-See the features directory for the completed functionality.
 
 ## Authors
 
