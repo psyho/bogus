@@ -16,7 +16,7 @@ Feature: Global fake configuration
   """ruby
   Bogus.fakes do
     # you specify the fake creation options as parameters to the fake function
-    fake(:fake_name, as: :class, class: proc{SomeClass}) do
+    fake(:fake_name, :as => :class, :class => proc{SomeClass}) do
       method_1 { return_value_1 } # you can use a block here if you require lazy evaluation
       method_2 return_value_2 # but you don't have to
     end
