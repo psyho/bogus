@@ -1,5 +1,7 @@
 Feature: Return value contracts
 
+  You can find a detailed description of the contract tests under "Contract tests with mocks".
+
   Background:
     Given a file named "foo.rb" with:
     """ruby
@@ -51,7 +53,7 @@ Feature: Return value contracts
     end
     """
 
-  Scenario: Fails when returned values differ
+  Scenario: Bogus makes sure that all the return values recorded by stubbing are also present in tests of the real object
     Then spec file with following content should fail:
     """ruby
     describe AuthenticationService do
@@ -66,7 +68,7 @@ Feature: Return value contracts
     end
     """
 
-  Scenario: Passes when interfaces match
+  Scenario: Bogus does not fail the tests if all the recorded values have been also recorded on the real object
     Then spec file with following content should pass:
     """ruby
     describe AuthenticationService do

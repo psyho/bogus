@@ -1,5 +1,7 @@
 Feature: Contract tests with spies
 
+  You can find a detailed description of the contract tests under "Contract tests with mocks".
+
   Background:
     Given a file named "foo.rb" with:
     """ruby

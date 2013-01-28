@@ -11,6 +11,20 @@ Feature: Global fake configuration
   To eliminate this duplication, Bogus comes with a DSL to configure the fakes in one place,
   and unify their use in all your tests.
 
+  To globally configure your fakes, all you need to do is to place code like this:
+
+  """ruby
+  Bogus.fakes do
+    # you specify the fake creation options as parameters to the fake function
+    fake(:fake_name, as: :class, class: proc{SomeClass}) do
+      method_1 { return_value_1 } # you can use a block here if you require lazy evaluation
+      method_2 return_value_2 # but you don't have to
+    end
+  end
+  """
+
+  in your spec helper, or a file required from it.
+
   Background:
     Given a file named "foo.rb" with:
     """ruby

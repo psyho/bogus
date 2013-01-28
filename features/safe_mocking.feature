@@ -1,5 +1,18 @@
 Feature: Safe mocking
 
+  For times, when combining stubs and spying is cumbersome, Bogus gives you an
+  option of using mocks.
+
+  Like with stubs, the basic syntax for mocking is:
+
+  """ruby
+  mock(object).method_name(arg1, arg2, ...) { return_value }
+  """
+
+  You can only mock methods that actually exist on an object. It will
+  also work with methods that the object `responds_to?`, but (obviously)
+  without being able to check the method signature.
+
   Background:
     Given a file named "foo.rb" with:
     """ruby

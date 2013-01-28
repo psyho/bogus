@@ -5,6 +5,10 @@ Feature: Spies
   to combine Bogus's powerful feature of faking objects with it's ability 
   to verify object interactions.
 
+  Typically, stubbing libraries force you to first stub a method, so that you can 
+  later make sure it was called. However, if you use fakes, Bogus lets you verify
+  that a method was called (or not) without stubbing it first.
+
   Background:
     Given a file named "foo.rb" with:
     """ruby

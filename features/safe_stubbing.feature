@@ -5,6 +5,12 @@ Feature: Safe stubbing
   methods that don't exist, it also ensures that the number of arguments
   you pass to those methods matches the method definition.
 
+  The stubbing syntax is:
+
+  """ruby
+  stub(object).method_name(arg1, arg2, ...) { return_value }
+  """
+
   Background:
     Given a file named "foo.rb" with:
     """ruby
