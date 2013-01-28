@@ -12,19 +12,15 @@ Feature: Anonymous test doubles
 
   The syntax for defining fakes is:
 
-  """ruby
-  fake(method_1: return_value, method_2: proc{return_value2})
-  """
+      fake(method_1: return_value, method_2: proc{return_value2})
 
   If you pass a proc as a return value to a fake, the proc will be called to obtain the value.
   This can be used for instance to raise errors in stubbed methods.
 
   If you want to actually return a proc from a method, you need to use a slightly longer syntax:
 
-  """ruby
-  factory = fake()
-  stub(factory).make_validator{ proc{ false } }
-  """
+      factory = fake()
+      stub(factory).make_validator{ proc{ false } }
 
   Background:
     Given a file named "foo.rb" with:

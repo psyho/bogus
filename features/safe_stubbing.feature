@@ -7,9 +7,7 @@ Feature: Safe stubbing
 
   The stubbing syntax is:
 
-  """ruby
-  stub(object).method_name(arg1, arg2, ...) { return_value }
-  """
+      stub(object).method_name(arg1, arg2, ...) { return_value }
 
   Background:
     Given a file named "foo.rb" with:

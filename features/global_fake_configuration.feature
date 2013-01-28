@@ -13,15 +13,17 @@ Feature: Global fake configuration
 
   To globally configure your fakes, all you need to do is to place code like this:
 
-  """ruby
-  Bogus.fakes do
-    # you specify the fake creation options as parameters to the fake function
-    fake(:fake_name, :as => :class, :class => proc{SomeClass}) do
-      method_1 { return_value_1 } # you can use a block here if you require lazy evaluation
-      method_2 return_value_2 # but you don't have to
-    end
-  end
-  """
+      Bogus.fakes do
+        # you can pass fake options like :class or :as here
+        fake(:fake_name, as: :class, class: proc{SomeClass}) do
+
+          # you can use a block here if you require lazy evaluation
+          method_1 { return_value_1 } 
+
+          # but you don't have to
+          method_2 return_value_2
+        end
+      end
 
   in your spec helper, or a file required from it.
 

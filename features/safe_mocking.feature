@@ -5,9 +5,7 @@ Feature: Safe mocking
 
   Like with stubs, the basic syntax for mocking is:
 
-  """ruby
-  mock(object).method_name(arg1, arg2, ...) { return_value }
-  """
+      mock(object).method_name(arg1, arg2, ...) { return_value }
 
   You can only mock methods that actually exist on an object. It will
   also work with methods that the object `responds_to?`, but (obviously)

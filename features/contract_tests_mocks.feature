@@ -2,9 +2,7 @@ Feature: Contract tests with mocks
 
   Whenever you write test code like this:
 
-  """ruby
-  mock(library).checkout("Moby Dick") { raise NoSuchBookError }
-  """
+      mock(library).checkout("Moby Dick") { raise NoSuchBookError }
 
   There are some assumptions this code makes:
 
@@ -22,9 +20,7 @@ Feature: Contract tests with mocks
 
   Whenever you use named fakes:
 
-  """ruby
-  fake(:library)
-  """
+      fake(:library)
 
   Bogus will remember any interactions set up on that fake.
 
@@ -32,9 +28,7 @@ Feature: Contract tests with mocks
   on the fake object, you can put the following code in the tests for "the real thing" (i.e. the Library class
   in our example):
 
-  """ruby
-  verify_contract(:library)
-  """
+      verify_contract(:library)
   
   This will record all of the interactions you make with that class and make the tests fail if you forget
   to test some scenario that you recorded using a fake object.
