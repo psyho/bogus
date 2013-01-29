@@ -1,21 +1,16 @@
 Feature: Anonymous test doubles
 
-  Anonymous test doubles can be useful as a stepping stone towards
-  actual fakes and when migrating from another testing library.
+  Anonymous test doubles can be useful as a stepping stone towards actual fakes and when migrating from another testing library.
 
-  In contrast with other testing libraries, Bogus makes it's fakes
-  respond to all methods by default and makes those calls chainable.
-  This way you can spy on methods without stubbing them first.
+  In contrast with other testing libraries, Bogus makes it's fakes respond to all methods by default and makes those calls chainable.  This way you can spy on methods without stubbing them first.
 
-  It is not advisable to use those for anything else than an intermediate step.
-  Fakes that mimic an actual class have many more benefits.
+  It is not advisable to use those for anything else than an intermediate step.  Fakes that mimic an actual class have many more benefits.
 
   The syntax for defining fakes is:
 
       fake(method_1: return_value, method_2: proc{return_value2})
 
-  If you pass a proc as a return value to a fake, the proc will be called to obtain the value.
-  This can be used for instance to raise errors in stubbed methods.
+  If you pass a proc as a return value to a fake, the proc will be called to obtain the value.  This can be used for instance to raise errors in stubbed methods.
 
   If you want to actually return a proc from a method, you need to use a slightly longer syntax:
 

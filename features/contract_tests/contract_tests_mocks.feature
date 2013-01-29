@@ -1,7 +1,6 @@
 Feature: Contract tests with mocks
 
-  Whenever you mock something, you specify a contract on the arguments/return value pair.
-  Bogus can check automatically Whether this contract was satisfied.
+  Whenever you mock something, you specify a contract on the arguments/return value pair.  Bogus can check automatically Whether this contract was satisfied.
 
   Background:
     Given a file named "foo.rb" with:

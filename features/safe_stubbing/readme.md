@@ -1,5 +1,4 @@
-Bogus let's you stub methods on any object, not just fakes, which makes this feature usable 
-even in scenarios when you don't follow the Inversion of Control Principle.
+Bogus let's you stub methods on any object, not just fakes, which makes this feature usable even in scenarios when you don't follow the Inversion of Control Principle.
 
 When you stub/mock a method in Bogus, it will automatically ensure that:
 
@@ -18,8 +17,7 @@ One key difference is for when you want to stub a method for any arguments:
     # Bogus syntax
     stub(object).method_name(any_args) { return_value }
 
-One other, quite important thing, is that Bogus does not erase the method signature when
-stubbing:
+One other, quite important thing, is that Bogus does not erase the method signature when stubbing:
 
     class Library
       def self.checkout(book)

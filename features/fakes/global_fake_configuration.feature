@@ -1,15 +1,10 @@
 Feature: Global fake configuration
 
-  In an ideal world, all our fakes would follow the tell-don't-ask principle, 
-  which would eliminate the need for stubbing, and would be instances of classes 
-  that match the fake name, which would eliminate the need for configuration of things
-  like (`as: :class` / `as: :instance`).
+  In an ideal world, all our fakes would follow the tell-don't-ask principle, which would eliminate the need for stubbing, and would be instances of classes that match the fake name, which would eliminate the need for configuration of things like (`as: :class` / `as: :instance`).
 
-  However, in reality we often need to add this kind of configuration to our fake definitions,
-  and the more collaborators a fake has, the more duplication we introduce this way.
+  However, in reality we often need to add this kind of configuration to our fake definitions, and the more collaborators a fake has, the more duplication we introduce this way.
 
-  To eliminate this duplication, Bogus comes with a DSL to configure the fakes in one place,
-  and unify their use in all your tests.
+  To eliminate this duplication, Bogus comes with a DSL to configure the fakes in one place, and unify their use in all your tests.
 
   To globally configure your fakes, all you need to do is to place code like this:
 

@@ -1,7 +1,6 @@
 Feature: Argument matchers
 
-  Bogus supports some argument matchers for use, when you don't really
-  care about exact equality of arguments passed in or spied on.
+  Bogus supports some argument matchers for use, when you don't really care about exact equality of arguments passed in or spied on.
 
   Background:
     Given a file named "foo.rb" with:

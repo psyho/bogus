@@ -1,7 +1,6 @@
 Feature: Configuration Options
 
-  Bogus can be configured, similarly to many other frameworks with a configure block.
-  This feature describes the configuration options available.
+  Bogus can be configured, similarly to many other frameworks with a configure block.  This feature describes the configuration options available.
 
   Scenario: search_modules
     Given a file named "foo.rb" with:

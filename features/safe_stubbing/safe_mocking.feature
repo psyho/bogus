@@ -1,23 +1,18 @@
 Feature: Safe mocking
 
-  In Bogus you normally use the following pattern to make sure right
-  messages were sent between the tested object and it's collaborators:
+  In Bogus you normally use the following pattern to make sure right messages were sent between the tested object and it's collaborators:
 
   1. Stub the collaborator method in let or before
   2. In one test ensure that the tested method returns the right thing
-  3. In another test use `have_received` to ensure that the method on collaborator was
-     called with right arguments.
+  3. In another test use `have_received` to ensure that the method on collaborator was called with right arguments.
 
-  However, there are cases when the more general stub in let or before is not enough. Then,
-  we can use mocking to reduce the amount of code written.
+  However, there are cases when the more general stub in let or before is not enough. Then, we can use mocking to reduce the amount of code written.
 
   The syntax for mocking is:
 
       mock(object).method_name(*args) { return_value }
 
-  You can only mock methods that actually exist on an object. It will
-  also work with methods that the object `responds_to?`, but (obviously)
-  without being able to check the method signature.
+  You can only mock methods that actually exist on an object. It will also work with methods that the object `responds_to?`, but (obviously) without being able to check the method signature.
 
   Background:
     Given a file named "foo.rb" with:

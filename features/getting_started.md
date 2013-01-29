@@ -18,8 +18,7 @@ And configure it to look for classes in your namespace:
       c.search_modules << My::Namespace
     end
 
-You will probably also want to create a configuration file for your 
-fakes (for example `spec/support/fakes.rb`):
+You will probably also want to create a configuration file for your fakes (for example `spec/support/fakes.rb`):
 
     Bogus.fakes do
       # fakes go here

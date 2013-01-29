@@ -1,8 +1,6 @@
 Feature: Contract tests with spies
 
-  Whenever you spy on method invocations, it creates a contract specifying that
-  some method can be called with a particular set of arguments. It can be automatically verified
-  by Bogus, whether the method was actually called with those arguments.
+  Whenever you spy on method invocations, it creates a contract specifying that some method can be called with a particular set of arguments. It can be automatically verified by Bogus, whether the method was actually called with those arguments.
 
   Background:
     Given a file named "foo.rb" with:

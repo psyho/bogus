@@ -1,7 +1,6 @@
 Feature: Return value contracts
 
-  In order to be able to record the stubbed value, Bogus requires that the block
-  you pass when stubbing is free of side effects and idempotent.
+  In order to be able to record the stubbed value, Bogus requires that the block you pass when stubbing is free of side effects and idempotent.
 
   If it's not, the behavior of contract verification is not defined.
 

@@ -4,14 +4,9 @@ Feature: Faking existing classes
 
       fake(fake_name, options) { ClassToCopy }
 
-  If you omit the fake_name, you will get an anonymous fake, otherwise
-  the name will be used to identify the fake for the purposes of contract
-  tests. If you omit the block returning the class to copy, fake name
-  will also be used to guess that.
+  If you omit the fake_name, you will get an anonymous fake, otherwise the name will be used to identify the fake for the purposes of contract tests. If you omit the block returning the class to copy, fake name will also be used to guess that.
 
-  Usually you will want the fake to return an instance of the copied class.
-  Otherwise, you can pass `:as => :class` option to copy the class and return
-  the copy, not an instance of it.
+  Usually you will want the fake to return an instance of the copied class.  Otherwise, you can pass `:as => :class` option to copy the class and return the copy, not an instance of it.
 
   Options can also include methods to stub on the returned fake, which makes:
 
