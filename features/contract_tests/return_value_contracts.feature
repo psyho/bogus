@@ -1,6 +1,9 @@
 Feature: Return value contracts
 
-  You can find a detailed description of the contract tests under "Contract tests with mocks".
+  In order to be able to record the stubbed value, Bogus requires that the block
+  you pass when stubbing is free of side effects and idempotent.
+
+  If it's not, the behavior of contract verification is not defined.
 
   Background:
     Given a file named "foo.rb" with:

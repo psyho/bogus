@@ -1,6 +1,18 @@
 Feature: Contract tests with stubs
 
-  You can find a detailed description of the contract tests under "Contract tests with mocks".
+  Whenever you stub any method, a contract is specified on the input/output values of that method.
+
+  When stubbing using the short syntax:
+
+      fake(:fake_name, method_name: :return_value)
+
+  the contract can only be specified on the return value.
+
+  The longer syntax:
+
+      stub(fake).method_name(args) { :return_value }
+
+  will also create a contract on the method input parameters.
 
   Background:
     Given a file named "foo.rb" with:

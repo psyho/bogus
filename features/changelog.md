@@ -1,5 +1,3 @@
-# Changelog
-
 ## 0.0.1
 
 Initial version.
@@ -16,8 +14,9 @@ Initial version.
 - Fixed a bug in copying ActiveRecord classes.
 - (internal) Replaced autoloads with require.
 
-# 0.0.3 (not released yet)
+## 0.0.3 (not released yet)
 
 - Global fake configuration
 - Inline method stubbing syntax
 - Removed dependency on RR
+

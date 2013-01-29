@@ -1,25 +1,34 @@
 Feature: Faking existing classes
 
-  Fakes in Bogus are essentially lightweight objects that mimic the original
-  object's interface.
+  You create a fake by calling the `fake` method:
 
-  Let's say that we have a `Library` class that is used to manage books and a `Student`,
-  who can interact with the `Library` in some way.
+      fake(fake_name, options) { ClassToCopy }
 
-  In order to test the `Student` in isolation, we need to replace the `Library`, with some
-  test double. Typically, you would do that by creating an anonymous stub/mock object and
-  stubbing the required methods on it.
+  If you omit the fake_name, you will get an anonymous fake, otherwise
+  the name will be used to identify the fake for the purposes of contract
+  tests. If you omit the block returning the class to copy, fake name
+  will also be used to guess that.
 
-  Using those stubs, you specify the desired interface of the library object.
-  
-  The problems with that approach start when you change the `Library` class. For example,
-  you could rename the `#checkout` method to `#checkout_book`. If you used the standard approach,
-  where your stubs are not connected in any way to the real implementation, your tests will
-  keep happily passing, even though the collaborator interface just changed.
+  Usually you will want the fake to return an instance of the copied class.
+  Otherwise, you can pass `:as => :class` option to copy the class and return
+  the copy, not an instance of it.
 
-  Bogus saves you from this problem, because your fakes have the exact same interface as
-  the real collaborators, so whenever you change the collaborator, but not the tested object,
-  you will get an exception in your tests.
+  Options can also include methods to stub on the returned fake, which makes:
+
+      fake(:foo, bar: "value")
+
+  Equivalent to:
+
+      foo = fake(:foo)
+      stub(foo).bar(any_args) { "value" }
+
+  For your convenience, Bogus also defines the following macro:
+
+      fake(:foo, bar: "value")
+
+  Which is equivalent to:
+
+      let(:foo) [ fake(:foo, bar: "value")]
 
   Background:
     Given a file named "foo.rb" with:
