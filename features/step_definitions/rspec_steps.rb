@@ -6,12 +6,7 @@ Given /^a spec file named "([^"]*)" with:$/ do |file_name, string|
     Given a file named "#{file_name}" with:
     """ruby
     require 'bogus/rspec'
-
     require_relative 'foo'
-
-    RSpec.configure do |config|
-      config.mock_with Bogus
-    end
 
     #{string}
     """

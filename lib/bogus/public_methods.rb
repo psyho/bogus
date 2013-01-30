@@ -42,15 +42,6 @@ module Bogus
       clear_expectations
     end
 
-    def setup_mocks_for_rspec
-    end
-
-    def verify_mocks_for_rspec
-    end
-
-    def teardown_mocks_for_rspec
-    end
-
     def ensure_all_expectations_satisfied!
       doubles = inject.double_tracker.doubles
       inject.ensures_all_interactions_satisfied.ensure_satisfied!(doubles)

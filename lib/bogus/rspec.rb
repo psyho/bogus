@@ -4,7 +4,10 @@ RSpec.configure do |config|
   config.extend Bogus::RSpecExtensions
   config.include Bogus::MockingDSL
 
-  config.after(:each) do
-    Bogus.after_each_test
+  config.mock_with Bogus::RSpecAdapter
+  config.backtrace_clean_patterns << Regexp.new("lib/bogus")
+
+  config.after(:suite) do
+    Bogus.reset!
   end
 end
