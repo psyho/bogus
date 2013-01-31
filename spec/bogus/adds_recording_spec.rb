@@ -4,6 +4,9 @@ describe Bogus::AddsRecording do
   module SampleModule
     class Library
     end
+
+    class OtherClass
+    end
   end
 
   let(:converts_name_to_class) { stub }
@@ -15,19 +18,41 @@ describe Bogus::AddsRecording do
     stub(converts_name_to_class).convert { SampleModule::Library }
     stub(create_proxy_class).call { Object }
     stub(overwrites_classes).overwrite
-
-    adds_recording.add(:library)
   end
 
-  it "converts the fake name to class" do
-    converts_name_to_class.should have_received.convert(:library)
+  context "without class argument" do
+    before do
+      adds_recording.add(:library)
+    end
+
+    it "converts the fake name to class" do
+      converts_name_to_class.should have_received.convert(:library)
+    end
+
+    it "creates the proxy" do
+      create_proxy_class.should have_received.call(:library, SampleModule::Library)
+    end
+
+    it "swaps the classes" do
+      overwrites_classes.should have_received.overwrite(SampleModule::Library, Object)
+    end
   end
 
-  it "creates the proxy" do
-    create_proxy_class.should have_received.call(:library, SampleModule::Library)
-  end
+  context "with class argument" do
+    before do
+      adds_recording.add(:library, SampleModule::OtherClass)
+    end
 
-  it "swaps the classes" do
-    overwrites_classes.should have_received.overwrite(SampleModule::Library, Object)
+    it "uses the passed class" do
+      converts_name_to_class.should_not have_received.convert(:library)
+    end
+
+    it "creates the proxy" do
+      create_proxy_class.should have_received.call(:library, SampleModule::OtherClass)
+    end
+
+    it "swaps the classes" do
+      overwrites_classes.should have_received.overwrite(SampleModule::OtherClass, Object)
+    end
   end
 end

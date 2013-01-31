@@ -6,7 +6,7 @@ module Bogus
 
     def verify_contract(name)
       before do
-        Bogus.record_calls_for(name)
+        Bogus.record_calls_for(name, described_class)
       end
 
       RSpec.configure do |config|

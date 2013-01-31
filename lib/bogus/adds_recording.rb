@@ -3,8 +3,8 @@ class Bogus::AddsRecording
 
   takes :converts_name_to_class, :create_proxy_class, :overwrites_classes
 
-  def add(name)
-    klass = converts_name_to_class.convert(name)
+  def add(name, klass = nil)
+    klass ||= converts_name_to_class.convert(name)
     new_klass = create_proxy_class.call(name, klass)
     overwrites_classes.overwrite(klass, new_klass)
   end

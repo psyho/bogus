@@ -1,7 +1,7 @@
 module Bogus
   module PublicMethods
-    def record_calls_for(name)
-      inject.adds_recording.add(name)
+    def record_calls_for(name, klass = nil)
+      inject.adds_recording.add(name, klass)
     end
 
     def verify_contract!(fake_name)
