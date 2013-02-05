@@ -40,6 +40,7 @@ module Bogus
       ensure_all_expectations_satisfied!
       reset_stubbed_methods
       clear_expectations
+      reset_overwritten_classes
     end
 
     def ensure_all_expectations_satisfied!
@@ -53,6 +54,10 @@ module Bogus
 
     def reset_stubbed_methods
       inject.resets_stubbed_methods.reset_all_doubles
+    end
+
+    def reset_overwritten_classes
+      inject.resets_overwritten_classes.reset
     end
 
     def fakes(&block)

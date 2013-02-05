@@ -12,12 +12,15 @@ describe Bogus::AddsRecording do
   let(:converts_name_to_class) { stub }
   let(:create_proxy_class) { stub }
   let(:overwrites_classes) { stub }
-  let(:adds_recording) { Bogus::AddsRecording.new(converts_name_to_class, create_proxy_class, overwrites_classes) }
+  let(:overwritten_classes) { stub }
+
+  let(:adds_recording) { isolate(Bogus::AddsRecording) }
 
   before do
     stub(converts_name_to_class).convert { SampleModule::Library }
     stub(create_proxy_class).call { Object }
     stub(overwrites_classes).overwrite
+    stub(overwritten_classes).add
   end
 
   context "without class argument" do
@@ -34,7 +37,11 @@ describe Bogus::AddsRecording do
     end
 
     it "swaps the classes" do
-      overwrites_classes.should have_received.overwrite(SampleModule::Library, Object)
+      overwrites_classes.should have_received.overwrite('SampleModule::Library', Object)
+    end
+
+    it "records the overwritten class, so that it can be later restored" do
+      overwritten_classes.should have_received.add("SampleModule::Library", SampleModule::Library)
     end
   end
 
@@ -52,7 +59,11 @@ describe Bogus::AddsRecording do
     end
 
     it "swaps the classes" do
-      overwrites_classes.should have_received.overwrite(SampleModule::OtherClass, Object)
+      overwrites_classes.should have_received.overwrite('SampleModule::OtherClass', Object)
+    end
+
+    it "records the overwritten class, so that it can be later restored" do
+      overwritten_classes.should have_received.add("SampleModule::OtherClass", SampleModule::OtherClass)
     end
   end
 end
