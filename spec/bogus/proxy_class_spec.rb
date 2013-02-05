@@ -3,6 +3,8 @@ require 'spec_helper'
 describe Bogus::ProxyClass do
   module SampleModule
     class GrandLibrary
+      SAMPLE_CONSTANT = "foo"
+
       def checkout(book, user)
         :checkouted
       end
@@ -67,6 +69,10 @@ describe Bogus::ProxyClass do
     expect {
       interactions_repository.return_value(:fake_name, :find_by_isbn, "some isbn")
     }.to raise_error(StandardError)
+  end
+
+  it "allows accessing the constants defined on proxied class" do
+    proxy_class::SAMPLE_CONSTANT.should == "foo"
   end
 
   class FakeRepository
