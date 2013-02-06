@@ -126,4 +126,48 @@ To add contract test verification, the only thing you need to do is add the line
 
 to your tests for `Students` class.
 
+## Not only for people who use Dependency Injection
+
+The examples above all have one thing in common: they assume that your code has some way of injecting dependencies. We believe it should, and that's why we wrote [Dependor][dependor].
+
+However, we are aware that this practice is not very common in the Ruby community. That's why Bogus supports replacing classes with fakes.
+
+Let's assume, that you have production code like this:
+
+    class PushNotifier
+      def self.notify_async(message)
+        # ...
+      end
+    end
+
+    class CommentAdder
+      def self.add(parent, comment)
+        PushNotifier.notify_async("comment added")
+        # ...
+      end
+    end
+
+You can test it easily, with all the benefits of fakes, safe stubbing and contracts:
+
+    describe CommentAdder do
+      fake_class(PushNotifier)
+
+      it "should send a push notification" do
+        CommentAdder.add("the user", "the comment")
+
+        PushNotifier.should have_received.notify_async("comment added")
+      end
+    end
+
+    describe PushNotifier do
+      verify_contract(:push_notifier)
+
+      it "notifies about comments asynchronously" do
+        PushNotifier.notify_async("comment added")
+
+        # ...
+      end
+    end
+
 [contracts]: http://www.infoq.com/presentations/integration-tests-scam
+[dependor]: https://github.com/psyho/dependor
