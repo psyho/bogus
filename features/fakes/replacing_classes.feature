@@ -53,7 +53,7 @@ Feature: Replacing classes with fakes
       it "reads the books from the yaml file" do
         books = [{name: "Tom Sawyer", author: "Mark Twain"}, 
                  {name: "Moby Dick", author: "Herman Melville"}]
-        File.write(Library::FILE, books.to_yaml)
+        File.open(Library::FILE, "w") { |f| f.print books.to_yaml }
 
         Library.books.should == books
       end
@@ -97,7 +97,7 @@ Feature: Replacing classes with fakes
       it "reads the books from the yaml file" do
         books = [{name: "Tom Sawyer", author: "Mark Twain"}, 
                  {name: "Moby Dick", author: "Herman Melville"}]
-        File.write(Library::FILE, books.to_yaml)
+        File.open(Library::FILE, "w") { |f| f.print books.to_yaml }
 
         Library.books.should == books
       end
