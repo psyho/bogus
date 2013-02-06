@@ -1,24 +1,31 @@
 module Bogus
   class ContractNotFulfilled < StandardError
-    attr_reader :interactions
+    attr_reader :fake_name, :missed_interactions, :actual_interactions
 
-    def initialize(interactions)
-      @interactions = interactions
+    def initialize(fake_name, opts = {})
+      @fake_name = fake_name
+      @actual_interactions = opts.fetch(:actual)
+      @missed_interactions = opts.fetch(:missed)
       super(message)
     end
 
     def message
-      interactions.map { |fake_name, missed| missed_for_fake(fake_name, missed) }.join("\n")
+      str = <<-EOF
+      Contract not fullfilled for #{fake_name}!
+
+      Missed interactions:
+      #{interactions_str(missed_interactions)}
+
+      Actual interactions:
+      #{interactions_str(actual_interactions)}
+      EOF
+      str.gsub(' ' * 6, '')
     end
 
     private
 
-    def missed_for_fake(fake_name, missed)
-      "Contract not fullfilled for #{fake_name}:\n#{missed_interactions(missed)}"
-    end
-
-    def missed_interactions(missed)
-      missed.map { |i| "  - #{InteractionPresenter.new(i)}" }.join("\n")
+    def interactions_str(interactions)
+      interactions.map { |i| "  - #{InteractionPresenter.new(i)}" }.join("\n")
     end
   end
 end

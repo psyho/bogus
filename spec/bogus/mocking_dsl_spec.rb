@@ -230,4 +230,84 @@ describe Bogus::MockingDSL do
       expect{ the_fake.baz }.to raise_error("oh noes!")
     end
   end
+
+  describe "faking classes" do
+    class ThisClassWillBeReplaced
+      def self.hello(name)
+        "Hello, #{name}"
+      end
+    end
+    TheOriginalClass = ThisClassWillBeReplaced
+
+    after do
+      Bogus.reset_overwritten_classes
+    end
+
+    it "replaces the class for the duration of the test" do
+      Stubber.fake_class(ThisClassWillBeReplaced, hello: "replaced!")
+
+      ThisClassWillBeReplaced.hello("foo").should == "replaced!"
+      ThisClassWillBeReplaced.should_not equal(TheOriginalClass)
+    end
+
+    it "makes it possible to spy on classes" do
+      Stubber.fake_class(ThisClassWillBeReplaced)
+
+      ThisClassWillBeReplaced.hello("foo")
+
+      ThisClassWillBeReplaced.should Bogus.have_received.hello("foo")
+      ThisClassWillBeReplaced.should_not Bogus.have_received.hello("bar")
+    end
+
+    it "restores the class after the test has finished" do
+      Stubber.fake_class(ThisClassWillBeReplaced)
+      Bogus.reset_overwritten_classes
+
+      ThisClassWillBeReplaced.should equal(TheOriginalClass)
+    end
+  end
+
+  class SampleForContracts
+    def initialize(name)
+      @name = name
+    end
+
+    def greet(greeting = "Hello")
+      "#{greeting}, #{@name}!"
+    end
+  end
+
+  describe "contracts" do
+    let(:sample) { SampleForContracts.new("John") }
+
+    before do
+      Bogus.reset!
+
+      Stubber.fake(:sample_for_contracts, greet: "Welcome, John!")
+
+      Bogus.after_each_test
+
+      Bogus.record_calls_for(:sample_for_contracts)
+    end
+
+    it "passes when all the mocked interactions were executed" do
+      sample.greet("Welcome").should == "Welcome, John!"
+
+      Bogus.after_each_test
+
+      expect {
+        Bogus.verify_contract!(:sample_for_contracts)
+      }.not_to raise_error
+    end
+
+    it "fails when contracts are fullfilled" do
+      sample.greet("Hello").should == "Hello, John!"
+
+      Bogus.after_each_test
+
+      expect {
+        Bogus.verify_contract!(:sample_for_contracts)
+      }.to raise_error(Bogus::ContractNotFulfilled)
+    end
+  end
 end

@@ -68,6 +68,10 @@ module Bogus
       @doubled_interactions ||= inject(InteractionsRepository)
     end
 
+    def overwritten_classes
+      @overwritten_classes ||= inject(OverwrittenClasses)
+    end
+
     def create_proxy_class(fake_name, klass)
       inject(ProxyClass, fake_name: fake_name, klass: klass)
     end

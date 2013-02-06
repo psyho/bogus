@@ -7,6 +7,10 @@ class Bogus::VerifiesContracts
     missed = doubled_interactions.for_fake(fake_name).reject do |interaction|
       real_interactions.recorded?(fake_name, interaction)
     end
-    raise Bogus::ContractNotFulfilled.new(fake_name => missed) unless missed.empty?
+
+    unless missed.empty?
+      actual = real_interactions.for_fake(fake_name)
+      raise Bogus::ContractNotFulfilled.new(fake_name, missed: missed, actual: actual)
+    end
   end
 end

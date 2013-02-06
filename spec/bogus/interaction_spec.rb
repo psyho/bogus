@@ -9,6 +9,9 @@ describe Bogus::Interaction do
     [[:foo, [:bar], "value"], [:foo, [:bar]]],
     [[:foo, [:bar]], [:foo, [:bar]]],
     [[:foo, [Bogus::AnyArgs]], [:foo, [:bar]]],
+    [[:foo, [:bar]], [:foo, [Bogus::AnyArgs]]],
+    [[:foo, [Bogus::AnyArgs], "same value"], [:foo, [:bar], "same value"]],
+    [[:foo, [:bar], "same value"], [:foo, [Bogus::AnyArgs], "same value"]],
     [[:foo, [:bar, Bogus::Anything]], [:foo, [:bar, :baz]]],
     [[:foo, [:bar, :baz]], [:foo, [:bar, Bogus::Anything]]],
     [[:foo, [:bar, Bogus::Anything]], [:foo, [Bogus::Anything, :baz]]]
@@ -18,6 +21,10 @@ describe Bogus::Interaction do
     [[:foo, [:bar], "value"], [:foo, [:bar], "value2"]],
     [[:foo, [:bar], "value"], [:baz, [:bar], "value"]],
     [[:foo, [:baz], "value"], [:foo, [:bar], "value"]],
+    [[:foo, [Bogus::AnyArgs]], [:bar, [:bar]]],
+    [[:foo, [:bar]], [:bar, [Bogus::AnyArgs]]],
+    [[:foo, [Bogus::AnyArgs], "some value"], [:foo, [:bar], "other value"]],
+    [[:foo, [:bar], "some value"], [:foo, [Bogus::AnyArgs], "other value"]],
     [[:foo, [:bar]], [:foo, [:baz]]],
     [[:baz, [:bar]], [:foo, [:bar]]]
   ]
@@ -50,22 +57,22 @@ describe Bogus::Interaction do
   end
 
   it "differs exceptions from empty return values" do
-    first = Bogus::Interaction.new(:foo, :bar) { raise SomeError }
-    second = Bogus::Interaction.new(:foo, :bar) { nil }
+    first = Bogus::Interaction.new(:foo, [:bar]) { raise SomeError }
+    second = Bogus::Interaction.new(:foo, [:bar]) { nil }
 
     first.should_not == second
   end
 
   it "differs raised exceptions from ones just returned from the block" do
-    first = Bogus::Interaction.new(:foo, :bar) { raise SomeError }
-    second = Bogus::Interaction.new(:foo, :bar) { SomeError }
+    first = Bogus::Interaction.new(:foo, [:bar]) { raise SomeError }
+    second = Bogus::Interaction.new(:foo, [:bar]) { SomeError }
 
     first.should_not == second
   end
 
   it "considers exceptions of the same type as equal" do
-    first = Bogus::Interaction.new(:foo, :bar) { raise SomeError }
-    second = Bogus::Interaction.new(:foo, :bar) { raise SomeError }
+    first = Bogus::Interaction.new(:foo, [:bar]) { raise SomeError }
+    second = Bogus::Interaction.new(:foo, [:bar]) { raise SomeError }
 
     first.should == second
   end

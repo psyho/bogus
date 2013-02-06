@@ -4,6 +4,7 @@ require 'dependor/rspec'
 require 'rr'
 
 require_relative 'support/sample_fake'
+require_relative 'support/fake_creator_of_fakes'
 
 RSpec.configure do |config|
   config.color_enabled = true

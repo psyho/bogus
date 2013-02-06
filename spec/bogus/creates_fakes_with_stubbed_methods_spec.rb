@@ -14,14 +14,14 @@ module Bogus
     end
 
     context "given symbol as first parameter" do
-      let(:fake) { [:fake_object, :foo, {as: :class}, "something"] }
+      let(:fake) { [:foo, {as: :class}, "something"] }
 
       before do
         creates_anonymous_stubs.create(:foo, bar: 1, as: :class) { "something" }
       end
 
       it "creates fakes" do
-        creates_fakes.fakes.should == [fake]
+        creates_fakes.should have_created(:foo, {as: :class}, "something")
       end
 
       it "stubs all the given methods" do
@@ -44,14 +44,14 @@ module Bogus
     end
 
     context "given symbol as only parameter" do
-      let(:fake) { [:fake_object, :foo, {}, "something"] }
+      let(:fake) { [:foo, {}, "something"] }
 
       before do
         creates_anonymous_stubs.create(:foo) { "something" }
       end
 
       it "creates fakes" do
-        creates_fakes.fakes.should == [fake]
+        creates_fakes.should have_created(:foo, {}, "something")
       end
 
       it "stubs all the given methods" do
@@ -74,7 +74,7 @@ module Bogus
     end
 
     context "when the fake was globally configured" do
-      let(:fake) { [:fake_object, :foo, {as: :class}, "SomeClass"] }
+      let(:fake) { [:foo, {as: :class}, "SomeClass"] }
 
       before do
         stub(fake_configuration).include?(:foo) { true }
@@ -98,7 +98,7 @@ module Bogus
     end
 
     context "overriding the global configuration" do
-      let(:fake) { [:fake_object, :foo, {as: :instance}, "SomeOtherClass"] }
+      let(:fake) { [:foo, {as: :instance}, "SomeOtherClass"] }
 
       before do
         stub(fake_configuration).include?(:foo) { true }
@@ -110,21 +110,11 @@ module Bogus
       end
 
       it "overrides the class block and fake options" do
-        creates_fakes.fakes.should == [fake]
+        creates_fakes.should have_created(:foo, {as: :instance}, "SomeOtherClass")
       end
 
       it "overrides the stubbed methods" do
         multi_stubber.should have_received.stub_all(fake, a: "b", b: "d", c: "e")
-      end
-    end
-
-    class FakeCreatorOfFakes
-      def create(name, opts = {}, &block)
-        fakes << [:fake_object, name, opts, block && block.call]
-      end
-
-      def fakes
-        @fakes ||= []
       end
     end
   end

@@ -4,6 +4,12 @@ module Bogus
       let(name) { fake(name, opts, &block) }
     end
 
+    def fake_class(name, opts = {})
+      before do
+        fake_class(name, opts)
+      end
+    end
+
     def verify_contract(name)
       before do
         Bogus.record_calls_for(name, described_class)

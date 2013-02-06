@@ -36,6 +36,10 @@ module Bogus
       inject.creates_fakes_with_stubbed_methods.create(*args, &block)
     end
 
+    def fake_class(*args)
+      inject.fakes_classes.fake(*args)
+    end
+
     def after_each_test
       ensure_all_expectations_satisfied!
       reset_stubbed_methods
