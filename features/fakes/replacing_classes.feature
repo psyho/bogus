@@ -11,7 +11,7 @@ Feature: Replacing classes with fakes
   Which is a shortcut for:
 
       before do
-        fake_class(FooBar, with: foo_bar)
+        fake_class(FooBar, foo: "bar")
       end
   
   Background:

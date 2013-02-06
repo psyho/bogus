@@ -20,4 +20,5 @@ Initial version.
 - Inline method stubbing syntax
 - Removed dependency on RR
 - verifies_contracts records on described_class instead of class based on fake name
+- Replacing classes with fakes
 
