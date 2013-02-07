@@ -1,5 +1,7 @@
 module Bogus
   class HaveReceivedMatcher
+    include ProxiesMethodCalls
+
     extend Takes
     NO_SHADOW = "Given object is not a fake and nothing was ever stubbed or mocked on it!"
 
@@ -29,7 +31,11 @@ module Bogus
       %Q{Expected #{@subject.inspect} not to #{description}, but it did.}
     end
 
-    def method_missing(name, *args, &block)
+    def method_call
+      proxy(:set_method)
+    end
+
+    def set_method(name, *args, &block)
       @name = name
       @args = args
       self

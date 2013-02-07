@@ -95,6 +95,19 @@ describe Bogus::MockingDSL do
 
       object.should Stubber.have_received.foo("test")
     end
+
+    class ClassWithMatches
+      def matches?(something)
+      end
+    end
+
+    it "can be used with objects that have same methods as an RSpec expectation" do
+      fake = Bogus.fake_for(:class_with_matches)
+
+      fake.matches?("foo")
+
+      fake.should Bogus.have_received.matches?("foo")
+    end
   end
 
   class Mocker

@@ -29,7 +29,7 @@ module Bogus
     end
 
     def have_received(*args)
-      inject.have_received_matcher(*args)
+      inject.have_received_matcher(*args).method_call
     end
 
     def fake_for(*args, &block)
