@@ -108,6 +108,23 @@ describe Bogus::MockingDSL do
 
       fake.should Bogus.have_received.matches?("foo")
     end
+
+    class PassesSelfToCollaborator
+      def hello(example)
+        example.foo(self)
+      end
+    end
+
+    it "can be used with self references" do
+      Bogus.record_calls_for(:passes_self_to_collaborator)
+
+      fake = Bogus.fake_for(:example_foo)
+      object = PassesSelfToCollaborator.new
+
+      object.hello(fake)
+
+      fake.should Bogus.have_received.foo(object)
+    end
   end
 
   class Mocker

@@ -11,6 +11,11 @@ class Bogus::RecordingProxy < BasicObject
     ::Kernel.raise
   end
 
+  # apparently even BasicObject has an equality operator
+  def ==(other)
+    method_missing(:==, other)
+  end
+
   def respond_to?(name)
     @instance.respond_to?(name)
   end
