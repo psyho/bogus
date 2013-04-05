@@ -19,6 +19,7 @@ module Bogus
         define_singleton_method(name, method)
       end
       @__overwritten_methods__ = {}
+      @__shadow__ = nil
     end
   end
 end

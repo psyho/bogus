@@ -9,9 +9,7 @@ module Bogus
     end
 
     def teardown_mocks_for_rspec
-      Bogus.reset_stubbed_methods
-      Bogus.clear_expectations
-      Bogus.reset_overwritten_classes
+      Bogus.clear
     end
   end
 end

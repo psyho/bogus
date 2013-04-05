@@ -9,6 +9,16 @@ module Bogus
         double.stub.foo("a", "b") { "the result" }
       end
 
+      it "does not track existence of the double if verify fails" do
+        stub(verifies_stub_definition).verify!(object, :foo, ["a", "b"]) { raise NameError }
+
+        expect {
+          double.stub.foo("a", "b") { "the result" }
+        }.to raise_error
+
+        double_tracker.should_not have_received.track(object)
+      end
+
       it "verifies stub definition" do
         mock(verifies_stub_definition).verify!(object, :foo, ["a", "b"])
 

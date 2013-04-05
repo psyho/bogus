@@ -1,7 +1,7 @@
 require_relative '../spec_helper'
 
 describe Bogus::Configuration do
-  after { Bogus.reset! }
+  before { Bogus.reset! }
 
   it "stores the modules to be searched" do
     Bogus.configure do |c|

@@ -11,8 +11,8 @@ module Bogus
     end
 
     def stubs(name, *args, &return_value)
-      double_tracker.track(object)
       verifies_stub_definition.verify!(object, name, args)
+      double_tracker.track(object)
       records_double_interactions.record(object, name, args, &return_value)
       overwrites_methods.overwrite(object, name)
       object.__shadow__.stubs(name, *args, &return_value)

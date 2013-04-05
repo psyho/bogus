@@ -18,7 +18,7 @@ describe Bogus::MockingDSL do
   end
 
   before do
-    Bogus.send(:clear_expectations)
+    Bogus.reset!
   end
 
   describe "#stub" do
@@ -163,6 +163,28 @@ describe Bogus::MockingDSL do
           Bogus.after_each_test
         }.not_to raise_error(Bogus::NotAllExpectationsSatisfied)
       end
+    end
+
+    class ExampleForMockingOnConstants
+      def self.bar(foo)
+      end
+
+      def self.baz
+      end
+    end
+
+    it "clears expected interactions from constants" do
+      Mocker.mock(ExampleForMockingOnConstants).bar("foo")
+
+      expect {
+        Bogus.after_each_test
+      }.to raise_error(Bogus::NotAllExpectationsSatisfied)
+
+      Mocker.stub(ExampleForMockingOnConstants).baz
+
+      expect {
+        Bogus.after_each_test
+      }.not_to raise_error(Bogus::NotAllExpectationsSatisfied)
     end
 
     context "with fakes" do

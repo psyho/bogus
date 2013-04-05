@@ -17,6 +17,7 @@ module Bogus
     end
 
     def reset!
+      clear
       @injector = Bogus::Injector.new
     end
 
@@ -42,6 +43,11 @@ module Bogus
 
     def after_each_test
       ensure_all_expectations_satisfied!
+    ensure
+      clear
+    end
+
+    def clear
       reset_stubbed_methods
       clear_expectations
       reset_overwritten_classes
