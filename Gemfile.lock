@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    bogus (0.0.3.rc.1)
+    bogus (0.0.3.rc.2)
       dependor (>= 0.0.4)
 
 GEM
