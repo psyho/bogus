@@ -10,8 +10,7 @@ Feature: Faking duck types
 
   To make things easier for you, Bogus will automatically make a duck type for you, every time you return multiple classes from fake:
 
-      fake(:logger) { [DatabaseLogger, NetworkLogger, 
-        DevNullLogger]}
+      fake(:logger) { [DatabaseLogger, NetworkLogger, DevNullLogger] }
 
   It is of course also possible to do the same thing in the global fake configuration:
 
@@ -114,7 +113,11 @@ Feature: Faking duck types
     Then spec file with following content should pass:
     """ruby
     Bogus.fakes do
-    fake :logger, class: proc{ [DatabaseLogger, NetworkLogger, DevNullLogger] }
+      logger_implementations = proc{ [DatabaseLogger, 
+                                      NetworkLogger, 
+                                      DevNullLogger] }
+
+      fake :logger, class: logger_implementations
     end
 
     describe "fake with multiple classes" do
