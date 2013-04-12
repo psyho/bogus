@@ -57,9 +57,7 @@ describe Bogus::CopiesClasses do
     end
   end
 
-  let(:method_stringifier) { isolate(Bogus::MethodStringifier) }
-  let(:makes_substitute_methods) { isolate(Bogus::MakesSubstituteMethods) }
-  let(:copies_classes) { isolate(Bogus::CopiesClasses) }
+  let(:copies_classes) { Bogus.inject.copies_classes }
   let(:fake_class) { copies_classes.copy(klass) }
   let(:fake) { fake_class.new }
 

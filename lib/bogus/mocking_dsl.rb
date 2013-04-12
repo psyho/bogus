@@ -20,6 +20,10 @@ module Bogus
       Bogus.create_mock(*args)
     end
 
+    def make_duck(*args)
+      Bogus.make_duck(*args)
+    end
+
     def any_args
       Bogus::AnyArgs
     end

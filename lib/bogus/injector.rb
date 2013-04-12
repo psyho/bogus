@@ -44,6 +44,14 @@ module Bogus
       create_double(object).mock
     end
 
+    def instance_methods(klass)
+      inject(InstanceMethods, klass: klass)
+    end
+
+    def class_methods(klass)
+      inject(ClassMethods, klass: klass)
+    end
+
     def have_received_matcher
       inject(HaveReceivedMatcher)
     end

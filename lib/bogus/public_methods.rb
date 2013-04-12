@@ -29,6 +29,10 @@ module Bogus
       inject.create_mock(*args)
     end
 
+    def make_duck(*args)
+      inject.makes_ducks.make(*args)
+    end
+
     def have_received(*args)
       inject.have_received_matcher(*args).method_call
     end
