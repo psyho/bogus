@@ -6,6 +6,7 @@
   - global_fake_configuration.feature
   - anonymous_doubles.feature
   - replacing_classes.feature
+  - duck_types.feature
 - safe_stubbing (Safe Stubbing):
   - safe_mocking.feature
   - safe_stubbing.feature

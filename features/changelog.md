@@ -21,4 +21,5 @@ Initial version.
 - Removed dependency on RR
 - verifies_contracts records on described_class instead of class based on fake name
 - Replacing classes with fakes
+- Extracting common interface out of multpile classes to create duck types
 
