@@ -1,11 +1,12 @@
 require_relative '../spec_helper'
 
 describe Bogus::CreatesFakes do
-  let(:fake_class) { stub() }
-  let(:fake_instance) { stub() }
-  let(:converts_name_to_class) { stub() }
-  let(:copies_classes) { stub() }
-  let(:creates_fakes) { Bogus::CreatesFakes.new(copies_classes, converts_name_to_class) }
+  let(:fake_class) { stub }
+  let(:fake_instance) { stub }
+  let(:converts_name_to_class) { stub }
+  let(:copies_classes) { stub }
+  let(:makes_ducks) { stub }
+  let(:creates_fakes) { isolate(Bogus::CreatesFakes) }
 
   module Foo
   end
@@ -54,6 +55,20 @@ describe Bogus::CreatesFakes do
       creates_fakes.create(:foo) { Bar}
 
       copies_classes.should_not have_received.convert
+    end
+  end
+
+  module FooBarDuck
+  end
+
+  context "with multiple classes" do
+    it "creates a duck type out of those classes and fakes it" do
+      stub(makes_ducks).make(Foo, Bar) { FooBarDuck }
+      stub(copies_classes).copy(FooBarDuck) { :the_fake }
+
+      fake = creates_fakes.create(:role, as: :class) { [Foo, Bar] }
+
+      fake.should == :the_fake
     end
   end
 end

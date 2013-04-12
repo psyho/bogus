@@ -4,11 +4,12 @@ module Bogus
 
     extend Takes
 
-    takes :copies_classes, :converts_name_to_class
+    takes :copies_classes, :converts_name_to_class, :makes_ducks
 
     def create(name, opts = {}, &block)
       klass = self.klass(name, &block)
-      klass_copy = copies_classes.copy(klass)
+      duck = make_duck(klass)
+      klass_copy = copies_classes.copy(duck)
 
       mode = opts.fetch(:as, :instance)
 
@@ -27,6 +28,11 @@ module Bogus
     def klass(name, &block)
       return block.call if block_given?
       converts_name_to_class.convert(name)
+    end
+
+    def make_duck(klass)
+      return klass unless klass.is_a?(Array)
+      makes_ducks.make(*klass)
     end
   end
 end
