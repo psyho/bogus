@@ -2,7 +2,7 @@ Feature: Anonymous test doubles
 
   Anonymous test doubles can be useful as a stepping stone towards actual fakes and when migrating from another testing library.
 
-  In contrast with other testing libraries, Bogus makes it's fakes respond to all methods by default and makes those calls chainable.  This way you can spy on methods without stubbing them first.
+  In contrast with other testing libraries, Bogus makes its fakes respond to all methods by default and makes those calls chainable.  This way you can spy on methods without stubbing them first.
 
   It is not advisable to use those for anything else than an intermediate step.  Fakes that mimic an actual class have many more benefits.
 

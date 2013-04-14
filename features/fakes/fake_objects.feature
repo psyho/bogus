@@ -23,7 +23,7 @@ Feature: Faking existing classes
 
   Which is equivalent to:
 
-      let(:foo) [ fake(:foo, bar: "value")]
+      let(:foo) { fake(:foo, bar: "value") }
 
   Background:
     Given a file named "foo.rb" with:

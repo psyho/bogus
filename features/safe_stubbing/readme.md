@@ -5,7 +5,7 @@ When you stub/mock a method in Bogus, it will automatically ensure that:
 1. The method actually exists
 2. It can take the number of arguments you passed
 
-Those of you familiar with RR stubbing syntax, will fill right at home with Bogus:
+Those of you familiar with RR stubbing syntax, will feel right at home with Bogus:
 
     stub(object).method_name(*arguments) { return_value }
 

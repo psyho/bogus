@@ -16,7 +16,7 @@ It is not uncommon to encounter code like this in isolated unit tests:
 _NOTE:  In the above example we use mocha syntax, but this patten is common
 to all the major mocking frameworks_
 
-The test above not only ensures that `ReportCard` can calculate the average score for all the students, but it also specifies how this class will interact with it's collaborators and what those collaborators will be.
+The test above not only ensures that `ReportCard` can calculate the average score for all the students, but it also specifies how this class will interact with its collaborators and what those collaborators will be.
 
 This style of testing enables us to practice so called *programming by wishful thinking*.  We can implement `ReportCard` and get it to work before it's collaborators are implemented.  This way we can design our system top-down and only implement what we need. This is a Very Good Thing(tm).
 

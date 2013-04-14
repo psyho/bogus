@@ -1,6 +1,6 @@
 Feature: Global fake configuration
 
-  In an ideal world, all our fakes would follow the tell-don't-ask principle, which would eliminate the need for stubbing, and would be instances of classes that match the fake name, which would eliminate the need for configuration of things like (`as: :class` / `as: :instance`).
+  In an ideal world, all the fakes would follow the tell-don't-ask principle, which would eliminate the need for stubbing, and would be instances of classes that match the fake name, which would eliminate the need for configuration of things like (`as: :class` / `as: :instance`).
 
   However, in reality we often need to add this kind of configuration to our fake definitions, and the more collaborators a fake has, the more duplication we introduce this way.
 
