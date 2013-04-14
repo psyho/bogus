@@ -15,14 +15,6 @@ module Bogus
       configuration.search_modules
     end
 
-    def rr_proxy
-      Bogus::RRProxy
-    end
-
-    def rr_shadow(object)
-      inject(Bogus::RRShadow, object: object)
-    end
-
     def fake_registry
       @fake_registry ||= inject(FakeRegistry)
     end
