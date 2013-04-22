@@ -14,7 +14,7 @@ Initial version.
 - Fixed a bug in copying ActiveRecord classes.
 - (internal) Replaced autoloads with require.
 
-## 0.0.3 (not released yet)
+## 0.0.3
 
 - Global fake configuration
 - Inline method stubbing syntax
