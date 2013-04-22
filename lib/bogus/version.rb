@@ -1,3 +1,3 @@
 module Bogus
-  VERSION = "0.0.3.rc.2"
+  VERSION = "0.0.3"
 end
