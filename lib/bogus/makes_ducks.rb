@@ -4,8 +4,8 @@ module Bogus
 
     takes :class_methods, :instance_methods, :makes_subtypes
 
-    def make(klass, *classes)
-      duck = makes_subtypes.make(klass)
+    def make(first_class, *classes)
+      duck = makes_subtypes.make(first_class)
       classes.each do |klass|
         remove_methods(class_methods.call(duck),
                        class_methods.call(klass))
