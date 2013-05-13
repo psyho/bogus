@@ -1,4 +1,6 @@
 require 'dependor'
+require 'erb'
+require 'set'
 
 require_relative 'bogus/takes'
 require_relative 'bogus/record_interactions'
