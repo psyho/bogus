@@ -15,16 +15,13 @@ module Bogus
     end
 
     def argument_to_string(name, type)
-      if type == :req
-        name
-      elsif type == :rest
-        "*#{name}"
-      elsif type == :block
-        "&#{name}"
-      elsif type == :opt
-        "#{name} = {}"
-      else
-        raise "unknown argument type: #{type}"
+      case type
+      when :block then "&#{name}"
+      when :key   then "#{name}: #{name}"
+      when :opt   then "#{name} = {}"
+      when :req   then name
+      when :rest  then "*#{name}"
+      else raise "unknown argument type: #{type}"
       end
     end
 

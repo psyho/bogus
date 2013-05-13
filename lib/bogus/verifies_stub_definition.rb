@@ -32,7 +32,7 @@ class Bogus::VerifiesStubDefinition
 
   def over_number_of_allowed_arguments?(method, args_count)
     return false if method.parameters.find{|type, name| type == :rest}
-    number_of_arguments = method.parameters.count{|type, name| [:opt, :req].include?(type) }
+    number_of_arguments = method.parameters.count{|type, name| [:key, :opt, :req].include?(type) }
 
     args_count > number_of_arguments
   end
