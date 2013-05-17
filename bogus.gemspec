@@ -33,4 +33,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'libnotify'
   s.add_development_dependency 'rr'
   s.add_development_dependency 'relish'
+  s.add_development_dependency 'coveralls'
 end

@@ -3,8 +3,12 @@ require 'dependor/rspec'
 
 require 'rr'
 
+require 'coveralls'
+
 require_relative 'support/sample_fake'
 require_relative 'support/fake_creator_of_fakes'
+
+Coveralls.wear!
 
 RSpec.configure do |config|
   config.color_enabled = true
