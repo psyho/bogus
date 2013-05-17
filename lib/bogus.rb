@@ -8,9 +8,11 @@ require_relative 'bogus/proxies_method_calls'
 require_relative 'bogus/rspec_extensions'
 require_relative 'bogus/rspec_adapter'
 
-all_files = Dir[File.expand_path('../bogus/**/*.rb', __FILE__)]
-all_files = all_files.reject { |f| f.include?('bogus/rspec') }
-all_files.sort.each { |f| require f }
+Dir[File.expand_path('../bogus/**/*.rb', __FILE__)].sort.each do |path|
+  next if path.include? 'bogus/minitest'
+  next if path.include? 'bogus/rspec'
+  require path
+end
 
 module Bogus
   extend PublicMethods
