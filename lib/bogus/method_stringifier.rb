@@ -17,7 +17,7 @@ module Bogus
     def argument_to_string(name, type)
       case type
       when :block then "&#{name}"
-      when :key   then "#{name}: #{name}"
+      when :key   then "#{name}: Bogus::Anything"
       when :opt   then "#{name} = {}"
       when :req   then name
       when :rest  then "*#{name}"
