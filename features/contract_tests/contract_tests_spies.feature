@@ -11,7 +11,7 @@ Feature: Contract tests with spies
     end
 
     class Student
-      def read(book, library = Libarary.new)
+      def read(book, library = Library.new)
         library.checkout(book)
         # ...
       end
