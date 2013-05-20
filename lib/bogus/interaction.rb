@@ -18,6 +18,10 @@ module Bogus
       args == [AnyArgs]
     end
 
+    def args
+      super.reject { |arg| arg.eql?(Bogus::DefaultValue) }
+    end
+
     private
 
     def same_args?(other)

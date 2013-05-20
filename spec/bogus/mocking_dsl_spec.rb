@@ -8,6 +8,9 @@ describe Bogus::MockingDSL do
     def hello(greeting, name)
     end
 
+    def with_optional_args(x, y = 1)
+    end
+
     def self.bar(baz)
       "Hello #{baz}"
     end
@@ -85,6 +88,12 @@ describe Bogus::MockingDSL do
           the_fake.should Stubber.have_received.foo("test", "test 2")
         }.to raise_error(ArgumentError)
       end
+
+      it "allows spying on methods with optional parameters" do
+        the_fake.with_optional_args(123)
+
+        the_fake.should Stubber.have_received.with_optional_args(123)
+      end
     end
 
     it "can be used with plain old Ruby objects" do
@@ -94,6 +103,15 @@ describe Bogus::MockingDSL do
       object.foo('test')
 
       object.should Stubber.have_received.foo("test")
+    end
+
+    it "allows spying on methods with optional parameters" do
+      object = ExampleFoo.new
+      Stubber.stub(object).with_optional_args(123) { 999 }
+
+      object.with_optional_args(123).should == 999
+
+      object.should Stubber.have_received.with_optional_args(123)
     end
 
     class ClassWithMatches
