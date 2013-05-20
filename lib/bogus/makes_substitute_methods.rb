@@ -5,11 +5,10 @@ module Bogus
     takes :method_stringifier
 
     def stringify(method)
-      args = method_stringifier.arguments_as_string(method.parameters)
-      args_no_defaults = args.gsub(' = {}', '')
+      args = method_stringifier.argument_values(method.parameters)
 
       method_stringifier.stringify(method,
-        "__record__(:#{method.name}, #{args_no_defaults})")
+        "__record__(:#{method.name}, #{args})")
     end
   end
 end

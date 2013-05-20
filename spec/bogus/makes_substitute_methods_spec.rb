@@ -15,7 +15,7 @@ module Bogus
       copy = makes_substitute_methods.stringify(SampleForCopyingMethods.method(:foo))
 
       copy.should == <<-EOF
-      def foo(name, value = {}, *rest, &block)
+      def foo(name, value = Bogus::DefaultValue, *rest, &block)
         __record__(:foo, name, value, *rest, &block)
       end
       EOF

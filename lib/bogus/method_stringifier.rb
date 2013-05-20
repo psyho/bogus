@@ -14,11 +14,15 @@ module Bogus
       arguments.map{|type, name| argument_to_string(name, type) }.compact.join(', ')
     end
 
+    def argument_values(arguments)
+      arguments_as_string(arguments).gsub(" = Bogus::DefaultValue", '')
+    end
+
     def argument_to_string(name, type)
       case type
       when :block then "&#{name}"
       when :key   then "#{name}: #{name}"
-      when :opt   then "#{name} = {}"
+      when :opt   then "#{name} = Bogus::DefaultValue"
       when :req   then name
       when :rest  then "*#{name}"
       else raise "unknown argument type: #{type}"
