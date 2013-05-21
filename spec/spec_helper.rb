@@ -1,9 +1,9 @@
+require 'coveralls'
+
 require 'bogus'
 require 'dependor/rspec'
 
 require 'rr'
-
-require 'coveralls'
 
 require_relative 'support/sample_fake'
 require_relative 'support/fake_creator_of_fakes'
