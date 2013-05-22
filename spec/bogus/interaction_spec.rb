@@ -76,4 +76,19 @@ describe Bogus::Interaction do
 
     first.should == second
   end
+
+  it 'properly compares arguments with custom #== implementations' do
+    class Dev
+      attr_reader :login
+      def initialize(login); @login = login; end
+      def ==(other); login == other.login;   end
+    end
+    psyho, wrozka, yundt = Dev.new(:psycho), Dev.new(:wrozka), Dev.new(:yundt)
+    psyho_int  = Bogus::Interaction.new :with, [psyho]
+    wrozka_int = Bogus::Interaction.new :with, [wrozka]
+    yundt_int  = Bogus::Interaction.new :with, [yundt]
+
+    psyho_int.should      == psyho_int
+    wrozka_int.should_not == yundt_int
+  end
 end
