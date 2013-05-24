@@ -16,6 +16,7 @@ module Bogus
 
     def argument_values(arguments)
       arguments_as_string(arguments).gsub(" = Bogus::DefaultValue", '')
+        .gsub(/([a-z_][[:alnum:]_]*): Bogus::DefaultValue/, '\1: \1')
     end
 
     def argument_to_string(name, type)
