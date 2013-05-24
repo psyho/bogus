@@ -43,9 +43,13 @@ module Bogus
 
     def remove_default_values_from arg
       case
-      when arg.eql?(DefaultValue) then nil
-      when arg.is_a?(Hash) then arg.delete_if { |_, val| val.eql? DefaultValue }
-      else arg
+      when arg.eql?(DefaultValue)
+        nil
+      when arg.is_a?(Hash)
+        arg = arg.delete_if { |_, val| val.eql? DefaultValue }
+        arg.empty? ? nil : arg
+      else
+        arg
       end
     end
   end
