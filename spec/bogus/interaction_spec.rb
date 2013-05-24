@@ -78,4 +78,26 @@ describe Bogus::Interaction do
 
     first.should == second
   end
+
+  context 'when comparing arguments with custom #== implementations' do
+    Dev = Struct.new(:login) do
+      def ==(other)
+        login == other.login
+      end
+    end
+
+    it "considers two interactions == when the arguments are ==" do
+      first = Bogus::Interaction.new :with, [Dev.new(:psyho)]
+      second = Bogus::Interaction.new :with, [Dev.new(:psyho)]
+
+      first.should == second
+    end
+
+    it "considers two interactions != when the arguments are !=" do
+      first = Bogus::Interaction.new :with, [Dev.new(:wrozka)]
+      second = Bogus::Interaction.new :with, [Dev.new(:yundt)]
+
+      first.should_not == second
+    end
+  end
 end

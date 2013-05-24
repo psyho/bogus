@@ -15,7 +15,7 @@ module Bogus
     end
 
     def any_args?
-      args == [AnyArgs]
+      [AnyArgs] == args
     end
 
     def args
