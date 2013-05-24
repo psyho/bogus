@@ -84,15 +84,15 @@ describe Bogus::Interaction do
       end
     end
 
-    it 'considers two interactions == when the arguments are ==' do
-      first  = Bogus::Interaction.new :with, [Dev.new(:psyho)]
+    it "considers two interactions == when the arguments are ==" do
+      first = Bogus::Interaction.new :with, [Dev.new(:psyho)]
       second = Bogus::Interaction.new :with, [Dev.new(:psyho)]
 
       first.should == second
     end
 
-    it 'considers two interactions != when the arguments are !=' do
-      first  = Bogus::Interaction.new :with, [Dev.new(:wrozka)]
+    it "considers two interactions != when the arguments are !=" do
+      first = Bogus::Interaction.new :with, [Dev.new(:wrozka)]
       second = Bogus::Interaction.new :with, [Dev.new(:yundt)]
 
       first.should_not == second
