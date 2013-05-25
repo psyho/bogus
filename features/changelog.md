@@ -23,3 +23,7 @@ Initial version.
 - Replacing classes with fakes
 - Extracting common interface out of multpile classes to create duck types
 
+## 0.0.4
+
+- Support mocking methods with optional parameters
+
