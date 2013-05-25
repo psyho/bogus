@@ -177,6 +177,14 @@ describe Bogus::Shadow do
       shadow.unsatisfied_interactions.should  =~ [Bogus::Interaction.new(:foo, ["a", "b"])]
     end
 
+    it "removes the staisfied expectations from unsatisfied interactions" do
+      shadow.mocks(:with_optional_args, 'a')
+      shadow.run(:with_optional_args, 'a', Bogus::DefaultValue)
+      shadow.run(:foo, "a", "b")
+
+      shadow.unsatisfied_interactions.should be_empty
+    end
+
     include_examples "spying on shadows"
   end
 end

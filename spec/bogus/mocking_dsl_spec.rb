@@ -154,12 +154,28 @@ describe Bogus::MockingDSL do
     let(:fake) { Bogus.fake_for(:example_foo) { ExampleFoo } }
 
     shared_examples_for "mocking dsl" do
-      before do
-        Mocker.mock(baz).foo("bar") { :return_value }
+      it "allows mocking on methods with optional parameters" do
+        Mocker.mock(baz).with_optional_args(1) { :return }
+
+        baz.with_optional_args(1).should == :return
+
+        expect { Bogus.after_each_test }.not_to raise_error
+      end
+
+      it "allows mocking with anything" do
+        Mocker.mock(baz).hello(1, Bogus::Anything) { :return }
+
+        baz.hello(1, 2).should == :return
+
+        expect { Bogus.after_each_test }.not_to raise_error
       end
 
       it "allows mocking the existing methods" do
+        Mocker.mock(baz).foo("bar") { :return_value }
+
         baz.foo("bar").should == :return_value
+
+        expect { Bogus.after_each_test }.not_to raise_error
       end
 
       it "verifies that the methods mocked exist" do
@@ -169,12 +185,16 @@ describe Bogus::MockingDSL do
       end
 
       it "raises errors when mocks were not called" do
+        Mocker.mock(baz).foo("bar")
+
         expect {
           Bogus.after_each_test
         }.to raise_error(Bogus::NotAllExpectationsSatisfied)
       end
 
       it "clears the data between tests" do
+        Mocker.mock(baz).foo("bar")
+
         Bogus.send(:clear_expectations)
 
         expect {

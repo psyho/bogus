@@ -33,7 +33,7 @@ module Bogus
     end
 
     def unsatisfied_interactions
-      @required.to_a - @calls
+      @required.reject { |i| @calls.include?(i) }
     end
 
     def self.has_shadow?(object)
