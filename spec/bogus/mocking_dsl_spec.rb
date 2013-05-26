@@ -1,5 +1,7 @@
 require 'spec_helper'
 
+require_relative './mocking_dsl_kwargs' unless RUBY_VERSION < '2.0'
+
 describe Bogus::MockingDSL do
   class ExampleFoo
     def foo(bar)
