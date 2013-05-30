@@ -10,19 +10,26 @@ module Bogus
     end
 
     def arguments_as_string(arguments)
-      arguments = fill_in_missing_names(arguments)
-      arguments.map{|type, name| argument_to_string(name, type) }.compact.join(', ')
+      stringify_arguments(arguments, DefaultValue)
     end
 
     def argument_values(arguments)
-      arguments_as_string(arguments).gsub(" = Bogus::DefaultValue", '')
+      stringify_arguments(arguments)
     end
 
-    def argument_to_string(name, type)
+    private
+
+    def stringify_arguments(arguments, default = nil)
+      fill_in_missing_names(arguments).map do |type, name|
+        argument_to_string(name, type, default)
+      end.join(', ')
+    end
+
+    def argument_to_string(name, type, default)
       case type
       when :block then "&#{name}"
-      when :key   then "#{name}: #{name}"
-      when :opt   then "#{name} = Bogus::DefaultValue"
+      when :key   then default ? "#{name}: #{default}" : "#{name}: #{name}"
+      when :opt   then default ? "#{name} = #{default}" : name
       when :req   then name
       when :rest  then "*#{name}"
       else raise "unknown argument type: #{type}"

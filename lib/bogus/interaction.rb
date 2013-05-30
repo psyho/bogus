@@ -19,7 +19,7 @@ module Bogus
     end
 
     def args
-      super.reject { |arg| arg.eql?(Bogus::DefaultValue) }
+      super.map { |arg| remove_default_values_from arg }.compact
     end
 
     private
@@ -39,6 +39,18 @@ module Bogus
       self.return_value = block.call
     rescue => e
       self.error = e.class
+    end
+
+    def remove_default_values_from arg
+      case
+      when arg.eql?(DefaultValue)
+        nil
+      when arg.is_a?(Hash)
+        arg = arg.delete_if { |_, val| val.eql? DefaultValue }
+        arg.empty? ? nil : arg
+      else
+        arg
+      end
     end
   end
 end
