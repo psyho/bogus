@@ -16,7 +16,7 @@ describe Bogus::MockingDSL do
     end
   end
 
-  require_relative "./mocking_dsl_kwargs" unless RUBY_VERSION < "2.0"
+  require_relative "./example_foo_kwarg_methods" unless RUBY_VERSION < "2.0"
 
   class Stubber
     extend Bogus::MockingDSL
