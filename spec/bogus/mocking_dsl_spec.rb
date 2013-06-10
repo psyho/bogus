@@ -300,6 +300,16 @@ describe Bogus::MockingDSL do
       greeter.greet("Jake")
 
       greeter.should have_received.greet("Jake")
+      greeter.should_not have_received.greet("Bob")
+    end
+
+    it "verifies mock expectations set on anonymous fakes" do
+      greeter = fake
+      mock(greeter).greet("Jake") { "Hello Jake" }
+
+      expect {
+        Bogus.after_each_test
+      }.to raise_error(Bogus::NotAllExpectationsSatisfied)
     end
 
     it "allows chaining interactions" do
