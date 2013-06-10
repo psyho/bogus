@@ -1,6 +1,11 @@
 module Bogus
   class RespondsToEverything
+    include FakeObject
     include RecordInteractions
+
+    def initialize
+      __shadow__
+    end
 
     def respond_to?(method)
       true

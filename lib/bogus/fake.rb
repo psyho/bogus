@@ -10,6 +10,7 @@ module Bogus
     extend FakeObject
 
     def initialize(*args)
+      __shadow__
     end
 
     def to_s
