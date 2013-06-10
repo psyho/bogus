@@ -15,7 +15,7 @@ module Bogus
 
       case mode
       when :instance
-        return klass_copy.new
+        return klass_copy.__create__
       when :class
         return klass_copy
       else

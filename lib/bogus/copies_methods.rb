@@ -4,11 +4,13 @@ module Bogus
 
     takes :makes_substitute_methods,
       :instance_methods,
-      :class_methods
+      :class_methods,
+      :copies_constructor
 
     def copy(from, into)
       copy_methods(from, into, instance_methods)
       copy_methods(from, into, class_methods)
+      copies_constructor.copy(from, into)
     end
 
     private

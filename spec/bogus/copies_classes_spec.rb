@@ -77,11 +77,22 @@ describe Bogus::CopiesClasses do
       Class.new do
         def initialize(hello)
         end
+
+        def foo
+        end
       end
     }
 
-    it "adds a constructor that allows passing any number of arguments" do
-      fake_class.new('hello', 'w', 'o', 'r', 'l', 'd') { test }
+    it "adds a no-arg constructor" do
+      instance = fake_class.__create__
+
+      instance.should respond_to(:foo)
+    end
+
+    it "adds a constructor that allows passing the correct number of arguments" do
+      instance = fake_class.new('hello')
+
+      instance.should respond_to(:foo)
     end
   end
 

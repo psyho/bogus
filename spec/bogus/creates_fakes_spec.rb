@@ -14,7 +14,7 @@ describe Bogus::CreatesFakes do
   module Bar
   end
 
-  before { stub(fake_class).new{fake_instance} }
+  before { stub(fake_class).__create__{fake_instance} }
 
   context "without block" do
     before do

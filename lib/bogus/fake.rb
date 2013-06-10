@@ -28,6 +28,13 @@ module Bogus
     class << self
       attr_accessor :__copied_class__
 
+      alias :__create__ :new
+
+      def new(*args, &block)
+        __record__(:new, *args, &block)
+        __create__
+      end
+
       def name
         __copied_class__.name
       end
