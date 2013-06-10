@@ -12,6 +12,7 @@
   - safe_stubbing.feature
   - spies.feature
   - argument_matchers.feature
+  - active_record.feature
 - contract_tests (Contract Tests):
   - contract_tests_mocks.feature
   - contract_tests_stubs.feature
