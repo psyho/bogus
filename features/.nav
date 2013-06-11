@@ -1,6 +1,5 @@
 - getting_started.md (Getting Started)
 - readme.md (Introduction to Bogus)
-- changelog.md
 - fakes (Fakes):
   - fake_objects.feature
   - global_fake_configuration.feature
@@ -21,5 +20,6 @@
 - configuration (Configuration Options):
   - search_modules.feature
   - fake_ar_attributes.feature
+- changelog.md
 - license.md
 - authors.md
