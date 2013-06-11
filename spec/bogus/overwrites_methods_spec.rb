@@ -24,7 +24,7 @@ module Bogus
       end
 
       it "does not change the method signature" do
-        object.greet("John").should == object
+        object.method(:greet).arity.should == 1
       end
 
       it "does not change the method signature" do
@@ -75,7 +75,7 @@ module Bogus
       end
 
       it "can overwrite the non-existent methods" do
-        object.greet.should equal(object)
+        object.methods.should include(:greet)
       end
 
       it "can be reset back to the original state" do

@@ -21,6 +21,6 @@ describe Bogus::RecordInteractions do
   end
 
   it "returns self from record by default" do
-    sample.__record__(:foo).should == sample
+    sample.__record__(:foo).should be_a_default_return_value
   end
 end

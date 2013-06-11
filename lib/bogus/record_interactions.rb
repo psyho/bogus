@@ -1,7 +1,7 @@
 module Bogus
   module RecordInteractions
     def __shadow__
-      @__shadow__ ||= Shadow.new{ self }
+      @__shadow__ ||= Shadow.new
     end
 
     def __record__(method, *args, &block)

@@ -33,3 +33,7 @@ Initial version.
 - Safe stubbing of constructors
 - Fixed spying on anonymous fakes
 - Automatic handling of ActiveRecord columns
+
+### Breaking changes:
+
+- Fakes no longer return themselves from unstubbed method calls, because this was often a source of confusion. In the new version we return a Bogus::UndefinedReturnValue which contains the method name and arguments from where it was returned.

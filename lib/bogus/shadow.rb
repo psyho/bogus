@@ -2,10 +2,10 @@ module Bogus
   class Shadow
     attr_reader :calls
 
-    def initialize(&default_return_value)
+    def initialize
       @calls = []
       @stubs = []
-      @defaults = Hash.new(default_return_value)
+      @defaults = {}
       @required = Set.new
     end
 
@@ -54,6 +54,7 @@ module Bogus
     def return_value(interaction)
       _, return_value = @stubs.reverse.find{|i, v| i == interaction}
       return_value ||= @defaults[interaction.method]
+      return_value ||= proc{ UndefinedReturnValue.new(interaction) }
       return_value.call
     end
   end

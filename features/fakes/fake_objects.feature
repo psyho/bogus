@@ -59,22 +59,6 @@ Feature: Faking existing classes
     end
     """
 
-  Scenario: Fakes have null-object semantics
-    Then spec file with following content should pass:
-    """ruby
-    describe "library fake" do
-      fake(:library)
-
-      it "returns self from all methods" do
-        library.checkout("hello").should == library
-      end
-
-      it "makes method chaining possible" do
-        library.checkout("hello").return_book("world").should == library
-      end
-    end
-    """
-
   Scenario: Taking the guesswork out of finding a class to copy
     Then spec file with following content should pass:
     """ruby

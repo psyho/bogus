@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Bogus::Shadow do
   let(:object) { Samples::FooFake.new }
-  let(:shadow) { Bogus::Shadow.new{ object } }
+  let(:shadow) { Bogus::Shadow.new }
 
   shared_examples_for "spying on shadows" do
     context "spying" do
@@ -22,8 +22,10 @@ describe Bogus::Shadow do
   end
 
   context "unrecorded interactions" do
-    it "returns the object, so that calls can be chained" do
-      shadow.run(:foo, "a", "b").should == object
+    it "returns an unstubbed value" do
+      return_value = shadow.run(:foo, "a", "b")
+
+      return_value.should be_a_default_return_value
     end
 
     include_examples "spying on shadows"
@@ -50,8 +52,8 @@ describe Bogus::Shadow do
       shadow.stubs(:foo, ["a", "b"])
     end
 
-    it "returns the object" do
-      shadow.run(:foo, ["a", "b"]).should == object
+    it "returns the default value" do
+      shadow.run(:foo, ["a", "b"]).should be_a_default_return_value
     end
 
     include_examples "spying on shadows"
@@ -123,8 +125,8 @@ describe Bogus::Shadow do
     end
 
     it "returns the default value for non-stubbed calls" do
-      shadow.run(:foo, "c", "d").should == object
-      shadow.run(:bar).should == object
+      shadow.run(:foo, "c", "d").should be_a_default_return_value
+      shadow.run(:bar).should be_a_default_return_value
     end
 
     it "does not contribute towards unsatisfied interactions" do
@@ -170,7 +172,7 @@ describe Bogus::Shadow do
     end
 
     it "returns the default value for non-stubbed calls" do
-      shadow.run(:foo, "a", "c").should == object
+      shadow.run(:foo, "a", "c").should be_a_default_return_value
     end
 
     it "contributes towards unsatisfied interactions" do

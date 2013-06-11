@@ -51,10 +51,6 @@ describe Bogus::CopiesClasses do
       subject.baa('hello')
       subject.baa('hello') {}
     end
-
-    it "makes the methods chainable" do
-      subject.foo.bar('hello').baz('hello', 'world', 'foo').bam.baa('foo')
-    end
   end
 
   let(:copies_classes) { Bogus.inject.copies_classes }

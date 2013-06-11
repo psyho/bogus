@@ -311,12 +311,6 @@ describe Bogus::MockingDSL do
         Bogus.after_each_test
       }.to raise_error(Bogus::NotAllExpectationsSatisfied)
     end
-
-    it "allows chaining interactions" do
-      greeter = fake(foo: "bar")
-
-      greeter.baz.foo.should == "bar"
-    end
   end
 
   class SampleOfConfiguredFake
