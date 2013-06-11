@@ -33,6 +33,7 @@ Initial version.
 - Safe stubbing of constructors
 - Fixed spying on anonymous fakes
 - Automatic handling of ActiveRecord columns
+- Support Ruby 2.0 keyword arguments
 
 ### Breaking changes:
 
