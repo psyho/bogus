@@ -1,4 +1,4 @@
-Feature: Stubbing ActiveRecord::Base instances
+Feature: fake_ar_attributes
 
   Instances of ActiveRecord::Base subclasses are different then most of the objects you might encounter because the field access on those classes is done by taking advantage of Ruby's `method_missing` functionality.
 

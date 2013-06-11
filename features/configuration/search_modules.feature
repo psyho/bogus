@@ -1,6 +1,6 @@
-Feature: Configuration Options
+Feature: search_modules
 
-  Bogus can be configured, similarly to many other frameworks with a configure block.  This feature describes the configuration options available.
+  Most projects do not have a separate namespace for their classes, which the default that Bogus assumes. However, if all (or some) of your classes exist within some module you can add it to the list of modules that Bogus will look in when trying to resolve class names.
 
   Scenario: search_modules
     Given a file named "foo.rb" with:
