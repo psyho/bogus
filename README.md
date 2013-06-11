@@ -28,7 +28,7 @@ MIT. See the LICENSE file.
 
 * [Adam Pohorecki](http://github.com/psyho)
 * [Paweł Pierzchała](http://github.com/wrozka)
-* [Marek Nowak](https://github.com/yundt)
 * [Piotr Szotkowski](https://github.com/chastell)
+* [Marek Nowak](https://github.com/yundt)
 
 [docs]: http://www.relishapp.com/bogus/bogus/docs 

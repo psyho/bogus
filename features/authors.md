@@ -9,10 +9,15 @@ blog: [adam.pohorecki.pl][blog]
 github: [wrozka][wrozka]
 twitter: [@zwrozka][zwrozka]
 
+## Piotr Szotkowski
+
+github: [chastell][chastell]
+twitter: [@chastell][chastell-twitter]
+
 ## Marek Nowak
 
 github: [yundt][yundt]
-twitter: [@yundt][yundt]
+twitter: [@yundt][yundt-twitter]
 
 ## Contract tests
 
@@ -35,8 +40,11 @@ The development of Bogus was partially sponsored by [Lunar Logic][llp].
 [wrozka]: https://github.com/wrozka
 [zwrozka]: http://twitter.com/zwrozka
 
+[chastell]: https://github.com/chastell
+[chastell-twitter]: http://twitter.com/chastell
+
 [yundt]: https://github.com/yundt
-[yundt]: http://twitter.com/yundt
+[yundt-twitter]: http://twitter.com/yundt
 
 [scam]: http://www.infoq.com/presentations/integration-tests-scam
 [rr]: https://github.com/btakita/rr
