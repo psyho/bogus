@@ -44,6 +44,10 @@ module Bogus
       inject(ClassMethods, klass: klass)
     end
 
+    def method_copiers
+      [method(:class_methods), method(:instance_methods)]
+    end
+
     def have_received_matcher
       inject(HaveReceivedMatcher)
     end

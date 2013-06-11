@@ -2,15 +2,14 @@ module Bogus
   class MakesDucks
     extend Bogus::Takes
 
-    takes :class_methods, :instance_methods, :makes_subtypes
+    takes :method_copiers, :makes_subtypes
 
     def make(first_class, *classes)
       duck = makes_subtypes.make(first_class)
       classes.each do |klass|
-        remove_methods(class_methods.call(duck),
-                       class_methods.call(klass))
-        remove_methods(instance_methods.call(duck),
-                       instance_methods.call(klass))
+        method_copiers.each do |copier|
+          remove_methods(copier.call(duck), copier.call(klass))
+        end
       end
       duck
     end

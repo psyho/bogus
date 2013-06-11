@@ -3,13 +3,13 @@ module Bogus
     extend Bogus::Takes
 
     takes :makes_substitute_methods,
-      :instance_methods,
-      :class_methods,
+      :method_copiers,
       :copies_constructor
 
     def copy(from, into)
-      copy_methods(from, into, instance_methods)
-      copy_methods(from, into, class_methods)
+      method_copiers.each do |copier|
+        copy_methods(from, into, copier)
+      end
       copies_constructor.copy(from, into)
     end
 
