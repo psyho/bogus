@@ -16,13 +16,11 @@ Feature: Stubbing ActiveRecord::Base instances
         end
       end
 
-  This is very repetitive and rather boring, so Bogus provides a helper method for this:
+  This is very repetitive and rather boring, so Bogus can create methods like this for you automatically. All you need to do is specify in the configuration that you want Bogus to add ActiveRecord fields to fakes:
 
-      Bogus.fix_ar_classes_for_bogus(BlogPost, User, Comment)
-
-  You can also call this method without any arguments, which will cause Bogus to fix every ActiveRecord::Base subclass, which is currently loaded:
-
-      Bogus.fix_ar_classes_for_bogus
+      Bogus.configure do |c|
+        c.fake_ar_attributes = true
+      end
 
   Scenario: Adding missing accessors to AR classes
     Given a file named "foo.rb" with:
@@ -43,7 +41,9 @@ Feature: Stubbing ActiveRecord::Base instances
     class BlogPost < ActiveRecord::Base
     end
 
-    Bogus.fix_ar_classes_for_bogus
+    Bogus.configure do |c|
+      c.fake_ar_attributes = true
+    end
     """
 
     Then the following test should pass:

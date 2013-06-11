@@ -78,10 +78,6 @@ module Bogus
       inject.fake_configuration.evaluate(&block)
     end
 
-    def fix_ar_classes_for_bogus(*klasses)
-      inject.adds_missing_column_accessors.add(klasses)
-    end
-
     def inject
       @injector ||= Bogus::Injector.new
     end

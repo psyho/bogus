@@ -44,8 +44,14 @@ module Bogus
       inject(ClassMethods, klass: klass)
     end
 
+    def active_record_accessors(klass)
+      inject(ActiveRecordAccessors, klass: klass)
+    end
+
     def method_copiers
-      [method(:class_methods), method(:instance_methods)]
+      copiers = [method(:class_methods), method(:instance_methods)]
+      copiers << method(:active_record_accessors) if configuration.fake_ar_attributes
+      copiers
     end
 
     def have_received_matcher
