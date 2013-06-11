@@ -16,8 +16,6 @@ describe Bogus::MockingDSL do
     end
   end
 
-  require_relative "./example_foo_kwarg_methods" unless RUBY_VERSION < "2.0"
-
   class Stubber
     extend Bogus::MockingDSL
   end
@@ -53,12 +51,6 @@ describe Bogus::MockingDSL do
       baz.hello("welcome", "rudy").should == :greeting_value
     end
 
-    it "can stub method with keyword arguments" do
-      Stubber.stub(baz).foo_kwarg(bar: "bar") { :return_value }
-
-      baz.foo_kwarg(bar: "bar").should == :return_value
-    end unless RUBY_VERSION < "2.0"
-
     it "does not allow stubbing non-existent methods" do
       baz = ExampleFoo.new
       expect do
@@ -84,12 +76,6 @@ describe Bogus::MockingDSL do
 
         the_fake.should Stubber.have_received.foo("test")
       end
-
-      it "allows verifying interfaces with keyword arguments" do
-        the_fake.foo_kwarg(bar: "test")
-
-        the_fake.should Stubber.have_received.foo_kwarg(bar: "test")
-      end unless RUBY_VERSION < "2.0"
 
       it "does not allow verifying on non-existent methods" do
         expect {
@@ -118,15 +104,6 @@ describe Bogus::MockingDSL do
 
       object.should Stubber.have_received.foo("test")
     end
-
-    it "can be used with keyword arguments" do
-      object = ExampleFoo.new
-      Stubber.stub(object).foo_kwarg(Stubber.any_args)
-
-      object.foo_kwarg(bar: "test")
-
-      object.should Stubber.have_received.foo_kwarg(bar: "test")
-    end unless RUBY_VERSION < "2.0"
 
     it "allows spying on methods with optional parameters" do
       object = ExampleFoo.new
@@ -184,14 +161,6 @@ describe Bogus::MockingDSL do
 
         expect { Bogus.after_each_test }.not_to raise_error
       end
-
-      it "allows mocking on methods with optional keyword arguments" do
-        Mocker.mock(baz).with_optional_kwargs(x: 1) { :return }
-
-        baz.with_optional_kwargs(x: 1).should == :return
-
-        expect { Bogus.after_each_test }.not_to raise_error
-      end unless RUBY_VERSION < "2.0"
 
       it "allows mocking with anything" do
         Mocker.mock(baz).hello(1, Bogus::Anything) { :return }

@@ -9,33 +9,27 @@ module Bogus
       return unless object.methods.include?(method_name)
       return if any_args?(args)
       method = object.method(method_name)
-      wrong_number_of_arguments!(method, args) if under_number_of_required_arguments?(method, args.size)
-      wrong_number_of_arguments!(method, args) if over_number_of_allowed_arguments?(method, args.size)
+      verify_call!(method, args)
     end
 
     private
 
-    def wrong_number_of_arguments!(method, args)
+    def verify_call!(method, args)
+      object = Object.new
+      fake_method = method_stringifier.stringify(method, "")
+      object.instance_eval(fake_method)
+      object.send(method.name, *args)
+    rescue ArgumentError
+      wrong_arguments!(method, args)
+    end
+
+    def wrong_arguments!(method, args)
       args_string = method_stringifier.arguments_as_string(method.parameters)
-      raise ArgumentError, "tried to stub #{method.name}(#{args_string}) with #{args.size} arguments"
+      raise ArgumentError, "tried to stub #{method.name}(#{args_string}) with arguments: #{args.map(&:inspect).join(",")}"
     end
 
     def stubbing_non_existent_method!(object, method_name)
       raise NameError, "#{object.inspect} does not respond to #{method_name}"
-    end
-
-    def under_number_of_required_arguments?(method, args_count)
-      number_of_arguments = method.arity
-      number_of_arguments = -number_of_arguments - 1 if number_of_arguments < 0
-
-      args_count < number_of_arguments
-    end
-
-    def over_number_of_allowed_arguments?(method, args_count)
-      return false if method.parameters.find{|type, name| type == :rest}
-      number_of_arguments = method.parameters.count{|type, name| [:key, :opt, :req].include?(type) }
-
-      args_count > number_of_arguments
     end
 
     def any_args?(args)

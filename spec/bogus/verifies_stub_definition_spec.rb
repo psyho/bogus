@@ -17,7 +17,7 @@ describe Bogus::VerifiesStubDefinition do
 
   let(:object) { ExampleForVerify.new }
   let(:verifies_stub_definition) { Bogus::VerifiesStubDefinition.new(method_stringifier) }
-  let(:method_stringifier) { stub(arguments_as_string: 'foo, bar') }
+  let(:method_stringifier) { isolate(Bogus::MethodStringifier) }
 
   def verify(method_name, args)
     verifies_stub_definition.verify!(object, method_name, args)
