@@ -1,6 +1,6 @@
 module Bogus
   class CopiesConstructor
-    extend Bogus::Takes
+    extend Takes
     takes :method_stringifier, :instance_methods, :class_methods
 
     def copy(from, into)

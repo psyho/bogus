@@ -1,6 +1,6 @@
 module Bogus
   class InteractionPresenter
-    extend Bogus::Takes
+    extend Takes
 
     takes :interaction
 

@@ -1,7 +1,5 @@
 module Bogus
   class EnsuresAllInteractionsSatisfied
-    extend Bogus::Takes
-
     def ensure_satisfied!(objects)
       unsatisfied = unsatisfied_interactions(objects)
       return if unsatisfied.empty?

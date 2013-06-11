@@ -1,6 +1,6 @@
 module Bogus
   class ClassMethods
-    extend Bogus::Takes
+    extend Takes
     takes :klass
 
     def all

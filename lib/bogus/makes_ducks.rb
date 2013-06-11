@@ -1,6 +1,6 @@
 module Bogus
   class MakesDucks
-    extend Bogus::Takes
+    extend Takes
 
     takes :method_copiers, :makes_subtypes
 

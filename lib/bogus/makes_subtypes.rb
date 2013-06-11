@@ -1,6 +1,6 @@
 module Bogus
   class MakesSubtypes
-    extend Bogus::Takes
+    extend Takes
 
     takes :copies_methods
 

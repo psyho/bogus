@@ -1,12 +1,14 @@
-class Bogus::RegistersCreatedFakes
-  extend Bogus::Takes
+module Bogus
+  class RegistersCreatedFakes
+    extend Takes
 
-  takes :creates_fakes, :fake_registry, :double_tracker
+    takes :creates_fakes, :fake_registry, :double_tracker
 
-  def create(name, opts = {}, &block)
-    fake = creates_fakes.create(name, opts, &block)
-    fake_registry.store(name, fake)
-    double_tracker.track(fake)
-    fake
+    def create(name, opts = {}, &block)
+      fake = creates_fakes.create(name, opts, &block)
+      fake_registry.store(name, fake)
+      double_tracker.track(fake)
+      fake
+    end
   end
 end

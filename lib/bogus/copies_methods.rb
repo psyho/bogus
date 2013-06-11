@@ -1,6 +1,6 @@
 module Bogus
   class CopiesMethods
-    extend Bogus::Takes
+    extend Takes
 
     takes :makes_substitute_methods,
       :method_copiers,

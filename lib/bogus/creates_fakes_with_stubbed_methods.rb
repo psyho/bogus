@@ -1,6 +1,6 @@
 module Bogus
   class CreatesFakesWithStubbedMethods
-    extend Bogus::Takes
+    extend Takes
 
     takes :multi_stubber, :creates_fakes,
       :responds_to_everything, :fake_configuration
