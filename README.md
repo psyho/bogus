@@ -13,14 +13,14 @@ Bogus aims to make your unit tests more reliable by ensuring that you don't stub
 ```ruby
 class PostRepository
   def store(title)
-    # save post in database
+    # save a new post in the database
   end
 end
 
 class PostAdder < Struct.new(:post_repository)
   def add(title)
     post = post_repository.store(title)
-    # do some stuff with post
+    # do some stuff with the post
   end
 end
 
