@@ -2,21 +2,16 @@ Feature: fake_ar_attributes
 
   Instances of ActiveRecord::Base subclasses are different then most of the objects you might encounter because the field access on those classes is done by taking advantage of Ruby's `method_missing` functionality.
 
-  Unfortunately, in order to create a fake, Bogus has to examine all of the methods that are defined on a given class and herein lies the problem: the methods that you would expect to have on your ActiveRecord models do not exist.
-
-  In order to fix that, you could use a simple trick:
+  Unfortunately, in order to create a fake, Bogus has to examine all of the methods that are defined on a given class and herein lies the problem, the methods that you would expect to have on your ActiveRecord models do not exist:
 
       class BlogPost < ActiveRecord::Base
-        def name
-          super
-        end
-
-        def tags
-          super
-        end
       end
 
-  This is very repetitive and rather boring, so Bogus can create methods like this for you automatically. All you need to do is specify in the configuration that you want Bogus to add ActiveRecord fields to fakes:
+      blog_post = BlogPost.new
+      blog_post.respond_to?(:name) # => true
+      blog_post.method(:name) # raises NameError
+
+  Normally, this would prevent Bogus from being able to fake those methods, but in the case of ActiveRecord we can figure out those fields by looking at the `BlogPost.columns` property. Based on that we can define those accessors on the created fake. If you wish to take advantage of that, you just need to flip a configuration switch:
 
       Bogus.configure do |c|
         c.fake_ar_attributes = true
