@@ -48,9 +48,9 @@ Feature: fake_ar_attributes
 
     Then the following test should pass:
     """ruby
-      post = fake(:blog_post, name: "the name")
-      stub(post).tags { "foo, bar" }
+    post = fake(:blog_post, name: "the name")
+    stub(post).tags { "foo, bar" }
 
-      post.name.should == "the name"
-      post.tags.should == "foo, bar"
+    post.name.should == "the name"
+    post.tags.should == "foo, bar"
     """
