@@ -14,8 +14,8 @@ describe "Stubbing ActiveRecord::Base subclasses" do
   end
 
   class BlogPost < ActiveRecord::Base
-    def author
-      "#{self[:author]}!"
+    def author(x)
+      "#{x} #{self[:author]}!"
     end
   end
 
@@ -43,20 +43,12 @@ describe "Stubbing ActiveRecord::Base subclasses" do
     }.to raise_error(NameError)
   end
 
-  it "does not break the regular behavior of overwritten methods" do
-    post = BlogPost.new
+  it "does not overwrite existing method signatures" do
+    post = fake(:blog_post)
 
-    post.name = "hello world"
+    post.author("hello")
 
-    post.name.should == "hello world"
-  end
-
-  it "does not overwrite existing methods" do
-    post = BlogPost.new
-
-    post.author = "Batman"
-
-    post.author.should == "Batman!"
+    post.should have_received.author("hello")
   end
 
   class ExampleForActiveRecordAttributes

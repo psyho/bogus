@@ -11,7 +11,7 @@ module Bogus
 
     def all
       return [] unless klass < ActiveRecord::Base
-      klass.columns.map(&:name)
+      return missing_attributes
     end
 
     def get(name)
@@ -22,6 +22,14 @@ module Bogus
 
     def instance_methods
       @instance_methods.call(klass)
+    end
+
+    def all_attributes
+      klass.columns.map(&:name).map(&:to_sym)
+    end
+
+    def missing_attributes
+      all_attributes - instance_methods.all
     end
 
     class Attribute < Struct.new(:name)
