@@ -19,15 +19,26 @@ module Bogus
     end
 
     def args
-      super.map { |arg| remove_default_values_from arg }.compact
+      args = super.map { |arg| remove_default_values_from_hash(arg) }
+      args.reject { |arg| arg.eql?(DefaultValue) }
     end
 
     private
 
     def same_args?(other)
       return true if any_args? || other.any_args?
-      return false unless args.size == other.args.size
-      args.zip(other.args).all?{|a1, a2| a1 == a2 || a2 == a1}
+
+      other_args = normalize_other_args(args, other.args)
+      return false unless args.size == other_args.size
+      args.zip(other_args).all?{|a1, a2| a1 == a2 || a2 == a1}
+    end
+
+    def normalize_other_args(args, other_args)
+      if args.last.is_a?(Hash) && !other_args.last.is_a?(Hash)
+        other_args + [{}]
+      else
+        other_args
+      end
     end
 
     def same_result?(other)
@@ -41,13 +52,9 @@ module Bogus
       self.error = e.class
     end
 
-    def remove_default_values_from arg
-      case
-      when arg.eql?(DefaultValue)
-        nil
-      when arg.is_a?(Hash)
-        arg = arg.delete_if { |_, val| val.eql? DefaultValue }
-        arg.empty? ? nil : arg
+    def remove_default_values_from_hash(arg)
+      if arg.is_a?(Hash)
+        arg.reject { |_, val| val.eql?(DefaultValue) }
       else
         arg
       end

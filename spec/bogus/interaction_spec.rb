@@ -6,6 +6,9 @@ describe Bogus::Interaction do
   same = [
     [[:foo, [:bar], "value"], [:foo, [:bar], "value"]],
     [[:foo, [:bar, Bogus::DefaultValue], "value"], [:foo, [:bar], "value"]],
+    [[:foo, [:bar, {foo: Bogus::DefaultValue}], "value"], [:foo, [:bar], "value"]],
+    [[:foo, [:bar, {foo: Bogus::DefaultValue}], "value"], [:foo, [:bar, {}], "value"]],
+    [[:foo, [:bar, {foo: Bogus::DefaultValue, bar: 1}], "value"], [:foo, [:bar, {bar: 1}], "value"]],
     [[:foo, [:bar]], [:foo, [:bar], "value"]],
     [[:foo, [:bar], "value"], [:foo, [:bar]]],
     [[:foo, [:bar]], [:foo, [:bar]]],
@@ -23,6 +26,7 @@ describe Bogus::Interaction do
     [[:foo, [:bar], "value"], [:baz, [:bar], "value"]],
     [[:foo, [:baz], "value"], [:foo, [:bar], "value"]],
     [[:foo, [Bogus::DefaultValue, :baz], "value"], [:foo, [:bar, :bar], "value"]],
+    [[:foo, [:bar, {foo: Bogus::DefaultValue, bar: 1}], "value"], [:foo, [:bar, {bar: 2}], "value"]],
     [[:foo, [Bogus::AnyArgs]], [:bar, [:bar]]],
     [[:foo, [:bar]], [:bar, [Bogus::AnyArgs]]],
     [[:foo, [Bogus::AnyArgs], "some value"], [:foo, [:bar], "other value"]],
