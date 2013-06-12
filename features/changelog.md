@@ -27,7 +27,7 @@ Initial version.
 
 - Support mocking methods with optional parameters
 
-## 0.1.0 (in progress)
+## 0.1.0
 
 - Support for stubbing on frozen fakes
 - Safe stubbing of constructors
