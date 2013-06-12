@@ -24,6 +24,8 @@ class PostAdder < Struct.new(:post_repository)
   end
 end
 
+require 'bogus/rspec'
+
 describe PostAdder do
   fake(:post_repository)
 
