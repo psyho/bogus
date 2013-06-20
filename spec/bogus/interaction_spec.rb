@@ -24,6 +24,7 @@ describe Bogus::Interaction do
   different = [
     [[:foo, [:bar], "value"], [:foo, [:bar], "value2"]],
     [[:foo, [:bar], "value"], [:baz, [:bar], "value"]],
+    [[:foo, [{}], "value"], [:foo, [], "value"]],
     [[:foo, [:baz], "value"], [:foo, [:bar], "value"]],
     [[:foo, [Bogus::DefaultValue, :baz], "value"], [:foo, [:bar, :bar], "value"]],
     [[:foo, [:bar, {foo: Bogus::DefaultValue, bar: 1}], "value"], [:foo, [:bar, {bar: 2}], "value"]],

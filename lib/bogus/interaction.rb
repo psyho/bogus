@@ -1,8 +1,59 @@
 module Bogus
+  class Arguments
+    include Enumerable
+
+    def initialize(args)
+      @args = args
+    end
+
+    def each(&block)
+      args.each(&block)
+    end
+
+    def any_args?
+      [AnyArgs] == args
+    end
+
+    def ==(other)
+      return true if any_args? || other.any_args?
+
+      return false unless without_keyword.zip(other).all? {|a1, a2| a1 == a2 || a2 == a1 }
+
+      if has_keyword?
+        keyword == other.keyword
+      else
+        count == other.count
+      end
+    end
+
+    def keyword
+      return {} unless args.last.is_a?(Hash)
+      args.last.reject { |_, val| val.eql?(DefaultValue) }
+    end
+
+    private
+
+    def args
+      @args.reject { |arg| arg.eql?(DefaultValue) }
+    end
+
+    def has_keyword?
+      return false unless args.last.is_a?(Hash)
+      args.last.any? { |_, v| v.eql?(DefaultValue) }
+    end
+
+    def without_keyword
+      return args unless has_keyword?
+      args[0..-2]
+    end
+  end
+
   class Interaction < Struct.new(:method, :args, :return_value, :error, :has_result)
+    attr_accessor :arguments
+
     def initialize(method, args, &block)
       self.method = method
-      self.args = args
+      self.args = Arguments.new(args)
 
       if block_given?
         evaluate_return_value(block)
@@ -11,35 +62,14 @@ module Bogus
     end
 
     def ==(other)
-      method == other.method && same_args?(other) && same_result?(other)
+      method == other.method && args == other.args && same_result?(other)
     end
 
     def any_args?
-      [AnyArgs] == args
-    end
-
-    def args
-      args = super.map { |arg| remove_default_values_from_hash(arg) }
-      args.reject { |arg| arg.eql?(DefaultValue) }
+      args.any_args?
     end
 
     private
-
-    def same_args?(other)
-      return true if any_args? || other.any_args?
-
-      other_args = normalize_other_args(args, other.args)
-      return false unless args.size == other_args.size
-      args.zip(other_args).all?{|a1, a2| a1 == a2 || a2 == a1}
-    end
-
-    def normalize_other_args(args, other_args)
-      if args.last.is_a?(Hash) && !other_args.last.is_a?(Hash)
-        other_args + [{}]
-      else
-        other_args
-      end
-    end
 
     def same_result?(other)
       return true unless has_result && other.has_result
@@ -50,14 +80,6 @@ module Bogus
       self.return_value = block.call
     rescue => e
       self.error = e.class
-    end
-
-    def remove_default_values_from_hash(arg)
-      if arg.is_a?(Hash)
-        arg.reject { |_, val| val.eql?(DefaultValue) }
-      else
-        arg
-      end
     end
   end
 end

@@ -23,7 +23,7 @@ module Bogus
       interaction = Interaction.new(name, args)
       add_stub(interaction, return_value)
       override_default(interaction, return_value)
-      @required.delete(interaction)
+      @required.reject! { |i| i == interaction }
       interaction
     end
 
@@ -52,7 +52,7 @@ module Bogus
     end
 
     def return_value(interaction)
-      _, return_value = @stubs.reverse.find{|i, v| i == interaction}
+      _, return_value = @stubs.reverse.find{|i, v| interaction == i}
       return_value ||= @defaults[interaction.method]
       return_value ||= proc{ UndefinedReturnValue.new(interaction) }
       return_value.call
