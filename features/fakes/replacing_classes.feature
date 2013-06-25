@@ -83,7 +83,7 @@ Feature: Replacing classes with fakes
     """
 
     When I run `rspec book_index_spec.rb library_spec.rb`
-    Then all the specs should pass
+    Then the specs should pass
     
   Scenario: Replacing classes and contracts with a different fake name
     Given a file named "library_spec.rb" with:
@@ -128,8 +128,8 @@ Feature: Replacing classes with fakes
     """
 
     When I run `rspec book_index_spec.rb library_spec.rb`
-    Then all the specs should pass
-    
+    Then the specs should pass
+
   Scenario: Replacing classes with a macro
     Given a file named "book_index_spec.rb" with:
     """ruby
@@ -145,4 +145,4 @@ Feature: Replacing classes with fakes
     """
 
     When I run `rspec book_index_spec.rb`
-    Then all the specs should pass
+    Then the specs should pass
