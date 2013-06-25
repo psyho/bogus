@@ -68,3 +68,27 @@ Feature: minitest support
       end
     end
     """
+
+  Scenario: Spying on method calls with expectation syntax
+    Then minitest file "foo_spec.rb" with the following content should pass:
+    """ruby
+    require 'minitest/autorun'
+    require 'bogus/minitest_spec'
+    require_relative 'foo'
+
+    describe Student do
+      describe "#study" do
+        fake(:library)
+
+        it "studies using books from library" do
+          student = Student.new(library)
+
+          student.study("Moby Dick", "Sherlock Holmes")
+
+          library.must_have_received :checkout, ["Moby Dick"]
+          library.must_have_received :checkout, ["Sherlock Holmes"]
+          library.wont_have_received :return_book, ["Moby Dick"]
+        end
+      end
+    end
+    """
