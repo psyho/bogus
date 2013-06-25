@@ -18,7 +18,7 @@ Then /^the specs should fail$/ do
   }
 end
 
-Then /^all the specs should pass$/ do
+Then /^the specs should pass$/ do
   steps %Q{
     Then the exit status should be 0
   }
@@ -45,7 +45,7 @@ Then /^spec file with following content should pass:$/ do |string|
     """ruby
     #{string}
     """
-    Then all the specs should pass
+    Then the specs should pass
   }
 end
 
@@ -69,6 +69,6 @@ Then /^the following test should pass:$/ do |string|
       end
     end
     """
-    Then all the specs should pass
+    Then the specs should pass
   }
 end
