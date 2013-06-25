@@ -176,7 +176,10 @@ describe Bogus::Shadow do
     end
 
     it "contributes towards unsatisfied interactions" do
-      shadow.unsatisfied_interactions.should  =~ [Bogus::Interaction.new(:foo, ["a", "b"])]
+      interactions = shadow.unsatisfied_interactions
+      interactions.should have(1).item
+      interactions.first.method.should == :foo
+      interactions.first.args.should == ["a", "b"]
     end
 
     it "removes the staisfied expectations from unsatisfied interactions" do

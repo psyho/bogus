@@ -16,14 +16,14 @@ module Bogus
     end
 
     def has_received(name, args)
-      @calls.include?(Interaction.new(name, args))
+      @calls.any? { |i| Interaction.same?(recorded: i, stubbed: Interaction.new(name, args)) }
     end
 
     def stubs(name, *args, &return_value)
       interaction = Interaction.new(name, args)
       add_stub(interaction, return_value)
       override_default(interaction, return_value)
-      @required.reject! { |i| i == interaction }
+      @required.reject! { |i| Interaction.same?(recorded: i, stubbed: interaction) }
       interaction
     end
 
@@ -33,7 +33,11 @@ module Bogus
     end
 
     def unsatisfied_interactions
-      @required.reject { |i| @calls.include?(i) }
+      @required.reject do |stubbed|
+        @calls.any? do |recorded|
+          Interaction.same?(recorded: recorded, stubbed: stubbed)
+        end
+      end
     end
 
     def self.has_shadow?(object)
@@ -43,7 +47,7 @@ module Bogus
     private
 
     def override_default(interaction, return_value)
-      return unless interaction.any_args?
+      return unless AnyArgs.any_args?(interaction.args)
       @defaults[interaction.method] = return_value || proc{nil}
     end
 
@@ -52,7 +56,7 @@ module Bogus
     end
 
     def return_value(interaction)
-      _, return_value = @stubs.reverse.find{|i, v| interaction == i}
+      _, return_value = @stubs.reverse.find{|i, v| Interaction.same?(recorded: interaction, stubbed: i)}
       return_value ||= @defaults[interaction.method]
       return_value ||= proc{ UndefinedReturnValue.new(interaction) }
       return_value.call

@@ -9,7 +9,7 @@ module Bogus
     end
 
     def recorded?(fake_name, interaction)
-      @interactions[fake_name].include?(interaction)
+      @interactions[fake_name].any?{ |i| Interaction.same?(stubbed: interaction, recorded: i) }
     end
 
     def for_fake(fake_name)
