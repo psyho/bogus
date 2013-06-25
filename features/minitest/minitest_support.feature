@@ -25,6 +25,26 @@ Feature: minitest support
       end
     end
     """
+
+  Scenario: Auto-verification of unsatisfied mocks
+    Then minitest file "foo_test.rb" with the following content should fail:
+    """ruby
+    require 'minitest/autorun'
+    require 'bogus/minitest'
+    require_relative 'foo'
+
+    class StudentTest < MiniTest::Unit::TestCase
+      def test_library_checkouts
+        library = fake(:library)
+        student = Student.new(library)
+        mock(library).checkout("Moby Dick")
+        mock(library).checkout("Sherlock Holmes")
+
+        student.study("Moby Dick")
+      end
+    end
+    """
+
   Scenario: Spying on method calls with assert syntax
     Then minitest file "foo_test.rb" with the following content should pass:
     """ruby
