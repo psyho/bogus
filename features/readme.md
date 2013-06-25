@@ -37,8 +37,8 @@ Bogus makes your test doubles more assertive. They will no longer be too shy to 
 Let's reexamine our previous example, this time Bogus-style:
 
     it "returns the average score" do
-      students = fake(:students, get: [5, 9])
-      scores = fake(:scores, all: ["John", "Mary"])
+      scores = fake(:scores, get: [5, 9])
+      students = fake(:students, all: ["John", "Mary"])
 
       report_card = ReportCard.new(scores, students)
 
