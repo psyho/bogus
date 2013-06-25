@@ -72,3 +72,15 @@ Then /^the following test should pass:$/ do |string|
     Then the specs should pass
   }
 end
+
+Then /^minitest file "([^"]*)" with the following content should (pass|fail):$/ do |file_name, pass_fail, string|
+  steps %Q{
+    Given a file named "#{file_name}" with:
+    """ruby
+    gem 'minitest', '~> 4.7.0'
+    #{string}
+    """
+    When I run `ruby #{file_name}`
+    Then the specs should #{pass_fail}
+  }
+end
