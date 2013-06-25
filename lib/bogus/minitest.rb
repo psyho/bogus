@@ -24,4 +24,14 @@ end
 
 class MiniTest::Unit::TestCase
   include Bogus::MockingDSL
+
+  def before_setup
+    super
+    Bogus.clear
+  end
+
+  def after_teardown
+    Bogus.ensure_all_expectations_satisfied!
+    super
+  end
 end
