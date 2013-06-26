@@ -26,8 +26,6 @@ module Bogus
     end
 
     class << self
-      attr_accessor :__copied_class__
-
       alias :__create__ :new
 
       def new(*args, &block)
