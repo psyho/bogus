@@ -16,7 +16,7 @@ module Bogus
     let(:instance_methods) { InstanceMethods.new(SampleClass) }
 
     it "lists the instance methods" do
-      instance_methods.all.should == [:foo, :hello]
+      instance_methods.all.should =~ [:foo, :hello]
     end
 
     it "returns the instance methods by name" do
