@@ -6,7 +6,6 @@ Given /^a spec file named "([^"]*)" with:$/ do |file_name, string|
     Given a file named "#{file_name}" with:
     """ruby
     require 'bogus/rspec'
-    require_relative 'foo'
 
     #{string}
     """
@@ -26,7 +25,7 @@ Then /^all the specs should pass$/ do
 end
 
 When /^I run spec with the following content:$/ do |string|
-  file_name = 'foo_spec.rb'
+  file_name = "foo_#{rand(1000000)}_spec.rb"
 
   steps %Q{
     Given a spec file named "#{file_name}" with:
