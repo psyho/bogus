@@ -7,7 +7,7 @@ Feature: Safe stubbing
       stub(object).method_name(arg1, arg2, ...) { return_value }
 
   Background:
-    Given a file named "foo.rb" with:
+    Given a file named "library.rb" with:
     """ruby
     class Library
       def checkout(book)
@@ -18,8 +18,9 @@ Feature: Safe stubbing
   Scenario: Stubbing methods that exist on real object
     Then spec file with following content should pass:
     """ruby
-    describe Library do
+    require_relative 'library'
 
+    describe Library do
       it "does something" do
         library = Library.new
         stub(library).checkout("some book") { :checked_out }
@@ -32,6 +33,8 @@ Feature: Safe stubbing
   Scenario: Stubbing methods that do not exist on real object
     Then spec file with following content should fail:
     """ruby
+    require_relative 'library'
+
     describe Library do
       it "does something" do
         library = Library.new
@@ -43,6 +46,8 @@ Feature: Safe stubbing
   Scenario: Stubbing methods with wrong number of arguments
     Then spec file with following content should fail:
     """ruby
+    require_relative 'library'
+
     describe Library do
       it "does something" do
         library = Library.new
@@ -54,6 +59,8 @@ Feature: Safe stubbing
   Scenario: Stubs allow the methods to be called
     Then spec file with following content should pass:
     """ruby
+    require_relative 'library'
+
     describe Library do
       it "does something" do
         library = Library.new
@@ -65,6 +72,8 @@ Feature: Safe stubbing
   Scenario: Stubbing methods multiple times
     Then spec file with following content should fail:
     """ruby
+    require_relative 'library'
+
     describe Library do
       it "stubbing with too many arguments" do
         library = Library.new

@@ -15,7 +15,7 @@ Feature: Safe mocking
   You can only mock methods that actually exist on an object. It will also work with methods that the object `responds_to?`, but (obviously) without being able to check the method signature.
 
   Background:
-    Given a file named "foo.rb" with:
+    Given a file named "library.rb" with:
     """ruby
     class Library
       def checkout(book)
@@ -26,8 +26,9 @@ Feature: Safe mocking
   Scenario: Mocking methods that exist on real object
     Then spec file with following content should pass:
     """ruby
-    describe Library do
+    require_relative 'library'
 
+    describe Library do
       it "does something" do
         library = Library.new
         mock(library).checkout("some book") { :checked_out }
@@ -40,6 +41,8 @@ Feature: Safe mocking
   Scenario: Mocking methods that do not exist on real object
     Then spec file with following content should fail:
     """ruby
+    require_relative 'library'
+    
     describe Library do
       it "does something" do
         library = Library.new
@@ -52,6 +55,8 @@ Feature: Safe mocking
   Scenario: Mocking methods with wrong number of arguments
     Then spec file with following content should fail:
     """ruby
+    require_relative 'library'
+
     describe Library do
       it "does something" do
         library = Library.new
@@ -64,6 +69,8 @@ Feature: Safe mocking
   Scenario: Mocks require the methods to be called
     Then spec file with following content should fail:
     """ruby
+    require_relative 'library'
+
     describe Library do
       it "does something" do
         library = Library.new

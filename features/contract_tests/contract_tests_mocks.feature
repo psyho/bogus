@@ -3,7 +3,7 @@ Feature: Contract tests with mocks
   Whenever you mock something, you specify a contract on the arguments/return value pair.  Bogus can check automatically Whether this contract was satisfied.
 
   Background:
-    Given a file named "foo.rb" with:
+    Given a file named "library.rb" with:
     """ruby
     class Library
       def initialize
@@ -22,7 +22,10 @@ Feature: Contract tests with mocks
         @books << book
       end
     end
+    """
 
+    Given a file named "student.rb" with:
+    """ruby
     class Student
       def read(book, library = Library.new)
         if library.has_book?(book)
@@ -31,8 +34,12 @@ Feature: Contract tests with mocks
       end
     end
     """
+
     And a spec file named "student_spec.rb" with:
     """ruby
+    require_relative 'student'
+    require_relative 'library'
+
     describe Student do
       fake(:library)
 
@@ -58,6 +65,8 @@ Feature: Contract tests with mocks
   Scenario: Fails when mocked methods are not called on real object
     Then spec file with following content should fail:
     """ruby
+    require_relative 'library'
+
     describe Library do
       verify_contract(:library)
 
@@ -76,6 +85,8 @@ Feature: Contract tests with mocks
   Scenario: Verifies that mocked methods are called
     Then spec file with following content should pass:
     """ruby
+    require_relative 'library'
+
     describe Library do
       verify_contract(:library)
 

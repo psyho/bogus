@@ -21,7 +21,7 @@ Feature: Faking duck types
       end
 
   Background:
-    Given a file named "foo.rb" with:
+    Given a file named "loggers.rb" with:
     """ruby
     class DatabaseLogger
       def error(message); end
@@ -56,6 +56,8 @@ Feature: Faking duck types
   Scenario: Copying instance methods
     Then spec file with following content should pass:
     """ruby
+    require_relative 'loggers'
+
     describe "make_duck" do
       let(:duck) { make_duck(DatabaseLogger, NetworkLogger, 
                             DevNullLogger) }
@@ -94,6 +96,8 @@ Feature: Faking duck types
   Scenario: Faking duck types
     Then spec file with following content should pass:
     """ruby
+    require_relative 'loggers'
+
     describe "fake with multiple classes" do
       fake(:logger) { [DatabaseLogger, 
                       NetworkLogger, 
@@ -110,7 +114,7 @@ Feature: Faking duck types
     """
 
   Scenario: Globally configured duck types
-    Then spec file with following content should pass:
+    Given a file named "fakes.rb" with:
     """ruby
     Bogus.fakes do
       logger_implementations = proc{ [DatabaseLogger, 
@@ -119,6 +123,12 @@ Feature: Faking duck types
 
       fake :logger, class: logger_implementations
     end
+    """
+
+    Then spec file with following content should pass:
+    """ruby
+    require_relative 'fakes'
+    require_relative 'loggers'
 
     describe "fake with multiple classes" do
       fake(:logger)

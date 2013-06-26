@@ -3,13 +3,16 @@ Feature: Contract tests with spies
   Whenever you spy on method invocations, it creates a contract specifying that some method can be called with a particular set of arguments. It can be automatically verified by Bogus, whether the method was actually called with those arguments.
 
   Background:
-    Given a file named "foo.rb" with:
+    Given a file named "library.rb" with:
     """ruby
     class Library
       def checkout(book)
       end
     end
+    """
 
+    Given a file named "student.rb" with:
+    """ruby
     class Student
       def read(book, library = Library.new)
         library.checkout(book)
@@ -17,8 +20,12 @@ Feature: Contract tests with spies
       end
     end
     """
+
     And a spec file named "student_spec.rb" with:
     """ruby
+    require_relative 'student'
+    require_relative 'library'
+
     describe Student do
       fake(:library)
 
@@ -35,6 +42,8 @@ Feature: Contract tests with spies
   Scenario: Stubbing methods that exist on real object
     Then spec file with following content should pass:
     """ruby
+    require_relative 'library'
+
     describe Library do
       verify_contract(:library)
 
@@ -51,15 +60,18 @@ Feature: Contract tests with spies
   Scenario: Verifing that stubbed methods are tested
     Then spec file with following content should fail:
     """ruby
+    require_relative 'library'
+
     describe Library do
       verify_contract(:library)
-
     end
     """
 
   Scenario: Verifying that methods are tested with right arguments
     Then spec file with following content should fail:
     """ruby
+    require_relative 'library'
+
     describe Library do
       verify_contract(:library)
 

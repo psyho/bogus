@@ -9,7 +9,10 @@ Feature: search_modules
       def foo
       end
     end
+    """
 
+    Given a file named "baz.rb" with:
+    """ruby
     module Bar
       class Baz
         def baz
@@ -20,6 +23,8 @@ Feature: search_modules
 
     Then spec file with following content should pass:
     """ruby
+    require_relative 'foo'
+    require_relative 'baz'
 
     Bogus.configure do |c|
       c.search_modules << Bar

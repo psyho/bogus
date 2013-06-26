@@ -18,7 +18,7 @@ Feature: Global fake configuration
   in your spec helper, or a file required from it.
 
   Background:
-    Given a file named "foo.rb" with:
+    Given a file named "public_library.rb" with:
     """ruby
     class PublicLibrary
       def self.books_by_author(name)
@@ -39,6 +39,7 @@ Feature: Global fake configuration
     Then spec file with following content should pass:
     """ruby
     require_relative "fakes"
+    require_relative "public_library"
 
     describe "The library fake" do
       fake(:library)
@@ -64,6 +65,7 @@ Feature: Global fake configuration
     Then spec file with following content should pass:
     """ruby
     require_relative "fakes"
+    require_relative "public_library"
 
     describe "The library fake" do
       fake(:library, books_by_author: ["Some Book"])
@@ -78,6 +80,7 @@ Feature: Global fake configuration
     Then spec file with following content should pass:
     """ruby
     require_relative "fakes"
+    require_relative "public_library"
 
     describe "The library fake" do
       it "can be overridden in the helper" do

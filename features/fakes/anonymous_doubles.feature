@@ -18,7 +18,7 @@ Feature: Anonymous test doubles
       stub(factory).make_validator{ proc{ false } }
 
   Background:
-    Given a file named "foo.rb" with:
+    Given a file named "student.rb" with:
     """ruby
     class Student
       attr_reader :library_card
@@ -36,6 +36,8 @@ Feature: Anonymous test doubles
   Scenario: Stubbing any method with any parameters
     Then spec file with following content should pass:
     """ruby
+    require_relative 'student'
+
     describe Student do
       let(:library) { fake }
       let(:jake) { Student.new("Jake") }
@@ -53,6 +55,8 @@ Feature: Anonymous test doubles
   Scenario: Stubbing methods in initializer
     Then spec file with following content should pass:
     """ruby
+    require_relative 'student'
+
     describe Student do
       let(:library) { fake(register_junior: "the card") }
       let(:jake) { Student.new("Jake") }
@@ -77,6 +81,8 @@ Feature: Anonymous test doubles
   Scenario: Mocking any method with any parameters
     Then spec file with following content should pass:
     """ruby
+    require_relative 'student'
+
     describe Student do
       let(:library) { fake }
       let(:jake) { Student.new("Jake") }
@@ -94,6 +100,8 @@ Feature: Anonymous test doubles
   Scenario: Mocking any method with any parameters
     Then spec file with following content should fail:
     """ruby
+    require_relative 'student'
+
     describe Student do
       it "allows stubbing any method with any parameters" do
         library = fake
@@ -105,6 +113,8 @@ Feature: Anonymous test doubles
   Scenario: Stubbing methods in initializer
     Then spec file with following content should pass:
     """ruby
+    require_relative 'student'
+
     describe Student do
       let(:library) { fake(register_junior: "the card") }
       let(:jake) { Student.new("Jake") }
@@ -120,6 +130,8 @@ Feature: Anonymous test doubles
   Scenario: Spying on method calls
     Then spec file with following content should pass:
     """ruby
+    require_relative 'student'
+
     describe Student do
       let(:library) { fake }
       let(:jake) { Student.new("Jake") }
@@ -135,6 +147,8 @@ Feature: Anonymous test doubles
   Scenario: Invoking arbitrary methods
     Then spec file with following content should pass:
     """ruby
+    require_relative 'student'
+
     describe Student do
       let(:library) { fake }
       

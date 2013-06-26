@@ -5,7 +5,7 @@ Feature: Return value contracts
   If it's not, the behavior of contract verification is not defined.
 
   Background:
-    Given a file named "foo.rb" with:
+    Given a file named "session_controller.rb" with:
     """ruby
     class SessionController
       def initialize(authentication_service)
@@ -19,10 +19,10 @@ Feature: Return value contracts
         :render_error
       end
     end
+    """
 
-    class WrongPassword < StandardError
-    end
-
+    Given a file named "authentication_service.rb" with:
+    """ruby
     class AuthenticationService
       def initialize(user_db)
         @user_db = user_db
@@ -34,9 +34,16 @@ Feature: Return value contracts
         end
       end
     end
+
+    class WrongPassword < StandardError
+    end
     """
+
     And a spec file named "session_controller_spec.rb" with:
     """ruby
+    require_relative 'session_controller'
+    require_relative 'authentication_service'
+
     describe SessionController do
       fake(:authentication_service)
       let(:controller) { SessionController.new(authentication_service) }
@@ -58,6 +65,8 @@ Feature: Return value contracts
   Scenario: Bogus makes sure that all the return values recorded by stubbing are also present in tests of the real object
     Then spec file with following content should fail:
     """ruby
+    require_relative 'authentication_service'
+
     describe AuthenticationService do
       verify_contract(:authentication_service)
 
@@ -73,6 +82,8 @@ Feature: Return value contracts
   Scenario: Bogus does not fail the tests if all the recorded values have been also recorded on the real object
     Then spec file with following content should pass:
     """ruby
+    require_relative 'authentication_service'
+
     describe AuthenticationService do
       verify_contract(:authentication_service)
 

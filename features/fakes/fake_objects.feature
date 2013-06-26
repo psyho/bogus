@@ -26,7 +26,7 @@ Feature: Faking existing classes
       let(:foo) { fake(:foo, bar: "value") }
 
   Background:
-    Given a file named "foo.rb" with:
+    Given a file named "library.rb" with:
     """ruby
     class Library
       def checkout(book)
@@ -38,7 +38,10 @@ Feature: Faking existing classes
       def self.look_up(book)
       end
     end
+    """
 
+    Given a file named "student.rb" with:
+    """ruby
     class Student
       def self.learn(library = Library.new)
         library.checkout("hello world")
@@ -50,6 +53,9 @@ Feature: Faking existing classes
   Scenario: Calling methods that exist on real object
     Then spec file with following content should pass:
     """ruby
+    require_relative 'student'
+    require_relative 'library'
+
     describe Student do
       fake(:library)
 
@@ -79,6 +85,8 @@ Feature: Faking existing classes
   Scenario: Fakes which are classes
     Then spec file with following content should pass:
     """ruby
+    require_relative 'library'
+
     describe "library class fake" do
       fake(:library, as: :class)
 
@@ -99,6 +107,8 @@ Feature: Faking existing classes
   Scenario: Fakes with inline return values
     Then spec file with following content should pass:
     """ruby
+    require_relative 'library'
+
     describe "library class fake" do
       let(:library) { fake(:library, checkout: "checked out", 
                                      return_book: "returned") }

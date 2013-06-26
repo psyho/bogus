@@ -15,7 +15,7 @@ Feature: Contract tests with stubs
   will also create a contract on the method input parameters.
 
   Background:
-    Given a file named "foo.rb" with:
+    Given a file named "library.rb" with:
     """ruby
       class Library
         def initialize
@@ -34,7 +34,10 @@ Feature: Contract tests with stubs
           @books << book
         end
       end
+    """
 
+    Given a file named "student.rb" with:
+    """ruby
       class Student
         def read(book, library = Library.new)
           if library.has_book?(book)
@@ -43,8 +46,12 @@ Feature: Contract tests with stubs
         end
       end
     """
+
     And a spec file named "student_spec.rb" with:
     """ruby
+    require_relative 'student'
+    require_relative 'library'
+
     describe Student do
       fake(:library)
 
@@ -71,6 +78,8 @@ Feature: Contract tests with stubs
   Scenario: Fails when stubbed methods are not called on real object
     Then spec file with following content should fail:
     """ruby
+    require_relative 'library'
+
     describe Library do
       verify_contract(:library)
 
@@ -89,6 +98,8 @@ Feature: Contract tests with stubs
   Scenario: Verifies that stubbed methods are called
     Then spec file with following content should pass:
     """ruby
+    require_relative 'library'
+
     describe Library do
       verify_contract(:library)
 

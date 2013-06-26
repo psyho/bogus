@@ -18,7 +18,7 @@ Feature: fake_ar_attributes
       end
 
   Scenario: Adding missing accessors to AR classes
-    Given a file named "foo.rb" with:
+    Given a file named "blog_post.rb" with:
     """ruby
     require 'active_record'
     require 'nulldb'
@@ -43,6 +43,8 @@ Feature: fake_ar_attributes
 
     Then the following test should pass:
     """ruby
+    require_relative 'blog_post'
+
     post = fake(:blog_post, name: "the name")
     stub(post).tags { "foo, bar" }
 
