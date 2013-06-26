@@ -7,8 +7,9 @@ module Bogus
     def stringify(method)
       args = method_stringifier.argument_values(method.parameters)
 
-      method_stringifier.stringify(method,
-        "__record__(:#{method.name}, #{args})")
+      send_args = [method.name.inspect, args].reject(&:empty?).join(', ')
+
+      method_stringifier.stringify(method, "__record__(#{send_args})")
     end
   end
 end
