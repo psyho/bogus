@@ -14,3 +14,11 @@ end
 Before do
   @aruba_timeout_seconds = 60
 end
+
+if RUBY_PLATFORM == 'java' && ENV['TRAVIS']
+  Aruba.configure do |config|
+    config.before_cmd do
+      set_env('JAVA_OPTS', "#{ENV['JAVA_OPTS']} -d64")
+    end
+  end
+end
