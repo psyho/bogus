@@ -7,6 +7,7 @@ Bogus aims to make your unit tests more reliable by ensuring that you don't stub
 [![Coverage Status](https://coveralls.io/repos/psyho/bogus/badge.png?branch=master)](https://coveralls.io/r/psyho/bogus?branch=master)
 [![Gem Version](https://badge.fury.io/rb/bogus.png)](http://badge.fury.io/rb/bogus)
 [![Dependency Status](https://gemnasium.com/psyho/bogus.png)](https://gemnasium.com/psyho/bogus)
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/9908a24d18bc26923a8ab08c28fcc8e5 "githalytics.com")](http://githalytics.com/psyho/bogus)
 
 ## Example
 
