@@ -38,3 +38,8 @@ Initial version.
 ### Breaking changes:
 
 - Fakes no longer return themselves from unstubbed method calls, because this was often a source of confusion. In the new version we return a Bogus::UndefinedReturnValue which contains the method name and arguments from where it was returned.
+
+## 0.1.1 (in progress)
+
+- Minor bugfixes to Ruby 2.0 support
+- Support for Rubinius (head) and JRuby
