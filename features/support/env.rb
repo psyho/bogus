@@ -9,3 +9,7 @@ Before do |scenario|
   create_dir(dir_name)
   cd(dir_name)
 end
+
+Before do
+  @aruba_timeout_seconds = 60
+end
