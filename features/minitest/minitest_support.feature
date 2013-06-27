@@ -73,7 +73,7 @@ Feature: minitest support
     Then minitest file "foo_spec.rb" with the following content should pass:
     """ruby
     require 'minitest/autorun'
-    require 'bogus/minitest_spec'
+    require 'bogus/minitest/spec'
     require_relative 'foo'
 
     describe Student do
