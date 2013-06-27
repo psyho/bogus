@@ -10,5 +10,9 @@ class MiniTest::Spec
     def fake(name, opts = {}, &block)
       let(name) { fake(name, opts, &block) }
     end
+
+    def fake_class(name, opts = {})
+      before { fake_class(name, opts) }
+    end
   end
 end

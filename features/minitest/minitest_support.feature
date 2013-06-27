@@ -6,10 +6,19 @@ Feature: minitest support
     Given a file named "foo.rb" with:
     """ruby
     class Library
+      def self.books
+      end
+
       def checkout(book)
       end
 
       def return_book(book)
+      end
+    end
+
+    class BookIndex
+      def self.by_author(author)
+        Library.books.select{|book| book[:author] == author}
       end
     end
 
@@ -89,6 +98,22 @@ Feature: minitest support
           library.must_have_received :checkout, ["Sherlock Holmes"]
           library.wont_have_received :return_book, ["Moby Dick"]
         end
+      end
+    end
+    """
+
+  Scenario: Describe-level class faking
+    Then minitest file "foo_spec.rb" with the following content should pass:
+    """ruby
+    require 'minitest/autorun'
+    require 'bogus/minitest/spec'
+    require_relative 'foo'
+
+    describe BookIndex do
+      fake_class(Library, books: [])
+
+      it "returns books written by author" do
+        BookIndex.by_author("Mark Twain").must_equal []
       end
     end
     """
