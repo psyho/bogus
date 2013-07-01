@@ -7,7 +7,7 @@ module Bogus
 
     takes :klass, :instance_methods
 
-    def_delegators :instance_methods, :remove, :define
+    def_delegators :model_methods, :remove, :define
 
     def all
       return [] unless klass < ActiveRecord::Base
@@ -20,8 +20,8 @@ module Bogus
 
     private
 
-    def instance_methods
-      @instance_methods.call(klass)
+    def model_methods
+      instance_methods.call(klass)
     end
 
     def all_attributes
@@ -29,7 +29,7 @@ module Bogus
     end
 
     def missing_attributes
-      all_attributes - instance_methods.all
+      all_attributes - model_methods.all
     end
 
     class Attribute < Struct.new(:name)
