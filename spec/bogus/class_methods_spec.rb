@@ -11,11 +11,17 @@ module Bogus
 
       def self.hello
       end
+
+      def self.__shadow__; end
+      def self.__reset__; end
+      def self.__overwrite__; end
+      def self.__overwritten_methods__; end
+      def self.__record__; end
     end
 
     let(:class_methods) { ClassMethods.new(SampleClass) }
 
-    it "lists the instance methods" do
+    it "lists the class methods excluding the ones added by Bogus" do
       class_methods.all.should =~ [:bar, :hello]
     end
 

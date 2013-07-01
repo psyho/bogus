@@ -4,7 +4,7 @@ module Bogus
     takes :klass
 
     def all
-      klass.methods - Class.methods
+      klass.methods - Class.methods - bogus_methods
     end
 
     def get(name)
@@ -17,6 +17,12 @@ module Bogus
 
     def define(body)
       klass.instance_eval(body)
+    end
+
+    private
+
+    def bogus_methods
+      [:__shadow__, :__reset__, :__overwrite__, :__overwritten_methods__, :__record__]
     end
   end
 end
