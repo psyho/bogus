@@ -1,3 +1,4 @@
+gem 'minitest', '>= 4.7'
 require 'bogus'
 
 module MiniTest::Assertions
@@ -22,7 +23,7 @@ module MiniTest::Assertions
   end
 end
 
-class MiniTest::Unit::TestCase
+module Bogus::Minitest
   include Bogus::MockingDSL
 
   def before_setup
@@ -35,3 +36,11 @@ class MiniTest::Unit::TestCase
     super
   end
 end
+
+class Minitest::Test
+  include Bogus::Minitest
+end if defined? Minitest::Test
+
+class MiniTest::Unit::TestCase
+  include Bogus::Minitest
+end if defined? MiniTest::Unit::TestCase
