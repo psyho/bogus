@@ -77,7 +77,6 @@ Then /^minitest file "([^"]*)" with the following content should (pass|fail):$/ 
   steps %Q{
     Given a file named "#{file_name}" with:
     """ruby
-    gem 'minitest', '~> 4.7.0'
     #{string}
     """
     When I run `ruby #{file_name}`

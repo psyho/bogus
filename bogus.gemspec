@@ -38,5 +38,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'activerecord'
   s.add_development_dependency 'activerecord-nulldb-adapter'
 
-  s.add_development_dependency 'minitest', '~> 4.7.0'
+  s.add_development_dependency 'minitest', '>= 4.7'
 end
