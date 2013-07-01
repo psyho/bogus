@@ -20,6 +20,7 @@ module Bogus
 
     private
 
+    undef :instance_methods if defined? :instance_methods
     def instance_methods
       @instance_methods.call(klass)
     end
