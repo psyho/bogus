@@ -106,3 +106,39 @@ Feature: Spies
       end
     end
     """
+
+  Scenario: Spying on attribute writers
+    Given a file named "canvas.rb" with:
+    """ruby
+    class Canvas
+      def background_color=(color)
+        # do something complicated
+      end
+    end
+    """
+
+    Given a file named "popup.rb" with:
+    """ruby
+    class Popup
+      def self.alert(message, canvas)
+        canvas.background_color = "red"
+        # display message
+      end
+    end
+    """
+   
+    Then spec file with following content should pass:
+    """ruby
+    require_relative 'canvas'
+    require_relative 'popup'
+
+    describe Popup do
+      fake(:canvas)
+
+      it "sets the background to red" do
+        Popup.alert("No such file!", canvas)
+
+        canvas.should have_received(:background_color=, "red")
+      end
+    end
+    """

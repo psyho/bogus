@@ -45,3 +45,4 @@ Initial version.
 - Support for Rubinius (head) and JRuby
 - Overwrite described_class in on verify_contract
 - Added with{} and any(Klass) argument matchers
+- Added have_received(:name, args) syntax

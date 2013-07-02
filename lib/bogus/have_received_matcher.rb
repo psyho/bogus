@@ -35,6 +35,11 @@ module Bogus
       proxy(:set_method)
     end
 
+    def build(*args)
+      return method_call if args.empty?
+      set_method(*args)
+    end
+
     def set_method(name, *args, &block)
       @name = name
       @args = args
