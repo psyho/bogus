@@ -5,7 +5,6 @@ module Bogus
     def initialize
       @calls = []
       @stubs = []
-      @defaults = {}
       @required = Set.new
     end
 
@@ -22,7 +21,6 @@ module Bogus
     def stubs(name, *args, &return_value)
       interaction = Interaction.new(name, args)
       add_stub(interaction, return_value)
-      override_default(interaction, return_value)
       @required.reject! { |i| Interaction.same?(recorded: i, stubbed: interaction) }
       interaction
     end
@@ -46,18 +44,12 @@ module Bogus
 
     private
 
-    def override_default(interaction, return_value)
-      return unless AnyArgs.any_args?(interaction.args)
-      @defaults[interaction.method] = return_value || proc{nil}
-    end
-
     def add_stub(interaction, return_value_block)
       @stubs << [interaction, return_value_block] if return_value_block
     end
 
     def return_value(interaction)
       _, return_value = @stubs.reverse.find{|i, v| Interaction.same?(recorded: interaction, stubbed: i)}
-      return_value ||= @defaults[interaction.method]
       return_value ||= proc{ UndefinedReturnValue.new(interaction) }
       return_value.call
     end

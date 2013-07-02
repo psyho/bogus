@@ -28,6 +28,10 @@ module Bogus
       Bogus::AnyArgs
     end
 
+    def with(&block)
+      Bogus::WithArguments.new(&block)
+    end
+
     def anything
       Bogus::Anything
     end

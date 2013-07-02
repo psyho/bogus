@@ -7,7 +7,7 @@ module Bogus
     def verify!(object, method_name, args)
       stubbing_non_existent_method!(object, method_name) unless object.respond_to?(method_name)
       return unless object.methods.include?(method_name)
-      return if any_args?(args)
+      return if WithArguments.with_matcher?(args)
       method = object.method(method_name)
       verify_call!(method, args)
     end
@@ -30,10 +30,6 @@ module Bogus
 
     def stubbing_non_existent_method!(object, method_name)
       raise NameError, "#{object.inspect} does not respond to #{method_name}"
-    end
-
-    def any_args?(args)
-      [Bogus::AnyArgs] == args
     end
   end
 end

@@ -59,7 +59,7 @@ module Bogus
       end
 
       def same?
-        return true if any_args?
+        return true if with_matcher_args?
 
         stubbed == recorded_without_defaults
       end
@@ -80,8 +80,8 @@ module Bogus
         positional + [without_defaults]
       end
 
-      def any_args?
-        AnyArgs.any_args?(stubbed)
+      def with_matcher_args?
+        WithArguments.matches?(stubbed: stubbed, recorded: recorded_without_defaults)
       end
 
       def recorded_has_keyword?
