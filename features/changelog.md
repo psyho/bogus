@@ -1,4 +1,4 @@
-## 0.1.1 (in progress)
+## 0.1.1
 
 - Minor bugfixes to Ruby 2.0 support
 - Support for Rubinius (head) and JRuby
