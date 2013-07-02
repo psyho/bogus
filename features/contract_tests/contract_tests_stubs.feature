@@ -103,7 +103,7 @@ Feature: Contract tests with stubs
     describe Library do
       verify_contract(:library)
 
-      let(:library) { Library.new }
+      let(:library) { described_class.new }
 
       it "allows checking out books that are in the inventory" do
         library.return("Moby Dick")

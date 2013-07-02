@@ -10,6 +10,7 @@ module Bogus
       new_klass = create_proxy_class.call(name, klass)
       overwrites_classes.overwrite(klass.name, new_klass)
       overwritten_classes.add(klass.name, klass)
+      new_klass
     end
   end
 end

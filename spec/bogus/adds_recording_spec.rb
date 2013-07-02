@@ -43,6 +43,10 @@ describe Bogus::AddsRecording do
     it "records the overwritten class, so that it can be later restored" do
       overwritten_classes.should have_received.add("SampleModule::Library", SampleModule::Library)
     end
+
+    it "returns the proxy class" do
+      adds_recording.add(:library).should == Object
+    end
   end
 
   context "with class argument" do
@@ -64,6 +68,10 @@ describe Bogus::AddsRecording do
 
     it "records the overwritten class, so that it can be later restored" do
       overwritten_classes.should have_received.add("SampleModule::OtherClass", SampleModule::OtherClass)
+    end
+
+    it "returns the proxy class" do
+      adds_recording.add(:library, SampleModule::OtherClass).should == Object
     end
   end
 end
