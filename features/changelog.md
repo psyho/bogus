@@ -43,3 +43,4 @@ Initial version.
 
 - Minor bugfixes to Ruby 2.0 support
 - Support for Rubinius (head) and JRuby
+- Overwrite described_class in on verify_contract
