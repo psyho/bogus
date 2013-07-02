@@ -16,7 +16,8 @@ module Bogus
       [[:foo, [:bar]], [:foo, [AnyArgs]]],
       [[:foo, [:bar], "same value"], [:foo, [AnyArgs], "same value"]],
       [[:foo, [:bar, :baz]], [:foo, [:bar, Anything]]],
-      [[:foo, [1], "same value"], [:foo, [WithArguments.new{|n| n.odd?}], "same value"]]
+      [[:foo, [1], "same value"], [:foo, [WithArguments.new{|n| n.odd?}], "same value"]],
+      [[:foo, [1]], [:foo, [SameClass.new(Integer)]]]
     ]
 
     different = [
@@ -33,7 +34,8 @@ module Bogus
       [[:foo, [:bar], "some value"], [:foo, [AnyArgs], "other value"]],
       [[:foo, [:bar]], [:foo, [:baz]]],
       [[:baz, [:bar]], [:foo, [:bar]]],
-      [[:foo, [2], "same value"], [:foo, [WithArguments.new{|n| n.odd?}], "same value"]]
+      [[:foo, [2], "same value"], [:foo, [WithArguments.new{|n| n.odd?}], "same value"]],
+      [[:foo, [1]], [:foo, [SameClass.new(Symbol)]]]
     ]
 
     def create_interaction(interaction)

@@ -32,6 +32,10 @@ module Bogus
       Bogus::WithArguments.new(&block)
     end
 
+    def any(klass)
+      Bogus::SameClass.new(klass)
+    end
+
     def anything
       Bogus::Anything
     end
