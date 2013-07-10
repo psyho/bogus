@@ -199,7 +199,7 @@ describe Bogus::MockingDSL do
 
         expect {
           Bogus.after_each_test
-        }.not_to raise_error(Bogus::NotAllExpectationsSatisfied)
+        }.not_to raise_error
       end
     end
 
@@ -222,7 +222,7 @@ describe Bogus::MockingDSL do
 
       expect {
         Bogus.after_each_test
-      }.not_to raise_error(Bogus::NotAllExpectationsSatisfied)
+      }.not_to raise_error
     end
 
     context "with fakes" do
