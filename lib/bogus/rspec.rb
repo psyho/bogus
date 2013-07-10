@@ -5,7 +5,7 @@ RSpec.configure do |config|
   config.include Bogus::MockingDSL
 
   config.mock_with Bogus::RSpecAdapter
-  config.backtrace_clean_patterns << Regexp.new("lib/bogus")
+  config.backtrace_exclusion_patterns << Regexp.new("lib/bogus")
 
   config.after(:suite) do
     Bogus.reset!
