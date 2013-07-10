@@ -1,3 +1,7 @@
+## 0.1.2
+
+- Removed rspec warning about backtrace_clean_patterns
+
 ## 0.1.1
 
 - Minor bugfixes to Ruby 2.0 support
