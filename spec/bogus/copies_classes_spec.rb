@@ -58,7 +58,16 @@ describe Bogus::CopiesClasses do
   let(:fake) { fake_class.new }
 
   class FooWithInstanceMethods
+    CONST = "the const"
     include SampleMethods
+  end
+
+  context "nested constants" do
+    let(:klass) { FooWithInstanceMethods }
+
+    it "does not overwrite nested constants" do
+      fake_class::CONST.should == "the const"
+    end
   end
 
   context "instance methods" do
