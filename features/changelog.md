@@ -1,3 +1,7 @@
+## 0.1.3 (in progress)
+
+- Support for minitest
+
 ## 0.1.2
 
 - Removed rspec warning about backtrace_clean_patterns
