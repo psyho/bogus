@@ -54,7 +54,7 @@ end
 
 ## License
 
-MIT. See the LICENSE file.
+MIT. See the [LICENSE file].
 
 ## Authors
 
@@ -70,3 +70,4 @@ MIT. See the LICENSE file.
 [ar-support]: https://www.relishapp.com/bogus/bogus/docs/configuration/fake-ar-attributes
 [global-configuration]: https://www.relishapp.com/bogus/bogus/docs/fakes/global-fake-configuration
 [contract-tests]: https://www.relishapp.com/bogus/bogus/docs/contract-tests
+[license]: features/license.md
