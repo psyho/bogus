@@ -54,7 +54,7 @@ end
 
 ## License
 
-MIT. See the [LICENSE file].
+MIT. See the [LICENSE file][license].
 
 ## Authors
 
