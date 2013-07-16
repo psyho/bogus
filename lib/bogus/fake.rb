@@ -32,14 +32,6 @@ module Bogus
         __record__(:new, *args, &block)
         __create__
       end
-
-      def name
-        __copied_class__.name
-      end
-
-      def to_s
-        name
-      end
     end
   end
 end

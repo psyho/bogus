@@ -10,6 +10,14 @@ module Bogus
           klass
         end
 
+        define_singleton_method(:name) do
+          klass.name
+        end
+
+        define_singleton_method(:to_s) do
+          klass.name
+        end
+
         define_singleton_method(:const_missing) do |name|
           klass.const_get(name)
         end
