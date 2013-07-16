@@ -1,6 +1,8 @@
-## 0.1.3 (in progress)
+## 0.1.3
 
 - Support for minitest
+- Support nested constants in faked classes
+- Fixed error in RSpec < 2.14
 
 ## 0.1.2
 
