@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/psyho/bogus"
   s.summary     = %q{Create fakes to make your isolated unit tests reliable.}
   s.description = %q{Decreases the need to write integration tests by ensuring that the things you stub or mock actually exist.}
+  s.license     = 'MIT'
 
   s.rubyforge_project = "bogus"
 
