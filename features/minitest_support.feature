@@ -3,7 +3,7 @@ Feature: minitest support
   minitest is supported by Bogus both with the classic assert-style syntax and the minitest/spec expectation syntax.
 
   Background:
-    Given a file named "foo.rb" with:
+    Given a file named "library.rb" with:
     """ruby
     class Library
       def self.books
@@ -15,13 +15,19 @@ Feature: minitest support
       def return_book(book)
       end
     end
+    """
 
+    Given a file named "book_index.rb" with:
+    """ruby
     class BookIndex
       def self.by_author(author)
         Library.books.select{|book| book[:author] == author}
       end
     end
+    """
 
+    Given a file named "student.rb" with:
+    """ruby
     class Student
       def initialize(library)
         @library = library
@@ -40,7 +46,9 @@ Feature: minitest support
     """ruby
     require 'minitest/autorun'
     require 'bogus/minitest'
-    require_relative 'foo'
+
+    require_relative 'student'
+    require_relative 'library'
 
     class StudentTest < MiniTest::Unit::TestCase
       def test_library_checkouts
@@ -59,7 +67,9 @@ Feature: minitest support
     """ruby
     require 'minitest/autorun'
     require 'bogus/minitest'
-    require_relative 'foo'
+
+    require_relative 'student'
+    require_relative 'library'
 
     class StudentTest < MiniTest::Unit::TestCase
       def setup
@@ -83,7 +93,9 @@ Feature: minitest support
     """ruby
     require 'minitest/autorun'
     require 'bogus/minitest/spec'
-    require_relative 'foo'
+
+    require_relative 'student'
+    require_relative 'library'
 
     describe Student do
       describe "#study" do
@@ -107,7 +119,9 @@ Feature: minitest support
     """ruby
     require 'minitest/autorun'
     require 'bogus/minitest/spec'
-    require_relative 'foo'
+
+    require_relative 'book_index'
+    require_relative 'library'
 
     describe BookIndex do
       fake_class(Library, books: [])
