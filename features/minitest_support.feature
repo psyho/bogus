@@ -2,6 +2,8 @@ Feature: minitest support
 
   minitest is supported by Bogus both with the classic assert-style syntax and the minitest/spec expectation syntax.
 
+  At the moment we support all of Bogus features in minitest except for contract verification.
+
   Background:
     Given a file named "library.rb" with:
     """ruby
@@ -82,7 +84,7 @@ Feature: minitest support
         student.study("Moby Dick", "Sherlock Holmes")
 
         assert_received @library, :checkout, ["Moby Dick"]
-        assert_received @library, :checkout, ["Sherlock Holmes"]
+        assert_received @library, :checkout, ["Sherlock Holmes"], "optional message"
         refute_received @library, :return_book, ["Moby Dick"]
       end
     end

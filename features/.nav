@@ -20,6 +20,7 @@
 - configuration (Configuration Options):
   - search_modules.feature
   - fake_ar_attributes.feature
+- minitest_support.feature
 - changelog.md
 - license.md
 - authors.md
