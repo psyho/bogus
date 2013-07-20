@@ -44,7 +44,7 @@ Feature: minitest support
     """
 
   Scenario: Auto-verification of unsatisfied mocks
-    Then minitest file "foo_test.rb" with the following content should fail:
+    Then minitest file "student_test.rb" with the following content should fail:
     """ruby
     require 'minitest/autorun'
     require 'bogus/minitest'
@@ -65,7 +65,7 @@ Feature: minitest support
     """
 
   Scenario: Spying on method calls with assert syntax
-    Then minitest file "foo_test.rb" with the following content should pass:
+    Then minitest file "student_test.rb" with the following content should pass:
     """ruby
     require 'minitest/autorun'
     require 'bogus/minitest'
@@ -91,7 +91,7 @@ Feature: minitest support
     """
 
   Scenario: Spying on method calls with expectation syntax
-    Then minitest file "foo_spec.rb" with the following content should pass:
+    Then minitest file "student_spec.rb" with the following content should pass:
     """ruby
     require 'minitest/autorun'
     require 'bogus/minitest/spec'
@@ -117,7 +117,7 @@ Feature: minitest support
     """
 
   Scenario: Describe-level class faking
-    Then minitest file "foo_spec.rb" with the following content should pass:
+    Then minitest file "book_index_spec.rb" with the following content should pass:
     """ruby
     require 'minitest/autorun'
     require 'bogus/minitest/spec'
