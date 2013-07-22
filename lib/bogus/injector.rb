@@ -82,6 +82,10 @@ module Bogus
       @overwritten_classes ||= inject(OverwrittenClasses)
     end
 
+    def adds_contract_verification(syntax)
+      inject(AddsContractVerification, syntax: syntax)
+    end
+
     def create_proxy_class(fake_name, klass)
       inject(ProxyClass, fake_name: fake_name, klass: klass)
     end

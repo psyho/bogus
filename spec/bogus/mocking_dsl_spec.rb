@@ -134,7 +134,7 @@ describe Bogus::MockingDSL do
     end
 
     it "can be used with self references" do
-      Bogus.record_calls_for(:passes_self_to_collaborator)
+      Bogus.record_calls_for(:passes_self_to_collaborator, PassesSelfToCollaborator)
 
       fake = Bogus.fake_for(:example_foo)
       object = PassesSelfToCollaborator.new
@@ -381,7 +381,7 @@ describe Bogus::MockingDSL do
 
       Bogus.after_each_test
 
-      Bogus.record_calls_for(:sample_for_contracts)
+      Bogus.record_calls_for(:sample_for_contracts, SampleForContracts)
     end
 
     it "passes when all the mocked interactions were executed" do

@@ -4,6 +4,10 @@ module Bogus
       inject.adds_recording.add(name, klass)
     end
 
+    def add_contract_verification(syntax, name, &block)
+      inject.adds_contract_verification(syntax).add(name, &block)
+    end
+
     def verify_contract!(fake_name)
       inject.verifies_contracts.verify(fake_name)
     end

@@ -1,4 +1,23 @@
+require 'forwardable'
+
 module Bogus
+  class RSpecSyntax
+    extend Takes
+    extend Forwardable
+    takes :context
+    def_delegators :context, :before, :after, :described_class
+
+    def described_class=(value)
+      context.example.metadata[:example_group][:described_class] = value
+    end
+
+    def after_suite(&block)
+      RSpec.configure do |config|
+        config.after(:suite, &block)
+      end
+    end
+  end
+
   module RSpecExtensions
     def fake(name, opts = {}, &block)
       let(name) { fake(name, opts, &block) }
@@ -11,22 +30,8 @@ module Bogus
     end
 
     def verify_contract(name, &block)
-      custom_class = block.call if block_given?
-      old_described_class = described_class
-      verified_class = custom_class || described_class
-
-      before do
-        new_class = Bogus.record_calls_for(name, verified_class)
-        example.metadata[:example_group][:described_class] = new_class unless custom_class
-      end
-
-      after do
-        example.metadata[:example_group][:described_class] = old_described_class unless custom_class
-      end
-
-      RSpec.configure do |config|
-        config.after(:suite) { Bogus.verify_contract!(name) }
-      end
+      syntax = RSpecSyntax.new(self)
+      Bogus.add_contract_verification(syntax, name, &block)
     end
   end
 end
