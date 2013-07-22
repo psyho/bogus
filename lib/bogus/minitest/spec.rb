@@ -16,10 +16,10 @@ class MiniTest::Spec
     end
 
     def verify_contract(name)
-      @old_desc = @desc
+      old_desc = @desc
 
       before { @desc = Bogus.record_calls_for(name, @desc) }
-      after { @desc = @old_desc }
+      after { @desc = old_desc }
 
       # minitest 5 vs 4.7
       if defined? Minitest.after_run
