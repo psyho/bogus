@@ -14,5 +14,14 @@ class MiniTest::Spec
     def fake_class(name, opts = {})
       before { fake_class(name, opts) }
     end
+
+    def verify_contract(name)
+      @old_desc = @desc
+
+      before { @desc = Bogus.record_calls_for(name, @desc) }
+      after { @desc = @old_desc }
+
+      Minitest.after_run { Bogus.verify_contract!(name) }
+    end
   end
 end
