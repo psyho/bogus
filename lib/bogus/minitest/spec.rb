@@ -21,7 +21,12 @@ class MiniTest::Spec
       before { @desc = Bogus.record_calls_for(name, @desc) }
       after { @desc = @old_desc }
 
-      Minitest.after_run { Bogus.verify_contract!(name) }
+      # minitest 5 vs 4.7
+      if defined? Minitest.after_run
+        Minitest.after_run { Bogus.verify_contract!(name) }
+      else
+        MiniTest::Unit.after_tests { Bogus.verify_contract!(name) }
+      end
     end
   end
 end

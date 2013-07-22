@@ -37,10 +37,13 @@ module Bogus::Minitest
   end
 end
 
-class Minitest::Test
-  include Bogus::Minitest
-end if defined? Minitest::Test
-
-class MiniTest::Unit::TestCase
-  include Bogus::Minitest
-end if defined? MiniTest::Unit::TestCase
+# minitest 5 vs 4.7
+if defined? Minitest::Test
+  class Minitest::Test
+    include Bogus::Minitest
+  end
+else
+  class MiniTest::Unit::TestCase
+    include Bogus::Minitest
+  end
+end
