@@ -2,8 +2,6 @@ Feature: minitest support
 
   minitest is supported by Bogus both with the classic assert-style syntax and the minitest/spec expectation syntax.
 
-  At the moment we support all of Bogus features in minitest except for contract verification.
-
   Background:
     Given a file named "library.rb" with:
     """ruby
@@ -44,7 +42,7 @@ Feature: minitest support
     """
 
   Scenario: Auto-verification of unsatisfied mocks
-    Then minitest file "foo_test.rb" with the following content should fail:
+    Then minitest file "student_test.rb" with the following content should fail:
     """ruby
     require 'minitest/autorun'
     require 'bogus/minitest'
@@ -65,7 +63,7 @@ Feature: minitest support
     """
 
   Scenario: Spying on method calls with assert syntax
-    Then minitest file "foo_test.rb" with the following content should pass:
+    Then minitest file "student_test.rb" with the following content should pass:
     """ruby
     require 'minitest/autorun'
     require 'bogus/minitest'
@@ -91,7 +89,7 @@ Feature: minitest support
     """
 
   Scenario: Spying on method calls with expectation syntax
-    Then minitest file "foo_spec.rb" with the following content should pass:
+    Then minitest file "student_spec.rb" with the following content should pass:
     """ruby
     require 'minitest/autorun'
     require 'bogus/minitest/spec'
@@ -117,7 +115,7 @@ Feature: minitest support
     """
 
   Scenario: Describe-level class faking
-    Then minitest file "foo_spec.rb" with the following content should pass:
+    Then minitest file "book_index_spec.rb" with the following content should pass:
     """ruby
     require 'minitest/autorun'
     require 'bogus/minitest/spec'
@@ -130,6 +128,62 @@ Feature: minitest support
 
       it "returns books written by author" do
         BookIndex.by_author("Mark Twain").must_equal []
+      end
+    end
+    """
+
+  Scenario: Negative contract verification
+    Then minitest file "student_and_library_spec.rb" with the following content should fail:
+    """ruby
+    require 'minitest/autorun'
+    require 'bogus/minitest/spec'
+
+    require_relative 'student'
+    require_relative 'library'
+
+    describe Student do
+      describe "#study" do
+        fake(:library)
+
+        it "studies using books from library" do
+          Student.new(library).study("Moby Dick")
+          library.must_have_received :checkout, ["Moby Dick"]
+        end
+      end
+    end
+
+    describe Library do
+      verify_contract(:library)
+    end
+    """
+
+  Scenario: Positive contract verification
+    Then minitest file "student_and_library_spec.rb" with the following content should pass:
+    """ruby
+    require 'minitest/autorun'
+    require 'bogus/minitest/spec'
+
+    require_relative 'student'
+    require_relative 'library'
+
+    describe Student do
+      describe "#study" do
+        fake(:library)
+
+        it "studies using books from library" do
+          Student.new(library).study("Moby Dick")
+          library.must_have_received :checkout, ["Moby Dick"]
+        end
+      end
+    end
+
+    describe Library do
+      verify_contract(:library)
+
+      describe '#checkout' do
+        it "checks books out" do
+          Library.new.checkout("Moby Dick")
+        end
       end
     end
     """
