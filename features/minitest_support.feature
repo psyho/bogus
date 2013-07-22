@@ -187,3 +187,42 @@ Feature: minitest support
       end
     end
     """
+
+  Scenario: Custom verified class
+    Then minitest file "student_and_library_spec.rb" with the following content should pass:
+    """ruby
+    require 'minitest/autorun'
+    require 'bogus/minitest/spec'
+
+    class NetworkLogger
+      def info(msg)
+      end
+    end
+
+    class OrderProcessor
+      def process(order, logger = NetworkLogger.new)
+        logger.info("#{order} processed")
+      end
+    end
+
+    describe OrderProcessor do
+      describe "#process" do
+        fake(:logger) { NetworkLogger }
+
+        it "processes orders" do
+          OrderProcessor.new.process("burger & fries", logger)
+          logger.must_have_received :info, ["burger & fries processed"]
+        end
+      end
+    end
+
+    describe "Using network logger" do
+      verify_contract(:logger) { NetworkLogger }
+
+      describe '#info' do
+        it "logs on info level" do
+          NetworkLogger.new.info("burger & fries processed")
+        end
+      end
+    end
+    """

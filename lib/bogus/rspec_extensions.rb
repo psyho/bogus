@@ -10,16 +10,18 @@ module Bogus
       end
     end
 
-    def verify_contract(name)
+    def verify_contract(name, &block)
+      custom_class = block.call if block_given?
       old_described_class = described_class
+      verified_class = custom_class || described_class
 
       before do
-        new_class = Bogus.record_calls_for(name, described_class)
-        example.metadata[:example_group][:described_class] = new_class
+        new_class = Bogus.record_calls_for(name, verified_class)
+        example.metadata[:example_group][:described_class] = new_class unless custom_class
       end
 
       after do
-        example.metadata[:example_group][:described_class] = old_described_class
+        example.metadata[:example_group][:described_class] = old_described_class unless custom_class
       end
 
       RSpec.configure do |config|

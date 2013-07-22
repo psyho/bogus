@@ -15,11 +15,17 @@ class MiniTest::Spec
       before { fake_class(name, opts) }
     end
 
-    def verify_contract(name)
+    def verify_contract(name, &block)
       old_desc = @desc
+      custom_class = block.call if block_given?
+      verified_class = custom_class || @desc
 
-      before { @desc = Bogus.record_calls_for(name, @desc) }
-      after { @desc = old_desc }
+      before do
+        new_class = Bogus.record_calls_for(name, verified_class)
+        @desc = new_class unless custom_class
+      end
+
+      after { @desc = old_desc unless custom_class }
 
       # minitest 5 vs 4.7
       if defined? Minitest.after_run
