@@ -1,3 +1,7 @@
+## 0.1.4 (in progress)
+
+- Support for contracts in minitest
+
 ## 0.1.3
 
 - Support for minitest
