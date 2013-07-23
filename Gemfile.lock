@@ -75,7 +75,7 @@ GEM
     minitest (5.0.6)
     multi_json (1.7.7)
     multi_test (0.0.1)
-    rake (0.9.2.2)
+    rake (10.1.0)
     rb-fchange (0.0.5)
       ffi
     rb-fsevent (0.9.1)
