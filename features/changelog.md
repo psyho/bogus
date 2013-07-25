@@ -1,6 +1,10 @@
-## 0.1.4 (in progress)
+## 0.1.4
 
 - Support for contracts in minitest
+- Allowed customizing the class being overwritten by verify_contract
+- Fixed is_a? behavior for fakes
+- Fake#is_a? now returns true for superclasses of and modules included into the faked class.
+- Reorganized the code into subdirectories
 
 ## 0.1.3
 
