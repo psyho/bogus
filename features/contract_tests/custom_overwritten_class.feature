@@ -1,4 +1,26 @@
-Feature: Customizing the verified class
+Feature: Customizing the overwritten class
+
+  Typically, when you specify a contract to be verified, you do it like this:
+
+      describe SomeClass do
+        verify_contract(:some_fake_name)
+      end
+
+  When you do this, under the hood Bogus replaces `SomeClass` with a proxy that records any calls made to the class and its instances for the duration of the test.
+
+  If the class you want to be overwritten is not the one that is described, you can customize it like so:
+
+      describe "not a class" do
+        verify_contract(:some_fake_name) { SomeClass }
+      end
+
+  In case there is no described class and you don't provide a custom one to be overwritten, the class will be guessed based on the name of the fake:
+
+      describe "not a class" do
+        verify_contract(:some_fake_name)
+      end
+
+  In the above example, Bogus will try to overwrite a class named `SomeFakeName`.
 
   Background:
     Given a file named "library.rb" with:

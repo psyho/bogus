@@ -17,7 +17,7 @@
   - contract_tests_stubs.feature
   - contract_tests_spies.feature
   - return_value_contracts.feature
-  - custom_verified_class.feature
+  - custom_overwritten_class.feature
 - configuration (Configuration Options):
   - search_modules.feature
   - fake_ar_attributes.feature
