@@ -3,10 +3,10 @@ require 'erb'
 require 'set'
 
 require_relative 'bogus/takes'
-require_relative 'bogus/record_interactions'
+require_relative 'bogus/stubbing/record_interactions'
 require_relative 'bogus/proxies_method_calls'
-require_relative 'bogus/rspec_extensions'
-require_relative 'bogus/rspec_adapter'
+require_relative 'bogus/rspec/extensions'
+require_relative 'bogus/rspec/adapter'
 
 dir = File.realpath File.expand_path('../bogus', __FILE__)
 Dir["#{dir}/**/*.rb"].sort.each do |path|
