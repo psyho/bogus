@@ -125,15 +125,15 @@ describe Bogus::CopiesClasses do
     end
 
     it "should override kind_of?" do
-      fake.should be_kind_of(SomeModule::SomeClass)
+      fake.kind_of?(SomeModule::SomeClass).should be_true
     end
 
     it "should override instance_of?" do
-      fake.should be_instance_of(SomeModule::SomeClass)
+      fake.instance_of?(SomeModule::SomeClass).should be_true
     end
 
     it "should override is_a?" do
-      fake.should be_a(SomeModule::SomeClass)
+      fake.is_a?(SomeModule::SomeClass).should be_true
     end
 
     it "should include class name in the output of fake's class #to_s" do
@@ -143,10 +143,6 @@ describe Bogus::CopiesClasses do
     it "should include class name in the output of fake's #to_s" do
       fake.to_s.should include(klass.name)
     end
-
-    # TODO
-    it "should override kind_of?/instance_of? for base classes of copied class"
-    it "should override kind_of? for modules included into copied class"
   end
 
   shared_examples_for 'spying' do

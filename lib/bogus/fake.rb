@@ -18,12 +18,12 @@ module Bogus
     end
 
     def kind_of?(klass)
-      klass == self.class.__copied_class__
+      copied_class = self.class.__copied_class__
+      super || BaseClassIdentifier.base_class?(copied_class, klass)
     end
 
-    def instance_of?(klass)
-      klass == self.class.__copied_class__
-    end
+    alias :instance_of? :kind_of?
+    alias :is_a? :kind_of?
 
     class << self
       alias :__create__ :new
