@@ -110,6 +110,10 @@ classes = class_names.map do |name|
   Klass.create(name: name, dependency_names: dependencies)
 end
 
-classes.take(5).each do |k|
-  puts KlassBodyPresenter.new(k).body
+require 'fileutils'
+
+FileUtils.mkdir_p("lib/klasses")
+classes.each do |k|
+  body = KlassBodyPresenter.new(k).body
+  File.write("lib/klasses/#{k.name}.rb", body)
 end
