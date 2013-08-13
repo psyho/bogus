@@ -1,0 +1,4 @@
+#!/bin/bash
+
+time rspec spec_bogus
+time rspec spec_rspec
