@@ -6,9 +6,9 @@ module Bogus
 
     def verify!(object, method_name, args)
       stubbing_non_existent_method!(object, method_name) unless object.respond_to?(method_name)
-      return unless object.methods.include?(method_name)
+      method = object.method(method_name) rescue nil
+      return unless method
       return if WithArguments.with_matcher?(args)
-      method = object.method(method_name)
       verify_call!(method, args)
     end
 

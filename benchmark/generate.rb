@@ -3,7 +3,7 @@
 require 'securerandom'
 
 alphabet = ('a'..'z').to_a
-num_classes = 200
+num_classes = (ARGV[0] || 200).to_i
 dependencies_per_class = [1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 5]
 
 class Klass
@@ -111,6 +111,30 @@ class BogusDSL
   def stub_method(dep)
     "stub(#{dep.as_var}).foo(2) { :hello }"
   end
+
+  def subject(klass)
+    deps = klass.dependencies.map(&:as_var)
+    "let(#{klass.as_sym}) { #{klass.as_const}.new(#{deps.join(", ")}) } "
+  end
+end
+
+class BogusIsolateDSL < BogusDSL
+  def configure
+    <<-EOF
+    require 'bogus/rspec'
+    require 'dependor/rspec'
+    EOF
+  end
+
+  def subject(klass)
+    "let(#{klass.as_sym}) { isolate(#{klass.as_const}) } "
+  end
+end
+
+class BogusNoFakesDSL < BogusDSL
+  def dependency(klass)
+    "let(#{klass.as_sym}) { #{klass.as_const}.new(#{klass.dependencies.map{"nil"}.join(', ')}) }"
+  end
 end
 
 class RspecDSL
@@ -123,6 +147,36 @@ class RspecDSL
 
   def stub_method(dep)
     "#{dep.as_var}.stub(:foo).with(2).and_return(:hello)"
+  end
+
+  def subject(klass)
+    deps = klass.dependencies.map(&:as_var)
+    "let(#{klass.as_sym}) { #{klass.as_const}.new(#{deps.join(", ")}) } "
+  end
+end
+
+class RspecFireDSL
+  def configure
+<<EOF
+require 'rspec/fire'
+
+RSpec.configure do |config|
+  config.include(RSpec::Fire)
+end
+EOF
+  end
+
+  def dependency(klass)
+    "let(#{klass.as_sym}) { instance_double('#{klass.as_const}') }"
+  end
+
+  def stub_method(dep)
+    "#{dep.as_var}.stub(:foo).with(2).and_return(:hello)"
+  end
+
+  def subject(klass)
+    deps = klass.dependencies.map(&:as_var)
+    "let(#{klass.as_sym}) { #{klass.as_const}.new(#{deps.join(", ")}) } "
   end
 end
 
@@ -149,8 +203,7 @@ EOF
   end
 
   def subject
-    deps = klass.dependencies.map(&:as_var)
-    "let(#{klass.as_sym}) { #{klass.as_const}.new(#{deps.join(", ")}) } "
+    dsl.subject(klass)
   end
 
   def fakes
@@ -193,6 +246,23 @@ require_relative "../lib/project.rb"
 
 RSpec.configure do |c|
   c.color_enabled = true
+
+  if ENV['PROFILE']
+    c.before(:suite) do
+      require 'ruby-prof'
+
+      RubyProf.start
+    end
+
+    c.after(:suite) do
+      result = RubyProf.stop
+      printer = RubyProf::CallTreePrinter.new(result)
+
+      File.open("profile.kcg", "w") do |f|
+        printer.print(f, :min_percent => 2)
+      end
+    end
+  end
 end
 EOF
 end
@@ -231,5 +301,8 @@ end
 
 save_manifest(classes)
 save_specs(BogusDSL.new, "spec_bogus", classes)
+save_specs(BogusNoFakesDSL.new, "spec_no_fakes", classes)
+save_specs(BogusIsolateDSL.new, "spec_bogus_isolate", classes)
 save_specs(RspecDSL.new, "spec_rspec", classes)
+save_specs(RspecFireDSL.new, "spec_fire", classes)
 

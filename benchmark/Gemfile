@@ -1,0 +1,7 @@
+source "https://rubygems.org"
+
+gem "bogus", path: ".."
+gem "dependor", path: "../../dependor"
+gem "rspec"
+gem "rspec-fire"
+gem "ruby-prof"

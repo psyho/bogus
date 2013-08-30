@@ -4,6 +4,8 @@
 .ruby-gemset
 .ruby-version
 .rvmrc
+benchmark/spec_*
+benchmark/*.kcg
 coverage/
 gems.tags
 pkg/*

@@ -19,6 +19,10 @@ module Bogus
       @fake_registry ||= inject(FakeRegistry)
     end
 
+    def copies_classes
+      @copies_classes ||= inject(CachesCopiedClasses, copies_classes: inject(CopiesClasses))
+    end
+
     def creates_fakes
       creates_fakes = inject(CreatesFakes)
       inject(RegistersCreatedFakes, creates_fakes: creates_fakes)
