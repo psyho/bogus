@@ -143,6 +143,10 @@ describe Bogus::CopiesClasses do
     it "should include class name in the output of fake's #to_s" do
       fake.to_s.should include(klass.name)
     end
+
+    it 'should override ===' do
+      SomeModule::SomeClass.should === fake
+    end
   end
 
   shared_examples_for 'spying' do
