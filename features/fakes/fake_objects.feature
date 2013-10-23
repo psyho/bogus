@@ -121,3 +121,26 @@ Feature: Faking existing classes
       end
     end
     """
+
+  Scenario: Fakes are identified as instances of the faked class
+    Then spec file with following content should pass:
+    """ruby
+    require_relative 'library'
+
+    def library?(object)
+      case object
+      when Library
+        true
+      else
+        false
+      end
+    end
+
+    describe "library class fake" do
+      fake(:library)
+
+      it "is identified as Library" do
+        library?(library).should be_true
+      end
+    end
+    """
