@@ -6,7 +6,7 @@ module Bogus
 
     def overwrite(object, name)
       raise "wut?" if name == :__shadow__
-      return if object.is_a?(FakeObject)
+      return if already_delegates_to_shadow?(object, name)
 
       object.extend RecordInteractions
       object.extend HasOverwritenMethods
@@ -24,6 +24,11 @@ module Bogus
     end
 
     private
+
+    def already_delegates_to_shadow?(object, name)
+      return false unless object.is_a?(FakeObject)
+      !Fake.instance_methods.include?(name)
+    end
 
     def method_by_name(object, name)
       object.method(name) if object.methods.include?(name)
