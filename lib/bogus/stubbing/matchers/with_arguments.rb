@@ -27,10 +27,4 @@ module Bogus
       args.first
     end
   end
-
-  AnyArgs = WithArguments.new{ true }
-
-  def AnyArgs.inspect
-    "any_args"
-  end
 end

@@ -34,7 +34,7 @@ Feature: Argument matchers
     Catalog.books_by_author_and_title("Arthur Conan Doyle", "Sherlock Holmes").should == :some_book
     """
 
-  Scenario: Stubbing methods with proc argument matcher
+  Scenario: Stubbing methods with proc arguments matcher
     Then the following test should pass:
     """ruby
     require_relative 'catalog'
@@ -44,6 +44,19 @@ Feature: Argument matchers
 
     Catalog.books_by_author_and_title("Mark Twain", "Tom Sawyer").should == :twains_book
     Catalog.books_by_author_and_title("M. Twain", "Huckleberry Finn").should == :twains_book
+    Catalog.books_by_author_and_title("Arthur Conan Doyle", "Sherlock Holmes").should == :some_book
+    """
+
+  Scenario: Stubbing methods with proc argument matcher
+    Then the following test should pass:
+    """ruby
+    require_relative 'catalog'
+
+    stub(Catalog).books_by_author_and_title(any_args) { :some_book }
+    stub(Catalog).books_by_author_and_title(matches{|author| author =~ /Twain/ }, "Tom Sawyer") { :twains_book }
+
+    Catalog.books_by_author_and_title("Mark Twain", "Tom Sawyer").should == :twains_book
+    Catalog.books_by_author_and_title("M. Twain", "Huckleberry Finn").should == :some_book
     Catalog.books_by_author_and_title("Arthur Conan Doyle", "Sherlock Holmes").should == :some_book
     """
 
