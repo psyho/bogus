@@ -8,10 +8,10 @@ describe Bogus::Configuration do
       c.search_modules << String
     end
 
-    Bogus.config.search_modules.should == [Object, String]
+    expect(Bogus.config.search_modules).to eq [Object, String]
   end
 
   it "defaults search_modules to [Object]" do
-    Bogus.config.search_modules.should == [Object]
+    expect(Bogus.config.search_modules).to eq [Object]
   end
 end

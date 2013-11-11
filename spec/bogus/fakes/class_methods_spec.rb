@@ -22,18 +22,17 @@ module Bogus
     let(:class_methods) { ClassMethods.new(SampleClass) }
 
     it "lists the class methods excluding the ones added by Bogus" do
-      class_methods.all.should =~ [:bar, :hello]
+      expect(class_methods.all).to match_array([:bar, :hello])
     end
 
     it "returns the instance methods by name" do
-      class_methods.get(:bar).should ==
-        SampleClass.method(:bar)
+      expect(class_methods.get(:bar)).to eq SampleClass.method(:bar)
     end
 
     it "removes methods by name" do
       class_methods.remove(:hello)
 
-      SampleClass.should_not respond_to(:hello)
+      expect(SampleClass).to_not respond_to(:hello)
     end
 
     it "defines instance methods" do
@@ -43,7 +42,7 @@ module Bogus
       end
       EOF
 
-      SampleClass.greet("Joe").should == "Hello, Joe!"
+      expect(SampleClass.greet("Joe")).to eq "Hello, Joe!"
     end
   end
 end

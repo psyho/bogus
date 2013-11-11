@@ -14,13 +14,13 @@ describe Bogus::OverwritesClasses do
   it "overwrites nested classes" do
     overwrites_classes.overwrite('SampleOuterModule::SampleModule::SampleClass', new_class)
 
-    SampleOuterModule::SampleModule::SampleClass.should equal(new_class)
+    expect(SampleOuterModule::SampleModule::SampleClass).to equal(new_class)
   end
 
   it "overwrites top level classes" do
     overwrites_classes.overwrite('SampleOuterModule', new_class)
 
-    SampleOuterModule.should equal(new_class)
+    expect(SampleOuterModule).to equal(new_class)
   end
 end
 

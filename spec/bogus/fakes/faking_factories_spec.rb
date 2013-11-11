@@ -24,7 +24,7 @@ describe "Faking Factories" do
 
     factory.create(2)
 
-    model_class.should have_received.new(1, 2)
+    expect(model_class).to have_received.new(1, 2)
   end
 
   class ExampleModel2
@@ -49,7 +49,7 @@ describe "Faking Factories" do
 
     model = model_class.new
 
-    model_class.should have_received.new
+    expect(model_class).to have_received.new
   end
 
   class ExampleModel4
@@ -65,7 +65,7 @@ describe "Faking Factories" do
 
     model.foo(1)
 
-    model.should have_received.foo(1)
+    expect(model).to have_received.foo(1)
   end
 
   module ExampleModel5
@@ -78,6 +78,6 @@ describe "Faking Factories" do
 
     model.foo(1)
 
-    model.should have_received.foo(1)
+    expect(model).to have_received.foo(1)
   end
 end

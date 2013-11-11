@@ -20,33 +20,33 @@ describe Bogus::CopiesClasses do
 
   shared_examples_for 'the copied class' do
     it "copies methods with no arguments" do
-      subject.should respond_to(:foo)
+      expect(subject).to respond_to(:foo)
       subject.foo
     end
 
     it "copies methods with explicit arguments" do
-      subject.should respond_to(:bar)
+      expect(subject).to respond_to(:bar)
 
-      subject.method(:bar).arity.should == 1
+      expect(subject.method(:bar).arity).to eq 1
 
       subject.bar('hello')
     end
 
     it "copies methods with variable arguments" do
-      subject.should respond_to(:baz)
+      expect(subject).to respond_to(:baz)
 
       subject.baz('hello', 'foo', 'bar', 'baz')
     end
 
     it "copies methods with default arguments" do
-      subject.should respond_to(:bam)
+      expect(subject).to respond_to(:bam)
 
       subject.bam
       subject.bam(hello: 'world')
     end
 
     it "copies methods with block arguments" do
-      subject.should respond_to(:baa)
+      expect(subject).to respond_to(:baa)
 
       subject.baa('hello')
       subject.baa('hello') {}
@@ -66,7 +66,7 @@ describe Bogus::CopiesClasses do
     let(:klass) { FooWithInstanceMethods }
 
     it "does not overwrite nested constants" do
-      fake_class::CONST.should == "the const"
+      expect(fake_class::CONST).to eq "the const"
     end
   end
 
@@ -91,13 +91,13 @@ describe Bogus::CopiesClasses do
     it "adds a no-arg constructor" do
       instance = fake_class.__create__
 
-      instance.should respond_to(:foo)
+      expect(instance).to respond_to(:foo)
     end
 
     it "adds a constructor that allows passing the correct number of arguments" do
       instance = fake_class.new('hello')
 
-      instance.should respond_to(:foo)
+      expect(instance).to respond_to(:foo)
     end
   end
 
@@ -121,31 +121,31 @@ describe Bogus::CopiesClasses do
     let(:klass) { SomeModule::SomeClass }
 
     it "should copy the class name" do
-      fake.class.name.should == 'SomeModule::SomeClass'
+      expect(fake.class.name).to eq 'SomeModule::SomeClass'
     end
 
     it "should override kind_of?" do
-      fake.kind_of?(SomeModule::SomeClass).should be_true
+      expect(fake.kind_of?(SomeModule::SomeClass)).to be_true
     end
 
     it "should override instance_of?" do
-      fake.instance_of?(SomeModule::SomeClass).should be_true
+      expect(fake.instance_of?(SomeModule::SomeClass)).to be_true
     end
 
     it "should override is_a?" do
-      fake.is_a?(SomeModule::SomeClass).should be_true
+      expect(fake.is_a?(SomeModule::SomeClass)).to be_true
     end
 
     it "should include class name in the output of fake's class #to_s" do
-      fake.class.to_s.should include(klass.name)
+      expect(fake.class.to_s).to include(klass.name)
     end
 
     it "should include class name in the output of fake's #to_s" do
-      fake.to_s.should include(klass.name)
+      expect(fake.to_s).to include(klass.name)
     end
 
     it 'should override ===' do
-      SomeModule::SomeClass.should === fake
+      expect(SomeModule::SomeClass === fake).to be_true
     end
   end
 
@@ -197,7 +197,7 @@ describe Bogus::CopiesClasses do
     let(:klass) { SomeModel }
 
     it "copies those methods" do
-      fake.should respond_to(:save)
+      expect(fake).to respond_to(:save)
     end
   end
 end

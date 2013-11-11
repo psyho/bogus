@@ -37,9 +37,9 @@ describe Bogus::VerifiesContracts do
     verifies_contracts.verify(name)
     fail
   rescue Bogus::ContractNotFulfilled => contract_error
-    contract_error.fake_name.should == name
-    contract_error.missed_interactions.should == missed
-    contract_error.actual_interactions.should == real
+    expect(contract_error.fake_name).to eq name
+    expect(contract_error.missed_interactions).to eq missed
+    expect(contract_error.actual_interactions).to eq real
   end
 
   def interaction(method)

@@ -21,7 +21,7 @@ module Bogus
       end
 
       it "creates fakes" do
-        creates_fakes.should have_created(:foo, {as: :class}, "something")
+        expect(creates_fakes).to have_created(:foo, {as: :class}, "something")
       end
 
       it "stubs all the given methods" do
@@ -35,7 +35,7 @@ module Bogus
       end
 
       it "does not create fakes" do
-        creates_fakes.fakes.should == []
+        expect(creates_fakes.fakes).to eq []
       end
 
       it "stubs all the given methods" do
@@ -51,7 +51,7 @@ module Bogus
       end
 
       it "creates fakes" do
-        creates_fakes.should have_created(:foo, {}, "something")
+        expect(creates_fakes).to have_created(:foo, {}, "something")
       end
 
       it "stubs all the given methods" do
@@ -65,7 +65,7 @@ module Bogus
       end
 
       it "does not create fakes" do
-        creates_fakes.fakes.should == []
+        expect(creates_fakes.fakes).to eq []
       end
 
       it "stubs all the given methods" do
@@ -86,10 +86,10 @@ module Bogus
       end
 
       it "uses the configuration to create fake" do
-        creates_fakes.fakes.should == [fake]
+        expect(creates_fakes.fakes).to eq [fake]
 
-        fake_configuration.should have_received.include?(:foo)
-        fake_configuration.should have_received.get(:foo)
+        expect(fake_configuration).to have_received.include?(:foo)
+        expect(fake_configuration).to have_received.get(:foo)
       end
 
       it "stubs the methods defined in configuration" do
@@ -110,7 +110,7 @@ module Bogus
       end
 
       it "overrides the class block and fake options" do
-        creates_fakes.should have_created(:foo, {as: :instance}, "SomeOtherClass")
+        expect(creates_fakes).to have_created(:foo, {as: :instance}, "SomeOtherClass")
       end
 
       it "overrides the stubbed methods" do

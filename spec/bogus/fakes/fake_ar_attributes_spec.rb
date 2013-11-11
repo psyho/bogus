@@ -30,7 +30,7 @@ describe "Stubbing ActiveRecord::Base subclasses" do
   it "makes it possible to stub active record fields" do
     post = fake(:blog_post, name: "hello")
 
-    post.name.should == "hello"
+    expect(post.name).to eq "hello"
   end
 
   it "works only when enabled in configuration" do
@@ -48,7 +48,7 @@ describe "Stubbing ActiveRecord::Base subclasses" do
 
     post.author("hello")
 
-    post.should have_received.author("hello")
+    expect(post).to have_received.author("hello")
   end
 
   class ExampleForActiveRecordAttributes
@@ -61,7 +61,7 @@ describe "Stubbing ActiveRecord::Base subclasses" do
 
     fake.foo(1)
 
-    fake.should have_received.foo(1)
+    expect(fake).to have_received.foo(1)
   end
 
   after do

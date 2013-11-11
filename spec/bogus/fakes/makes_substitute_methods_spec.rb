@@ -14,7 +14,7 @@ module Bogus
     it "makes a copy of the method with its params and adds recording" do
       copy = makes_substitute_methods.stringify(SampleForCopyingMethods.method(:foo))
 
-      copy.should == <<-EOF
+      expect(copy).to eq <<-EOF
       def foo(name, value = Bogus::DefaultValue, *rest, &block)
         __record__(:foo, name, value, *rest, &block)
       end

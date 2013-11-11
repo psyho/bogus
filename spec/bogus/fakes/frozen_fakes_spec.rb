@@ -15,7 +15,7 @@ describe "Frozen Fakes" do
       it "allows stubbing" do
         stub(object).foo(1) { 123 }
 
-        object.foo(1).should == 123
+        expect(object.foo(1)).to eq 123
       end
     end
 
@@ -23,7 +23,7 @@ describe "Frozen Fakes" do
       it "allows mocking" do
         mock(object).foo(1) { 123 }
 
-        object.foo(1).should == 123
+        expect(object.foo(1)).to eq 123
       end
 
       it "allows verifying expectations" do
@@ -39,8 +39,8 @@ describe "Frozen Fakes" do
       it "allows spying" do
         object.foo(1)
 
-        object.should have_received.foo(1)
-        object.should_not have_received.foo(2)
+        expect(object).to have_received.foo(1)
+        expect(object).to_not have_received.foo(2)
       end
     end
   end

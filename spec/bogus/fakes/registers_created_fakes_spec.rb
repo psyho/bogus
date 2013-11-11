@@ -16,18 +16,18 @@ describe Bogus::RegistersCreatedFakes do
   it "registers the fakes created by creates_fakes" do
     registers_created_fakes.create(:foo, as: :instance) { Object }
 
-    fake_registry.should have_received.store(:foo, :the_fake)
+    expect(fake_registry).to have_received.store(:foo, :the_fake)
   end
 
   it "tracks the created fakes for purposes of mock expectations" do
     registers_created_fakes.create(:foo, as: :instance) { Object }
 
-    double_tracker.should have_received.track(:the_fake)
+    expect(double_tracker).to have_received.track(:the_fake)
   end
 
   it "returns the created fake" do
     fake = registers_created_fakes.create(:foo, as: :instance) { Object }
 
-    fake.should == :the_fake
+    expect(fake).to eq :the_fake
   end
 end
