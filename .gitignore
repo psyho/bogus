@@ -5,6 +5,7 @@
 .ruby-version
 .rvmrc
 coverage/
+Gemfile.lock
 gems.tags
 pkg/*
 tags
