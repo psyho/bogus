@@ -1,5 +1,9 @@
 require 'simplecov'
-require 'coveralls'
+begin
+  require "coveralls"
+rescue LoadError
+  warn "warning: coveralls gem not found; skipping Coveralls"
+end
 
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
   SimpleCov::Formatter::HTMLFormatter,
