@@ -41,7 +41,9 @@ describe Bogus::HaveReceivedMatcher do
 
       have_received_matcher.matches?("foo").should be_false
       have_received_matcher.failure_message_for_should.should == Bogus::HaveReceivedMatcher::NO_SHADOW
+      have_received_matcher.failure_message.should == Bogus::HaveReceivedMatcher::NO_SHADOW
       have_received_matcher.failure_message_for_should_not.should == Bogus::HaveReceivedMatcher::NO_SHADOW
+      have_received_matcher.failure_message_when_negated.should == Bogus::HaveReceivedMatcher::NO_SHADOW
     end
 
     it "returns a readable error message for fakes" do
@@ -49,10 +51,13 @@ describe Bogus::HaveReceivedMatcher do
 
       have_received_matcher.matches?(fake)
 
-      have_received_matcher.failure_message_for_should.should ==
+      message = 
         %Q{Expected #{fake.inspect} to have received foo("a", "c"), but it didn't.\n\n}+
         %Q{The recorded interactions were:\n} +
         %Q{  - foo("a", "b")\n}
+
+      have_received_matcher.failure_message_for_should.should == message
+      have_received_matcher.failure_message.should == message
     end
   end
 

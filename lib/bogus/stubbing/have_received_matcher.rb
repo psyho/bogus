@@ -21,15 +21,17 @@ module Bogus
       "have received #{call_str(@name, @args)}"
     end
 
-    def failure_message_for_should
+    def failure_message
       return NO_SHADOW unless Shadow.has_shadow?(@subject)
       %Q{Expected #{@subject.inspect} to #{description}, but it didn't.\n\n} + all_calls_str
     end
+    alias_method :failure_message_for_should, :failure_message
 
-    def failure_message_for_should_not
+    def failure_message_when_negated
       return NO_SHADOW unless Shadow.has_shadow?(@subject)
       %Q{Expected #{@subject.inspect} not to #{description}, but it did.}
     end
+    alias_method :failure_message_for_should_not, :failure_message_when_negated
 
     def method_call
       proxy(:set_method)
