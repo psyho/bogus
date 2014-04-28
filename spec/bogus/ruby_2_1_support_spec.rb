@@ -28,7 +28,7 @@ if RUBY_VERSION >= '2.1'
       it "allows spying without stubbing" do
         subject.foo(x: "hello")
 
-        subject.should have_received.foo(x: "hello")
+        expect(subject).to have_received.foo(x: "hello")
       end
 
       include_examples "stubbing methods with keyword arguments"

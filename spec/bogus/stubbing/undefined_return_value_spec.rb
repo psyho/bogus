@@ -5,14 +5,14 @@ describe Bogus::UndefinedReturnValue do
   let(:undefined_return_value) { Bogus::UndefinedReturnValue.new(interaction) }
 
   it "includes the interaction when stringified" do
-    undefined_return_value.to_s.should include('foo("bar")')
+    expect(undefined_return_value.to_s).to include('foo("bar")')
   end
 
   it "includes interaction in the error message unknown method called" do
     begin
       undefined_return_value.foobar
     rescue => e
-      e.message.should include('foo("bar")')
+      expect(e.message).to include('foo("bar")')
     end
   end
 end

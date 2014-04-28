@@ -13,11 +13,11 @@ describe Bogus::HaveReceivedMatcher do
 
   shared_examples_for "have_received_matcher" do
     it "matches when the spy has received the message" do
-      fake.should have_received(:foo, "a", "b")
+      expect(fake).to have_received(:foo, "a", "b")
     end
 
     it "does not match if the spy hasn't received the message" do
-      fake.should_not have_received(:foo, "a", "c")
+      expect(fake).not_to have_received(:foo, "a", "c")
     end
 
     it "verifies that the method call has the right signature" do
@@ -39,11 +39,11 @@ describe Bogus::HaveReceivedMatcher do
     it "returns a readable error message for object with no shadow" do
       have_received(:upcase)
 
-      have_received_matcher.matches?("foo").should be_false
-      have_received_matcher.failure_message_for_should.should == Bogus::HaveReceivedMatcher::NO_SHADOW
-      have_received_matcher.failure_message.should == Bogus::HaveReceivedMatcher::NO_SHADOW
-      have_received_matcher.failure_message_for_should_not.should == Bogus::HaveReceivedMatcher::NO_SHADOW
-      have_received_matcher.failure_message_when_negated.should == Bogus::HaveReceivedMatcher::NO_SHADOW
+      expect(have_received_matcher.matches?("foo")).to be_false
+      expect(have_received_matcher.failure_message_for_should).to eq(Bogus::HaveReceivedMatcher::NO_SHADOW)
+      expect(have_received_matcher.failure_message).to eq(Bogus::HaveReceivedMatcher::NO_SHADOW)
+      expect(have_received_matcher.failure_message_for_should_not).to eq(Bogus::HaveReceivedMatcher::NO_SHADOW)
+      expect(have_received_matcher.failure_message_when_negated).to eq(Bogus::HaveReceivedMatcher::NO_SHADOW)
     end
 
     it "returns a readable error message for fakes" do
@@ -51,13 +51,13 @@ describe Bogus::HaveReceivedMatcher do
 
       have_received_matcher.matches?(fake)
 
-      message = 
+      message =
         %Q{Expected #{fake.inspect} to have received foo("a", "c"), but it didn't.\n\n}+
         %Q{The recorded interactions were:\n} +
         %Q{  - foo("a", "b")\n}
 
-      have_received_matcher.failure_message_for_should.should == message
-      have_received_matcher.failure_message.should == message
+      expect(have_received_matcher.failure_message_for_should).to eq(message)
+      expect(have_received_matcher.failure_message).to eq(message)
     end
   end
 

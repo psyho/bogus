@@ -10,13 +10,13 @@ describe Bogus::MultiStubber do
   it "stubs all the given methods with any args returning the given value" do
     multi_stubber.stub_all(Object.new, foo: 1, bar: 2)
 
-    double.stubbed.should == [[:foo, [any_args], 1], [:bar, [any_args], 2]]
+    expect(double.stubbed).to eq([[:foo, [any_args], 1], [:bar, [any_args], 2]])
   end
 
   it "uses passed procs as the return value block" do
     multi_stubber.stub_all(Object.new, foo: proc{ 1 })
 
-    double.stubbed.should == [[:foo, [any_args], 1]]
+    expect(double.stubbed).to eq([[:foo, [any_args], 1]])
   end
 
   class FakeDouble

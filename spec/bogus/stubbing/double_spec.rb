@@ -16,7 +16,7 @@ module Bogus
           double.stub.foo("a", "b") { "the result" }
         }.to raise_error
 
-        double_tracker.should_not have_received.track(object)
+        expect(double_tracker).not_to have_received.track(object)
       end
 
       it "verifies stub definition" do
@@ -42,7 +42,7 @@ module Bogus
       it "adds method overwriting" do
         double.stub.foo("a", "b") { "the result" }
 
-        overwrites_methods.overwrites.should == [[object, :foo]]
+        expect(overwrites_methods.overwrites).to eq([[object, :foo]])
       end
 
       it "records double interactions" do

@@ -20,8 +20,8 @@ module Bogus
     end
 
     it "returns the instance methods by name" do
-      instance_methods.get(:foo).should ==
-        SampleClass.instance_method(:foo)
+      expect(instance_methods.get(:foo)).to eq(
+        SampleClass.instance_method(:foo))
     end
 
     it "removes methods by name" do

@@ -12,7 +12,7 @@
 
      stub(foo).to_s { "I'm a foo" }
 
-     foo.to_s.should == "I'm a foo"
+     expect(foo.to_s).to eq("I'm a foo")
    end
 
    it "should be possible to mock to_s" do
@@ -29,6 +29,6 @@
    it "should be possible to stub to_s on anonymous fake" do
      foo = fake(to_s: "I'm a foo")
 
-     foo.to_s.should == "I'm a foo"
+     expect(foo.to_s).to eq("I'm a foo")
    end
  end

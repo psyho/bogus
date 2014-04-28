@@ -4,7 +4,7 @@ describe Bogus::TracksExistenceOfTestDoubles do
   let(:tracker) { Bogus::TracksExistenceOfTestDoubles.new }
 
   it "returns an empty double list with nothing tracked" do
-    tracker.doubles.should == []
+    expect(tracker.doubles).to eq([])
   end
 
   it "lists the added test doubles in order without duplicates" do
@@ -21,6 +21,6 @@ describe Bogus::TracksExistenceOfTestDoubles do
     tracker.track foo
 
 
-    tracker.doubles.should == [foo, bar, baz]
+    expect(tracker.doubles).to eq([foo, bar, baz])
   end
 end

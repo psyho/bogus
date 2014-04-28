@@ -5,12 +5,13 @@ module Bogus
     let(:creates_fakes) { FakeCreatorOfFakes.new }
     let(:fake_configuration) { stub }
     let(:responds_to_everything) { stub }
-    let(:multi_stubber) { stub(stub_all: :stubbed_object) }
+    let(:multi_stubber) { stub }
 
     let(:creates_anonymous_stubs) { isolate(CreatesFakesWithStubbedMethods) }
 
     before do
       stub(fake_configuration).include? { false }
+      stub(multi_stubber).stub_all { :stubbed_object }
     end
 
     context "given symbol as first parameter" do
@@ -25,7 +26,7 @@ module Bogus
       end
 
       it "stubs all the given methods" do
-        multi_stubber.should have_received.stub_all(fake, bar: 1)
+        expect(multi_stubber).to have_received.stub_all(fake, bar: 1)
       end
     end
 
@@ -39,7 +40,7 @@ module Bogus
       end
 
       it "stubs all the given methods" do
-        multi_stubber.should have_received.stub_all(responds_to_everything, bar: 1)
+        expect(multi_stubber).to have_received.stub_all(responds_to_everything, bar: 1)
       end
     end
 
@@ -55,7 +56,7 @@ module Bogus
       end
 
       it "stubs all the given methods" do
-        multi_stubber.should have_received.stub_all(fake)
+        expect(multi_stubber).to have_received.stub_all(fake, {})
       end
     end
 
@@ -69,7 +70,7 @@ module Bogus
       end
 
       it "stubs all the given methods" do
-        multi_stubber.should have_received.stub_all(responds_to_everything)
+        expect(multi_stubber).to have_received.stub_all(responds_to_everything, {})
       end
     end
 
@@ -93,7 +94,7 @@ module Bogus
       end
 
       it "stubs the methods defined in configuration" do
-        multi_stubber.should have_received.stub_all(fake, xyz: "abc")
+        expect(multi_stubber).to have_received.stub_all(fake, xyz: "abc")
       end
     end
 
@@ -114,7 +115,7 @@ module Bogus
       end
 
       it "overrides the stubbed methods" do
-        multi_stubber.should have_received.stub_all(fake, a: "b", b: "d", c: "e")
+        expect(multi_stubber).to have_received.stub_all(fake, a: "b", b: "d", c: "e")
       end
     end
   end

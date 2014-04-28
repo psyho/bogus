@@ -24,7 +24,7 @@ module Bogus
       end
 
       it "does not change the method signature" do
-        object.method(:greet).arity.should == 1
+        expect(object.method(:greet).arity).to eq(1)
       end
 
       it "does not change the method signature" do
@@ -36,14 +36,14 @@ module Bogus
       it "adds interaction recording to the overwritten object" do
         object.greet("John")
 
-        object.should Bogus.have_received.greet("John")
-        object.should_not Bogus.have_received.greet("Paul")
+        expect(object).to Bogus.have_received.greet("John")
+        expect(object).not_to Bogus.have_received.greet("Paul")
       end
 
       it "can reset the overwritten methods" do
         overwriter.reset(object)
 
-        object.greet("John").should == "Hello John"
+        expect(object.greet("John")).to eq("Hello John")
       end
 
       it "is imdepotent when overwriting" do
@@ -53,7 +53,7 @@ module Bogus
 
         overwriter.reset(object)
 
-        object.greet("John").should == "Hello John"
+        expect(object.greet("John")).to eq("Hello John")
       end
     end
 
@@ -75,7 +75,7 @@ module Bogus
       end
 
       it "can overwrite the non-existent methods" do
-        object.methods.should include(:greet)
+        expect(object.methods).to include(:greet)
       end
 
       it "can be reset back to the original state" do
@@ -84,7 +84,7 @@ module Bogus
 
         overwriter.reset(object)
 
-        object.greet.should == "the original return value"
+        expect(object.greet).to eq("the original return value")
       end
     end
 
@@ -94,7 +94,7 @@ module Bogus
       it "does nothing because fakes methods already work as we need" do
         overwriter.overwrite(fake, :foo_bar)
 
-        fake.should_not respond_to(:foo_bar)
+        expect(fake).not_to respond_to(:foo_bar)
       end
 
       it "does not reset fakes, because there is nothing to reset" do

@@ -11,12 +11,12 @@ describe Bogus::Shadow do
       end
 
       it "returns the called methods" do
-        shadow.has_received(:foo, ["a", "b"]).should be_true
+        expect(shadow.has_received(:foo, ["a", "b"])).to be_true
       end
 
       it "does not return true for interactions that did not happen" do
-        shadow.has_received(:foo, ["a", "c"]).should be_false
-        shadow.has_received(:bar, ["a", "c"]).should be_false
+        expect(shadow.has_received(:foo, ["a", "c"])).to be_false
+        expect(shadow.has_received(:bar, ["a", "c"])).to be_false
       end
     end
   end
@@ -25,7 +25,7 @@ describe Bogus::Shadow do
     it "returns an unstubbed value" do
       return_value = shadow.run(:foo, "a", "b")
 
-      return_value.should be_a_default_return_value
+      expect(return_value).to be_a_default_return_value
     end
 
     include_examples "spying on shadows"
@@ -53,7 +53,7 @@ describe Bogus::Shadow do
     end
 
     it "returns the default value" do
-      shadow.run(:foo, ["a", "b"]).should be_a_default_return_value
+      expect(shadow.run(:foo, ["a", "b"])).to be_a_default_return_value
     end
 
     include_examples "spying on shadows"
@@ -67,21 +67,21 @@ describe Bogus::Shadow do
     end
 
     it "changes the default value returned from method" do
-      shadow.run(:foo, "b", "c").should == "default value"
+      expect(shadow.run(:foo, "b", "c")).to eq("default value")
     end
 
     it "overwrites the old specific stubbed values" do
-      shadow.run(:foo, "a", "b").should == "default value"
+      expect(shadow.run(:foo, "a", "b")).to eq("default value")
     end
 
     it "does not affect the new specific stubbed values" do
-      shadow.run(:foo, "a", "d").should == "new specific value"
+      expect(shadow.run(:foo, "a", "d")).to eq("new specific value")
     end
 
     it "allows spying on calls using any args" do
       shadow.run(:foo, "a", "c")
 
-      shadow.has_received(:foo, [Bogus::AnyArgs]).should be_true
+      expect(shadow.has_received(:foo, [Bogus::AnyArgs])).to be_true
     end
   end
 
@@ -91,19 +91,19 @@ describe Bogus::Shadow do
     end
 
     it "changes the return value for calls that match" do
-      shadow.run(:foo, "a", "c").should == "return value"
+      expect(shadow.run(:foo, "a", "c")).to eq("return value")
     end
 
     it "does not affect the return value for other calls" do
       shadow.stubs(:foo, "a", "b") { "specific value" }
 
-      shadow.run(:foo, "a", "b").should == "specific value"
+      expect(shadow.run(:foo, "a", "b")).to eq("specific value")
     end
 
     it "allows spying on calls using anything in args" do
       shadow.run(:foo, "a", "b")
 
-      shadow.has_received(:foo, [Bogus::Anything, "b"]).should be_true
+      expect(shadow.has_received(:foo, [Bogus::Anything, "b"])).to be_true
     end
   end
 
@@ -113,30 +113,30 @@ describe Bogus::Shadow do
     end
 
     it "returns the stubbed value" do
-      shadow.run(:foo, "a", "b").should == "stubbed value"
+      expect(shadow.run(:foo, "a", "b")).to eq("stubbed value")
     end
 
     it "returns the latest stubbed value" do
       shadow.stubs(:foo, "a", "b") { "stubbed twice" }
       shadow.stubs(:foo, "b", "c") { "different params" }
 
-      shadow.run(:foo, "a", "b").should == "stubbed twice"
-      shadow.run(:foo, "b", "c").should == "different params"
+      expect(shadow.run(:foo, "a", "b")).to eq("stubbed twice")
+      expect(shadow.run(:foo, "b", "c")).to eq("different params")
     end
 
     it "returns the default value for non-stubbed calls" do
-      shadow.run(:foo, "c", "d").should be_a_default_return_value
-      shadow.run(:bar).should be_a_default_return_value
+      expect(shadow.run(:foo, "c", "d")).to be_a_default_return_value
+      expect(shadow.run(:bar)).to be_a_default_return_value
     end
 
     it "does not contribute towards unsatisfied interactions" do
-      shadow.unsatisfied_interactions.should be_empty
+      expect(shadow.unsatisfied_interactions).to be_empty
     end
 
     it "adds required interaction when mocking over stubbing" do
       shadow.mocks(:foo, "a", "b") { "stubbed value" }
 
-      shadow.unsatisfied_interactions.should_not be_empty
+      expect(shadow.unsatisfied_interactions).not_to be_empty
     end
 
     include_examples "spying on shadows"
@@ -148,38 +148,38 @@ describe Bogus::Shadow do
     end
 
     it "returns the mocked value" do
-      shadow.run(:foo, "a", "b").should == "mocked value"
+      expect(shadow.run(:foo, "a", "b")).to eq("mocked value")
     end
 
     it "overwrites the stubbed value" do
       shadow.stubs(:foo, "a", "c") { "stubbed value" }
       shadow.mocks(:foo, "a", "c") { "mocked value" }
 
-      shadow.run(:foo, "a", "c").should == "mocked value"
+      expect(shadow.run(:foo, "a", "c")).to eq("mocked value")
     end
 
     it "is overwritten by stubbing" do
       shadow.mocks(:foo, "a", "c") { "mocked value" }
       shadow.stubs(:foo, "a", "c") { "stubbed value" }
 
-      shadow.run(:foo, "a", "c").should == "stubbed value"
+      expect(shadow.run(:foo, "a", "c")).to eq("stubbed value")
     end
 
     it "removes the required interaction when stubbing over mocking" do
       shadow.stubs(:foo, "a", "b") { "stubbed value" }
 
-      shadow.unsatisfied_interactions.should be_empty
+      expect(shadow.unsatisfied_interactions).to be_empty
     end
 
     it "returns the default value for non-stubbed calls" do
-      shadow.run(:foo, "a", "c").should be_a_default_return_value
+      expect(shadow.run(:foo, "a", "c")).to be_a_default_return_value
     end
 
     it "contributes towards unsatisfied interactions" do
       interactions = shadow.unsatisfied_interactions
-      interactions.should have(1).item
-      interactions.first.method.should == :foo
-      interactions.first.args.should == ["a", "b"]
+      expect(interactions).to have(1).item
+      expect(interactions.first.method).to eq(:foo)
+      expect(interactions.first.args).to eq(["a", "b"])
     end
 
     it "removes the staisfied expectations from unsatisfied interactions" do
@@ -187,7 +187,7 @@ describe Bogus::Shadow do
       shadow.run(:with_optional_args, 'a', Bogus::DefaultValue)
       shadow.run(:foo, "a", "b")
 
-      shadow.unsatisfied_interactions.should be_empty
+      expect(shadow.unsatisfied_interactions).to be_empty
     end
 
     include_examples "spying on shadows"
