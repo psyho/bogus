@@ -44,7 +44,7 @@ shared_examples_for "stubbing methods with double splat" do
     subject.bar(x: "test", z: "spec")
 
     subject.should have_received.bar(x: "test", z: "spec")
-    subject.should_not have_received.bar(y: "baz")
+    subject.should_not have_received.bar(x: "test", y: "baz")
   end
 
   it "can mock methods with keyword arguments" do

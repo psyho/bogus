@@ -3,7 +3,7 @@ require 'spec_helper'
 if RUBY_VERSION >= '2.0'
   describe "Ruby 2.0 keyword arguments" do
     class ExampleForKeywordArgs
-      eval "def foo(x: raise, y: 1); end"
+      eval "def foo(x: 1); end"
       eval "def bar(x: 1, **rest); end"
     end
 
@@ -11,6 +11,14 @@ if RUBY_VERSION >= '2.0'
 
     context "with regular objects" do
       subject { ExampleForKeywordArgs.new }
+
+      it "allows calling the method without the optional keyword args" do
+        stub(subject).foo(any_args)
+
+        subject.foo
+
+        expect(subject).to have_received.foo
+      end
 
       include_examples "stubbing methods with keyword arguments"
       include_examples "stubbing methods with double splat"
@@ -23,6 +31,12 @@ if RUBY_VERSION >= '2.0'
         subject.foo(x: "test")
 
         expect(subject).to have_received.foo(x: "test")
+      end
+
+      it "allows calling the method without the optional keyword args" do
+        subject.foo
+
+        expect(subject).to have_received.foo
       end
 
       include_examples "stubbing methods with keyword arguments"
