@@ -16,11 +16,11 @@ describe Bogus::ResetsOverwrittenClasses do
   end
 
   it "overwrites back all of the overwritten classes" do
-    overwrites_classes.should have_received.overwrite('Foo', :foo)
-    overwrites_classes.should have_received.overwrite('Bar', :bar)
+    expect(overwrites_classes).to have_received.overwrite('Foo', :foo)
+    expect(overwrites_classes).to have_received.overwrite('Bar', :bar)
   end
 
   it "clears the overwritten classes" do
-    overwritten_classes.should have_received.clear
+    expect(overwritten_classes).to have_received.clear
   end
 end

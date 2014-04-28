@@ -23,15 +23,15 @@ describe Bogus::CreatesFakes do
     end
 
     it "creates a new instance of copied class by default" do
-      creates_fakes.create(:foo).should == fake_instance
+      expect(creates_fakes.create(:foo)).to eq fake_instance
     end
 
     it "creates a new instance of copied class if called with as: :instance" do
-      creates_fakes.create(:foo, as: :instance).should == fake_instance
+      expect(creates_fakes.create(:foo, as: :instance)).to eq fake_instance
     end
 
     it "copies class but does not create an instance if called with as: :class" do
-      creates_fakes.create(:foo, as: :class).should == fake_class
+      expect(creates_fakes.create(:foo, as: :class)).to eq fake_class
     end
 
     it "raises an error if the as mode is not known" do
@@ -48,13 +48,13 @@ describe Bogus::CreatesFakes do
     end
 
     it "uses the class provided" do
-      creates_fakes.create(:foo){Bar}.should == fake_instance
+      expect(creates_fakes.create(:foo){Bar}).to eq fake_instance
     end
 
     it "does not convert the class name" do
       creates_fakes.create(:foo) { Bar}
 
-      copies_classes.should_not have_received.convert
+      expect(copies_classes).to_not have_received.convert
     end
   end
 
@@ -68,7 +68,7 @@ describe Bogus::CreatesFakes do
 
       fake = creates_fakes.create(:role, as: :class) { [Foo, Bar] }
 
-      fake.should == :the_fake
+      expect(fake).to eq :the_fake
     end
   end
 end

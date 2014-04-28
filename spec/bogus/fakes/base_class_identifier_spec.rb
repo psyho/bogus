@@ -45,7 +45,7 @@ module SampleForBaseIdentifier
         it "returns the same for is_a?(#{klass})" do
           expected = instance.is_a?(klass)
           actual = Bogus::BaseClassIdentifier.base_class?(copied_class, klass)
-          actual.should == expected
+          expect(actual).to eq expected
         end
       end
     end

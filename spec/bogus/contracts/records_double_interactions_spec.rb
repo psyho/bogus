@@ -13,7 +13,7 @@ describe Bogus::RecordsDoubleInteractions do
 
     records_double_interactions.record(object, :method_name, [:foo, 1])
 
-    doubled_interactions.should have_received.record(:object_name, :method_name, :foo, 1)
+    expect(doubled_interactions).to have_received.record(:object_name, :method_name, :foo, 1)
   end
 
   it "does not record the interaction if object is not a fake" do

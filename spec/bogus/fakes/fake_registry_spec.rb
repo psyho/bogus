@@ -8,7 +8,7 @@ describe Bogus::FakeRegistry do
 
     fake_registry.store(:name, object)
 
-    fake_registry.name(object).should == :name
+    expect(fake_registry.name(object)).to eq :name
   end
 
   it "returns name based on object identity" do
@@ -19,6 +19,6 @@ describe Bogus::FakeRegistry do
 
     fake_registry.store(:object, object)
 
-    fake_registry.name(duplicate).should be_nil
+    expect(fake_registry.name(duplicate)).to be_nil
   end
 end

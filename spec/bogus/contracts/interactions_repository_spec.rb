@@ -10,80 +10,80 @@ describe Bogus::InteractionsRepository do
   it "considers the interaction recorded if it was recorded previously" do
     interactions_repository.record(:foo, :bar, 1, 2, 3)
 
-    recorded?(:foo, :bar, 1, 2, 3).should be_true
+    expect(recorded?(:foo, :bar, 1, 2, 3)).to be_true
   end
 
   it "considers the interaction recorded if it returned the same value as passed block" do
     interactions_repository.record(:foo, :bar) { "a result" }
     interaction = Bogus::Interaction.new(:bar, []) { "a result" }
 
-    interactions_repository.recorded?(:foo, interaction).should be_true
+    expect(interactions_repository.recorded?(:foo, interaction)).to be_true
   end
 
   it "does not consider any interactions recorded prior to any recordings" do
-    recorded?(:foo, :bar, 1).should be_false
+    expect(recorded?(:foo, :bar, 1)).to be_false
   end
 
   it "does not consider the interaction recorded with a different fake name"  do
     interactions_repository.record(:baz, :bar, 1)
 
-    recorded?(:foo, :bar, 1).should be_false
+    expect(recorded?(:foo, :bar, 1)).to be_false
   end
 
   it "does not consider the interaction recorded with a different method name" do
     interactions_repository.record(:foo, :baz, 1)
 
-    recorded?(:foo, :bar, 1).should be_false
+    expect(recorded?(:foo, :bar, 1)).to be_false
   end
 
   it "does not consider the interaction recorded with different method arguments" do
     interactions_repository.record(:foo, :bar, 1, 2)
 
-    recorded?(:foo, :bar, 1).should be_false
+    expect(recorded?(:foo, :bar, 1)).to be_false
   end
 
   it "returns a list of interactions for given fake" do
     interactions_repository.record(:foo, :bar, 1, 2)
 
     interactions = interactions_repository.for_fake(:foo)
-    interactions.should have(1).item
-    interactions.first.method.should == :bar
-    interactions.first.args.should == [1, 2]
+    expect(interactions).to have(1).item
+    expect(interactions.first.method).to eq :bar
+    expect(interactions.first.args).to eq [1, 2]
   end
 
   it "ignores arguments if the checked interaction has any_args" do
     interactions_repository.record(:foo, :bar, 1)
 
-    recorded?(:foo, :bar, Bogus::AnyArgs).should be_true
+    expect(recorded?(:foo, :bar, Bogus::AnyArgs)).to be_true
   end
 
   it "takes method name into account when matching interaction with wildcard arguments" do
     interactions_repository.record(:foo, :baz, 1)
 
-    recorded?(:foo, :bar, Bogus::AnyArgs).should be_false
+    expect(recorded?(:foo, :bar, Bogus::AnyArgs)).to be_false
   end
 
   it "ignores arguments if the recorded interaction was recorded with wildcard argument" do
     interactions_repository.record(:foo, :bar, 1, 2)
 
-    recorded?(:foo, :bar, 1, Bogus::Anything).should be_true
+    expect(recorded?(:foo, :bar, 1, Bogus::Anything)).to be_true
   end
 
   it "takes other arguments into account when matching interactions with wildcards" do
     interactions_repository.record(:foo, :bar, 1, 2)
 
-    recorded?(:foo, :bar, 2, Bogus::Anything).should be_false
+    expect(recorded?(:foo, :bar, 2, Bogus::Anything)).to be_false
   end
 
   it "ignores arguments if the checked interaction has any_args" do
     interactions_repository.record(:foo, :bar, 1, 2)
 
-    recorded?(:foo, :bar, 1, Bogus::Anything).should be_true
+    expect(recorded?(:foo, :bar, 1, Bogus::Anything)).to be_true
   end
 
   it "takes method name into account when matching interaction with wildcard arguments" do
     interactions_repository.record(:foo, :baz, 1, 2)
 
-    recorded?(:foo, :bar, 1, Bogus::Anything).should be_false
+    expect(recorded?(:foo, :bar, 1, Bogus::Anything)).to be_false
   end
 end

@@ -30,25 +30,25 @@ describe Bogus::MockingDSL do
     it "allows stubbing the existing methods" do
       Stubber.stub(baz).foo("bar") { :return_value }
 
-      baz.foo("bar").should == :return_value
+      expect(baz.foo("bar")).to eq :return_value
     end
 
     it "can stub method with any parameters" do
       Stubber.stub(baz).foo(Stubber.any_args) { :default_value }
       Stubber.stub(baz).foo("bar") { :foo_value }
 
-      baz.foo("a").should == :default_value
-      baz.foo("b").should == :default_value
-      baz.foo("bar").should == :foo_value
+      expect(baz.foo("a")).to eq :default_value
+      expect(baz.foo("b")).to eq :default_value
+      expect(baz.foo("bar")).to eq :foo_value
     end
 
     it "can stub method with some wildcard parameters" do
       Stubber.stub(baz).hello(Stubber.any_args) { :default_value }
       Stubber.stub(baz).hello("welcome", Stubber.anything) { :greeting_value }
 
-      baz.hello("hello", "adam").should == :default_value
-      baz.hello("welcome", "adam").should == :greeting_value
-      baz.hello("welcome", "rudy").should == :greeting_value
+      expect(baz.hello("hello", "adam")).to eq :default_value
+      expect(baz.hello("welcome", "adam")).to eq :greeting_value
+      expect(baz.hello("welcome", "rudy")).to eq :greeting_value
     end
 
     it "does not allow stubbing non-existent methods" do
@@ -63,7 +63,7 @@ describe Bogus::MockingDSL do
 
       Bogus.after_each_test
 
-      ExampleFoo.bar("John").should == "Hello John"
+      expect(ExampleFoo.bar("John")).to eq "Hello John"
     end
   end
 
@@ -74,25 +74,25 @@ describe Bogus::MockingDSL do
       it "allows verifying that fakes have correct interfaces" do
         the_fake.foo("test")
 
-        the_fake.should Stubber.have_received.foo("test")
+        expect(the_fake).to Stubber.have_received.foo("test")
       end
 
       it "does not allow verifying on non-existent methods" do
         expect {
-          the_fake.should Stubber.have_received.bar("test")
+          expect(the_fake).to Stubber.have_received.bar("test")
         }.to raise_error(NameError)
       end
 
       it "does not allow verifying on methods with a wrong argument count" do
         expect {
-          the_fake.should Stubber.have_received.foo("test", "test 2")
+          expect(the_fake).to Stubber.have_received.foo("test", "test 2")
         }.to raise_error(ArgumentError)
       end
 
       it "allows spying on methods with optional parameters" do
         the_fake.with_optional_args(123)
 
-        the_fake.should Stubber.have_received.with_optional_args(123)
+        expect(the_fake).to Stubber.have_received.with_optional_args(123)
       end
     end
 
@@ -102,16 +102,16 @@ describe Bogus::MockingDSL do
 
       object.foo('test')
 
-      object.should Stubber.have_received.foo("test")
+      expect(object).to Stubber.have_received.foo("test")
     end
 
     it "allows spying on methods with optional parameters" do
       object = ExampleFoo.new
       Stubber.stub(object).with_optional_args(123) { 999 }
 
-      object.with_optional_args(123).should == 999
+      expect(object.with_optional_args(123)).to eq 999
 
-      object.should Stubber.have_received.with_optional_args(123)
+      expect(object).to Stubber.have_received.with_optional_args(123)
     end
 
     class ClassWithMatches
@@ -124,7 +124,7 @@ describe Bogus::MockingDSL do
 
       fake.matches?("foo")
 
-      fake.should Bogus.have_received.matches?("foo")
+      expect(fake).to Bogus.have_received.matches?("foo")
     end
 
     class PassesSelfToCollaborator
@@ -141,7 +141,7 @@ describe Bogus::MockingDSL do
 
       object.hello(fake)
 
-      fake.should Bogus.have_received.foo(object)
+      expect(fake).to Bogus.have_received.foo(object)
     end
   end
 
@@ -157,7 +157,7 @@ describe Bogus::MockingDSL do
       it "allows mocking on methods with optional parameters" do
         Mocker.mock(baz).with_optional_args(1) { :return }
 
-        baz.with_optional_args(1).should == :return
+        expect(baz.with_optional_args(1)).to eq :return
 
         expect { Bogus.after_each_test }.not_to raise_error
       end
@@ -165,7 +165,7 @@ describe Bogus::MockingDSL do
       it "allows mocking with anything" do
         Mocker.mock(baz).hello(1, Bogus::Anything) { :return }
 
-        baz.hello(1, 2).should == :return
+        expect(baz.hello(1, 2)).to eq :return
 
         expect { Bogus.after_each_test }.not_to raise_error
       end
@@ -173,7 +173,7 @@ describe Bogus::MockingDSL do
       it "allows mocking the existing methods" do
         Mocker.mock(baz).foo("bar") { :return_value }
 
-        baz.foo("bar").should == :return_value
+        expect(baz.foo("bar")).to eq :return_value
 
         expect { Bogus.after_each_test }.not_to raise_error
       end
@@ -246,7 +246,7 @@ describe Bogus::MockingDSL do
 
       stub(greeter).greet("Jake") { "Hello Jake" }
 
-      greeter.greet("Jake").should == "Hello Jake"
+      expect(greeter.greet("Jake")).to eq "Hello Jake"
     end
 
     it "creates objects that can be mocked" do
@@ -254,13 +254,13 @@ describe Bogus::MockingDSL do
 
       mock(greeter).greet("Jake") { "Hello Jake" }
 
-      greeter.greet("Jake").should == "Hello Jake"
+      expect(greeter.greet("Jake")).to eq "Hello Jake"
     end
 
     it "creates objects with some methods stubbed by default" do
       greeter = fake(greet: "Hello Jake")
 
-      greeter.greet("Jake").should == "Hello Jake"
+      expect(greeter.greet("Jake")).to eq "Hello Jake"
     end
 
     it "creates objects that can be spied upon" do
@@ -268,8 +268,8 @@ describe Bogus::MockingDSL do
 
       greeter.greet("Jake")
 
-      greeter.should have_received.greet("Jake")
-      greeter.should_not have_received.greet("Bob")
+      expect(greeter).to have_received.greet("Jake")
+      expect(greeter).to_not have_received.greet("Bob")
     end
 
     it "verifies mock expectations set on anonymous fakes" do
@@ -307,15 +307,15 @@ describe Bogus::MockingDSL do
     it "returns configured fakes" do
       the_fake = Stubber.fake(:globally_configured_fake)
 
-      the_fake.foo('a').should == "foo"
-      the_fake.bar('a', 'b').should == "bar"
+      expect(the_fake.foo('a')).to eq "foo"
+      expect(the_fake.bar('a', 'b')).to eq "bar"
     end
 
     it "allows overwriting stubbed methods" do
       the_fake = Stubber.fake(:globally_configured_fake, bar: "baz")
 
-      the_fake.foo('a').should == "foo"
-      the_fake.bar('a', 'b').should == "baz"
+      expect(the_fake.foo('a')).to eq "foo"
+      expect(the_fake.bar('a', 'b')).to eq "baz"
     end
 
     it "evaluates the block passed to method in configuration when method is called" do
@@ -340,8 +340,8 @@ describe Bogus::MockingDSL do
     it "replaces the class for the duration of the test" do
       Stubber.fake_class(ThisClassWillBeReplaced, hello: "replaced!")
 
-      ThisClassWillBeReplaced.hello("foo").should == "replaced!"
-      ThisClassWillBeReplaced.should_not equal(TheOriginalClass)
+      expect(ThisClassWillBeReplaced.hello("foo")).to eq "replaced!"
+      expect(ThisClassWillBeReplaced).to_not equal(TheOriginalClass)
     end
 
     it "makes it possible to spy on classes" do
@@ -349,15 +349,15 @@ describe Bogus::MockingDSL do
 
       ThisClassWillBeReplaced.hello("foo")
 
-      ThisClassWillBeReplaced.should Bogus.have_received.hello("foo")
-      ThisClassWillBeReplaced.should_not Bogus.have_received.hello("bar")
+      expect(ThisClassWillBeReplaced).to Bogus.have_received.hello("foo")
+      expect(ThisClassWillBeReplaced).to_not Bogus.have_received.hello("bar")
     end
 
     it "restores the class after the test has finished" do
       Stubber.fake_class(ThisClassWillBeReplaced)
       Bogus.reset_overwritten_classes
 
-      ThisClassWillBeReplaced.should equal(TheOriginalClass)
+      expect(ThisClassWillBeReplaced).to equal(TheOriginalClass)
     end
   end
 
@@ -385,7 +385,7 @@ describe Bogus::MockingDSL do
     end
 
     it "passes when all the mocked interactions were executed" do
-      sample.greet("Welcome").should == "Welcome, John!"
+      expect(sample.greet("Welcome")).to eq "Welcome, John!"
 
       Bogus.after_each_test
 
@@ -395,7 +395,7 @@ describe Bogus::MockingDSL do
     end
 
     it "fails when contracts are fullfilled" do
-      sample.greet("Hello").should == "Hello, John!"
+      expect(sample.greet("Hello")).to eq "Hello, John!"
 
       Bogus.after_each_test
 

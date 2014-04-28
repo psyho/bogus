@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Bogus::Fake do
   it 'has a class name' do
-    Bogus::Fake.name.should == "Bogus::Fake"
+    expect(Bogus::Fake.name).to eq "Bogus::Fake"
   end
 end
 

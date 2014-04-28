@@ -28,33 +28,33 @@ describe Bogus::ProxyClass do
   let(:interactions_repository) { FakeRepository.new }
 
   it "returns the proxy" do
-    proxy_class.new.checkout("Moby Dick", "Bob").should == :checkouted
+    expect(proxy_class.new.checkout("Moby Dick", "Bob")).to eq :checkouted
   end
 
   it "records interactions with created objects" do
     proxy_class.new.checkout("Moby Dick", "Bob")
 
-    interactions_repository.should have_recorded(:fake_name, :checkout, "Moby Dick", "Bob")
+    expect(interactions_repository).to have_recorded(:fake_name, :checkout, "Moby Dick", "Bob")
   end
 
   it "responds to every method that the original class responds to" do
-    proxy_class.should respond_to(:find_by_address)
+    expect(proxy_class).to respond_to(:find_by_address)
   end
 
   it "delegates interactions with the proxy class to wrapped class" do
-    proxy_class.find_by_address("some address").should == :the_library
+    expect(proxy_class.find_by_address("some address")).to eq :the_library
   end
 
   it "records interactions with the proxy class" do
     proxy_class.find_by_address("some address")
 
-    interactions_repository.should have_recorded(:fake_name, :find_by_address, "some address")
+    expect(interactions_repository).to have_recorded(:fake_name, :find_by_address, "some address")
   end
 
   it "records return values" do
     proxy_class.find_by_address("some address")
 
-    interactions_repository.return_value(:fake_name, :find_by_address, "some address").should == :the_library
+    expect(interactions_repository.return_value(:fake_name, :find_by_address, "some address")).to eq :the_library
   end
 
   it "re-raises exceptions" do
@@ -72,7 +72,7 @@ describe Bogus::ProxyClass do
   end
 
   it "allows accessing the constants defined on proxied class" do
-    proxy_class::SAMPLE_CONSTANT.should == "foo"
+    expect(proxy_class::SAMPLE_CONSTANT).to eq "foo"
   end
 
   class FakeRepository

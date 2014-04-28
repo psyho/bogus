@@ -15,14 +15,14 @@ if RUBY_VERSION >= '2.0'
 
         subject.foo(x: "test")
 
-        subject.should have_received.foo(x: "test")
-        subject.should_not have_received.foo(x: "baz")
+        expect(subject).to have_received.foo(x: "test")
+        expect(subject).to_not have_received.foo(x: "baz")
       end
 
       it "can mock methods with keyword arguments" do
         mock(subject).foo(x: 1) { :return }
 
-        subject.foo(x: 1).should == :return
+        expect(subject.foo(x: 1)).to eq :return
 
         expect { Bogus.after_each_test }.not_to raise_error
       end
@@ -30,7 +30,7 @@ if RUBY_VERSION >= '2.0'
       it "can stub methods with keyword arguments" do
         stub(subject).foo(x: "bar") { :return_value }
 
-        subject.foo(x: "bar").should == :return_value
+        expect(subject.foo(x: "bar")).to eq :return_value
       end
 
       it "raises on error on unknown keyword" do
@@ -54,14 +54,14 @@ if RUBY_VERSION >= '2.0'
 
         subject.bar(x: "test", z: "spec")
 
-        subject.should have_received.bar(x: "test", z: "spec")
-        subject.should_not have_received.bar(y: "baz")
+        expect(subject).to have_received.bar(x: "test", z: "spec")
+        expect(subject).to_not have_received.bar(y: "baz")
       end
 
       it "can mock methods with keyword arguments" do
         mock(subject).bar(x: 1, z: 2) { :return }
 
-        subject.bar(x: 1, z: 2).should == :return
+        expect(subject.bar(x: 1, z: 2)).to eq :return
 
         expect { Bogus.after_each_test }.not_to raise_error
       end
@@ -69,7 +69,7 @@ if RUBY_VERSION >= '2.0'
       it "can stub methods with keyword arguments" do
         stub(subject).bar(x: "bar", z: "bar") { :return_value }
 
-        subject.bar(x: "bar", z: "bar").should == :return_value
+        expect(subject.bar(x: "bar", z: "bar")).to eq :return_value
       end
     end
 
@@ -86,7 +86,7 @@ if RUBY_VERSION >= '2.0'
       it "allows spying without stubbing" do
         subject.foo(x: "test")
 
-        subject.should have_received.foo(x: "test")
+        expect(subject).to have_received.foo(x: "test")
       end
 
       include_examples "stubbing methods with keyword arguments"

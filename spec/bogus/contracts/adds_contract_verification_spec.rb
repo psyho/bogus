@@ -37,7 +37,7 @@ describe Bogus::AddsContractVerification do
     it "verifies the contract in after_suite" do
       syntax.run_after_suite
 
-      verifies_contracts.should have_received.verify(:some_fake)
+      expect(verifies_contracts).to have_received.verify(:some_fake)
     end
   end
 
@@ -72,14 +72,14 @@ describe Bogus::AddsContractVerification do
     it "overwrites described_class in before" do
       syntax.run_before
 
-      syntax.described_class.should == overwritten_class
+      expect(syntax.described_class).to eq overwritten_class
     end
 
     it "resets described_class in after" do
       syntax.run_before
       syntax.run_after
 
-      syntax.described_class.should == SomeClass
+      expect(syntax.described_class).to eq SomeClass
     end
 
     it_verifies_contract_after_suite
@@ -87,7 +87,7 @@ describe Bogus::AddsContractVerification do
     it "adds recording to described_class" do
       syntax.run_before
 
-      adds_recording.should have_received.add(:some_fake, SomeClass)
+      expect(adds_recording).to have_received.add(:some_fake, SomeClass)
     end
   end
 
@@ -104,14 +104,14 @@ describe Bogus::AddsContractVerification do
     it "does not overwrite described_class in before" do
       syntax.run_before
 
-      syntax.described_class.should == SomeClass
+      expect(syntax.described_class).to eq SomeClass
     end
 
     it "does not change described_class in after" do
       syntax.run_before
       syntax.run_after
 
-      syntax.described_class.should == SomeClass
+      expect(syntax.described_class).to eq SomeClass
     end
 
     it_verifies_contract_after_suite
@@ -119,7 +119,7 @@ describe Bogus::AddsContractVerification do
     it "adds recording to custom class" do
       syntax.run_before
 
-      adds_recording.should have_received.add(:some_fake, ClassToOverwrite)
+      expect(adds_recording).to have_received.add(:some_fake, ClassToOverwrite)
     end
   end
 
@@ -133,14 +133,14 @@ describe Bogus::AddsContractVerification do
     it "does not overwrite described_class in before" do
       syntax.run_before
 
-      syntax.described_class.should be_nil
+      expect(syntax.described_class).to be_nil
     end
 
     it "does not change described_class in after" do
       syntax.run_before
       syntax.run_after
 
-      syntax.described_class.should be_nil
+      expect(syntax.described_class).to be_nil
     end
 
     it_verifies_contract_after_suite
@@ -148,7 +148,7 @@ describe Bogus::AddsContractVerification do
     it "adds recording to class based on fake name" do
       syntax.run_before
 
-      adds_recording.should have_received.add(:some_fake, ClassGuessedFromFakeName)
+      expect(adds_recording).to have_received.add(:some_fake, ClassGuessedFromFakeName)
     end
   end
 end

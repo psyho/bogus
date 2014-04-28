@@ -40,7 +40,7 @@ module Bogus
       it { should respond_to(:foo) }
 
       it "should have arity -3 for foo" do
-        duck.method(:foo).arity.should == -3
+        expect(duck.method(:foo).arity).to eq -3
       end
 
       it { should_not respond_to(:bar) }
@@ -76,11 +76,11 @@ module Bogus
       end
 
       it "copies class methods" do
-        duck.should respond_to(:enabled?)
+        expect(duck).to respond_to(:enabled?)
       end
 
       it "copies instance methods" do
-        duck_instance.should respond_to(:enabled?)
+        expect(duck_instance).to respond_to(:enabled?)
       end
     end
   end

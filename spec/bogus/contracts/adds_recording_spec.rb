@@ -26,18 +26,18 @@ describe Bogus::AddsRecording do
   end
 
   it "creates the proxy" do
-    create_proxy_class.should have_received.call(:library, SampleModule::Library)
+    expect(create_proxy_class).to have_received.call(:library, SampleModule::Library)
   end
 
   it "swaps the classes" do
-    overwrites_classes.should have_received.overwrite('SampleModule::Library', Object)
+    expect(overwrites_classes).to have_received.overwrite('SampleModule::Library', Object)
   end
 
   it "records the overwritten class, so that it can be later restored" do
-    overwritten_classes.should have_received.add("SampleModule::Library", SampleModule::Library)
+    expect(overwritten_classes).to have_received.add("SampleModule::Library", SampleModule::Library)
   end
 
   it "returns the proxy class" do
-    adds_recording.add(:library, SampleModule::Library).should == Object
+    expect(adds_recording.add(:library, SampleModule::Library)).to eq Object
   end
 end

@@ -16,7 +16,7 @@ module Bogus
     let(:instance_methods) { InstanceMethods.new(SampleClass) }
 
     it "lists the instance methods" do
-      instance_methods.all.should =~ [:foo, :hello]
+      expect(instance_methods.all).to match_array([:foo, :hello])
     end
 
     it "returns the instance methods by name" do
@@ -27,7 +27,7 @@ module Bogus
     it "removes methods by name" do
       instance_methods.remove(:hello)
 
-      SampleClass.new.should_not respond_to(:hello)
+      expect(SampleClass.new).to_not respond_to(:hello)
     end
 
     it "defines instance methods" do
@@ -39,7 +39,7 @@ module Bogus
 
       instance = SampleClass.new
 
-      instance.greet("Joe").should == "Hello, Joe!"
+      expect(instance.greet("Joe")).to eq "Hello, Joe!"
     end
   end
 end

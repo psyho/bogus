@@ -4,7 +4,7 @@ describe Bogus::FakeConfiguration do
   let(:config) { Bogus::FakeConfiguration.new }
 
   it "does not contain not configured fakes" do
-    config.include?(:foo).should be_false
+    expect(config.include?(:foo)).to be_false
   end
 
   def class_block(name)
@@ -26,8 +26,8 @@ describe Bogus::FakeConfiguration do
       end
     end
 
-    config.include?(:foo).should be_true
-    config.include?(:bar).should be_false
+    expect(config.include?(:foo)).to be_true
+    expect(config.include?(:bar)).to be_false
   end
 
   it "returns the configuration for a fake" do
@@ -37,9 +37,9 @@ describe Bogus::FakeConfiguration do
       end
     end
 
-    opts(:foo).should == {as: :class}
-    stubs(:foo).should == {bar: "the bar"}
-    class_block(:foo).call.should == Samples::Foo
+    expect(opts(:foo)).to eq ({ as: :class} )
+    expect(stubs(:foo)).to eq ({ bar: "the bar"} )
+    expect(class_block(:foo).call).to eq Samples::Foo
   end
 
   context "with no class" do
@@ -48,9 +48,9 @@ describe Bogus::FakeConfiguration do
         fake(:foo, as: :class) { bar "bar" }
       end
 
-      opts(:foo).should == {as: :class}
-      stubs(:foo).should == {bar: "bar"}
-      class_block(:foo).should be_nil
+      expect(opts(:foo)).to eq ({ as: :class} )
+      expect(stubs(:foo)).to eq ({ bar: "bar"} )
+      expect(class_block(:foo)).to be_nil
     end
   end
 
@@ -60,9 +60,9 @@ describe Bogus::FakeConfiguration do
         fake(:foo) { bar "bar" }
       end
 
-      opts(:foo).should == {}
-      stubs(:foo).should == {bar: "bar"}
-      class_block(:foo).should be_nil
+      expect(opts(:foo)).to eq ({ } )
+      expect(stubs(:foo)).to eq ({ bar: "bar"} )
+      expect(class_block(:foo)).to be_nil
     end
   end
 
@@ -72,7 +72,7 @@ describe Bogus::FakeConfiguration do
         fake(:foo) { bar {"bar"} }
       end
 
-      stubs(:foo)[:bar].call.should == "bar"
+      expect(stubs(:foo)[:bar].call).to eq "bar"
     end
 
     it "does not evaluate the blocks when getting, nor when setting" do
@@ -91,9 +91,9 @@ describe Bogus::FakeConfiguration do
         fake(:foo, as: :class)
       end
 
-      opts(:foo).should == {as: :class}
-      stubs(:foo).should == {}
-      class_block(:foo).should be_nil
+      expect(opts(:foo)).to eq ({ as: :class} )
+      expect(stubs(:foo)).to eq ({ } )
+      expect(class_block(:foo)).to be_nil
     end
   end
 end

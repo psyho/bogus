@@ -9,7 +9,7 @@ describe Bogus::OverwrittenClasses do
     overwritten_classes.add("Foo::Bar", klass)
     overwritten_classes.add("Baz::Bam", klass)
 
-    overwritten_classes.classes.should == [["Foo::Bar", klass],
+    expect(overwritten_classes.classes).to eq [["Foo::Bar", klass],
                                            ["Baz::Bam", klass]]
   end
 
@@ -18,10 +18,10 @@ describe Bogus::OverwrittenClasses do
     overwritten_classes.add("Baz::Bam", klass)
     overwritten_classes.clear
 
-    overwritten_classes.classes.should == []
+    expect(overwritten_classes.classes).to eq []
   end
 
   it "returns an empty array with no classes" do
-    overwritten_classes.classes.should == []
+    expect(overwritten_classes.classes).to eq []
   end
 end
