@@ -31,4 +31,20 @@
 
      expect(foo.to_s).to eq("I'm a foo")
    end
+
+   class Object
+     def sample_method_for_stubbing_existing_methods
+     end
+   end
+
+   class SampleForStubbingExistingMethods
+   end
+
+   it "should be possible to stub arbitrary methods that were defined on Object" do
+     foo = fake(:foo) { SampleForStubbingExistingMethods }
+
+     stub(foo).sample_method_for_stubbing_existing_methods { :bar }
+
+     expect(foo.sample_method_for_stubbing_existing_methods).to eq(:bar)
+   end
  end
