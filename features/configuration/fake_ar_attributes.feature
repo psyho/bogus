@@ -48,6 +48,6 @@ Feature: fake_ar_attributes
     post = fake(:blog_post, name: "the name")
     stub(post).tags { "foo, bar" }
 
-    post.name.should == "the name"
-    post.tags.should == "foo, bar"
+    expect(post.name).to eq("the name")
+    expect(post.tags).to eq("foo, bar")
     """

@@ -64,31 +64,31 @@ Feature: Faking duck types
       let(:duck_instance) { duck.new }
 
       it "responds to error" do
-        duck_instance.should respond_to(:error)
+        expect(duck_instance).to respond_to(:error)
       end
 
       it "has arity 1 for error" do
-        duck_instance.method(:error).arity.should == 1
+        expect(duck_instance.method(:error).arity).to eq(1)
       end
 
       it "responds to warn" do
-        duck_instance.should respond_to(:warn)
+        expect(duck_instance).to respond_to(:warn)
       end
 
       it "has arity 2 for warn" do
-        duck_instance.method(:warn).arity.should == 2
+        expect(duck_instance.method(:warn).arity).to eq(2)
       end
 
       it "does not respond to connection" do
-        duck_instance.should_not respond_to(:connection)
+        expect(duck_instance).not_to respond_to(:connection)
       end
 
       it "does not respond to socket" do
-        duck_instance.should_not respond_to(:socket)
+        expect(duck_instance).not_to respond_to(:socket)
       end
 
       it "does not respond to debug" do
-        duck_instance.should_not respond_to(:debug)
+        expect(duck_instance).not_to respond_to(:debug)
       end
     end
     """
@@ -108,7 +108,7 @@ Feature: Faking duck types
       it "logs the exception" do
         notifier.notify("whoa!")
 
-        logger.should have_received.error("whoa!")
+        expect(logger).to have_received.error("whoa!")
       end
     end
     """
@@ -138,7 +138,7 @@ Feature: Faking duck types
       it "logs the exception" do
         notifier.notify("whoa!")
 
-        logger.should have_received.error("whoa!")
+        expect(logger).to have_received.error("whoa!")
       end
     end
     """

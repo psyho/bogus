@@ -10,7 +10,7 @@ It is not uncommon to encounter code like this in isolated unit tests:
 
       report_card = ReportCard.new(scores, students)
 
-      report_card.average_score.should == 7
+      expect(report_card.average_score).to eq(7)
     end
 
 _NOTE:  In the above example we use mocha syntax, but this patten is common
@@ -42,7 +42,7 @@ Let's reexamine our previous example, this time Bogus-style:
 
       report_card = ReportCard.new(scores, students)
 
-      report_card.average_score.should == 7
+      expect(report_card.average_score).to eq(7)
     end
 
 Can you spot the difference? Not much, huh?
@@ -73,7 +73,7 @@ Now if you test an object that collaborates with our `PushNotifier`, you would d
 
       comment_adder.add("Hello world!")
 
-      push_notifier.should have_received.notify_async("Comment: 'Hello world!' added.")
+      expect(push_notifier).to have_received.notify_async("Comment: 'Hello world!' added.")
     end
 
 While not really impressive, this feature is worth mentioning because it will eliminate a lot of the mocking and stubbing from your tests.
@@ -115,7 +115,7 @@ A contract test like that could look like this:
       scores.add("John", 5)
       scores.add("Mary", 9)
 
-      scores.get(["John", "Mary"]).should == [5, 9]
+      expect(scores.get(["John", "Mary"])).to eq([5, 9])
     end
 
 Obviously Bogus won't be able to write those tests for you. However it can remind you if you forget to add one.
@@ -155,7 +155,7 @@ You can test it easily, with all the benefits of fakes, safe stubbing and contra
       it "should send a push notification" do
         CommentAdder.add("the user", "the comment")
 
-        PushNotifier.should have_received.notify_async("comment added")
+        expect(PushNotifier).to have_received.notify_async("comment added")
       end
     end
 

@@ -18,7 +18,7 @@ Feature: Argument matchers
 
     stub(Catalog).books_by_author_and_title(any_args) { :some_book }
 
-    Catalog.books_by_author_and_title("Arthur Conan Doyle", "Sherlock Holmes").should == :some_book
+    expect(Catalog.books_by_author_and_title("Arthur Conan Doyle", "Sherlock Holmes")).to eq(:some_book)
     """
 
   Scenario: Stubbing methods with some wildcard arguments
@@ -29,9 +29,9 @@ Feature: Argument matchers
     stub(Catalog).books_by_author_and_title(any_args) { :some_book }
     stub(Catalog).books_by_author_and_title("Mark Twain", anything) { :twains_book }
 
-    Catalog.books_by_author_and_title("Mark Twain", "Tom Sawyer").should == :twains_book
-    Catalog.books_by_author_and_title("Mark Twain", "Huckleberry Finn").should == :twains_book
-    Catalog.books_by_author_and_title("Arthur Conan Doyle", "Sherlock Holmes").should == :some_book
+    expect(Catalog.books_by_author_and_title("Mark Twain", "Tom Sawyer")).to eq(:twains_book)
+    expect(Catalog.books_by_author_and_title("Mark Twain", "Huckleberry Finn")).to eq(:twains_book)
+    expect(Catalog.books_by_author_and_title("Arthur Conan Doyle", "Sherlock Holmes")).to eq(:some_book)
     """
 
   Scenario: Stubbing methods with proc arguments matcher
@@ -42,9 +42,9 @@ Feature: Argument matchers
     stub(Catalog).books_by_author_and_title(any_args) { :some_book }
     stub(Catalog).books_by_author_and_title(with{|author| author =~ /Twain/ }) { :twains_book }
 
-    Catalog.books_by_author_and_title("Mark Twain", "Tom Sawyer").should == :twains_book
-    Catalog.books_by_author_and_title("M. Twain", "Huckleberry Finn").should == :twains_book
-    Catalog.books_by_author_and_title("Arthur Conan Doyle", "Sherlock Holmes").should == :some_book
+    expect(Catalog.books_by_author_and_title("Mark Twain", "Tom Sawyer")).to eq(:twains_book)
+    expect(Catalog.books_by_author_and_title("M. Twain", "Huckleberry Finn")).to eq(:twains_book)
+    expect(Catalog.books_by_author_and_title("Arthur Conan Doyle", "Sherlock Holmes")).to eq(:some_book)
     """
 
   Scenario: Stubbing methods with proc argument matcher
@@ -55,9 +55,9 @@ Feature: Argument matchers
     stub(Catalog).books_by_author_and_title(any_args) { :some_book }
     stub(Catalog).books_by_author_and_title(matches{|author| author =~ /Twain/ }, "Tom Sawyer") { :twains_book }
 
-    Catalog.books_by_author_and_title("Mark Twain", "Tom Sawyer").should == :twains_book
-    Catalog.books_by_author_and_title("M. Twain", "Huckleberry Finn").should == :some_book
-    Catalog.books_by_author_and_title("Arthur Conan Doyle", "Sherlock Holmes").should == :some_book
+    expect(Catalog.books_by_author_and_title("Mark Twain", "Tom Sawyer")).to eq(:twains_book)
+    expect(Catalog.books_by_author_and_title("M. Twain", "Huckleberry Finn")).to eq(:some_book)
+    expect(Catalog.books_by_author_and_title("Arthur Conan Doyle", "Sherlock Holmes")).to eq(:some_book)
     """
 
   Scenario: Stubbing methods with argument type matcher
@@ -68,6 +68,6 @@ Feature: Argument matchers
     stub(Catalog).books_by_author_and_title(any_args) { :some_book }
     stub(Catalog).books_by_author_and_title(any(String), any(String)) { :twains_book }
 
-    Catalog.books_by_author_and_title("Mark Twain", "Tom Sawyer").should == :twains_book
-    Catalog.books_by_author_and_title("M. Twain", :other_book).should == :some_book
+    expect(Catalog.books_by_author_and_title("Mark Twain", "Tom Sawyer")).to eq(:twains_book)
+    expect(Catalog.books_by_author_and_title("M. Twain", :other_book)).to eq(:some_book)
     """

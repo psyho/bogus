@@ -43,8 +43,8 @@ Feature: Spies
 
         student.study("Moby Dick", "Sherlock Holmes")
 
-        library.should have_received.checkout("Moby Dick")
-        library.should have_received.checkout("Sherlock Holmes")
+        expect(library).to have_received.checkout("Moby Dick")
+        expect(library).to have_received.checkout("Sherlock Holmes")
       end
     end
     """
@@ -63,7 +63,7 @@ Feature: Spies
 
         student.study("Moby Dick")
 
-        library.should_not have_received.return_book("Moby Dick")
+        expect(library).not_to have_received.return_book("Moby Dick")
       end
     end
     """
@@ -82,7 +82,7 @@ Feature: Spies
 
         student.study("Moby Dick", "Sherlock Holmes")
 
-        library.should_not have_received.checkout("Moby Dick", 
+        expect(library).not_to have_received.checkout("Moby Dick", 
           "Sherlock Holmes")
       end
     end
@@ -100,9 +100,9 @@ Feature: Spies
       it "studies using books from library" do
         stub(library).checkout("Moby Dick") { "checked out" }
 
-        library.checkout("Moby Dick").should == "checked out"
+        expect(library.checkout("Moby Dick")).to eq("checked out")
 
-        library.should have_received.checkout("Moby Dick")
+        expect(library).to have_received.checkout("Moby Dick")
       end
     end
     """
@@ -138,7 +138,7 @@ Feature: Spies
       it "sets the background to red" do
         Popup.alert("No such file!", canvas)
 
-        canvas.should have_received(:background_color=, "red")
+        expect(canvas).to have_received(:background_color=, "red")
       end
     end
     """

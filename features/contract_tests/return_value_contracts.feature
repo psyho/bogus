@@ -51,13 +51,13 @@ Feature: Return value contracts
       it "logs in the user with valid data" do
         stub(authentication_service).authenticate('foo', 'bar')
 
-        controller.create(login: 'foo', password: 'bar').should == :render_welcome
+        expect(controller.create(login: 'foo', password: 'bar')).to eq(:render_welcome)
       end
 
       it "fails with invalid data" do
         stub(authentication_service).authenticate('baz', 'bar') { raise WrongPassword }
 
-        controller.create(login: 'baz', password: 'bar').should == :render_error
+        expect(controller.create(login: 'baz', password: 'bar')).to eq(:render_error)
       end
     end
     """

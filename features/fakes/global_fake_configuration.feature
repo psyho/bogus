@@ -46,17 +46,17 @@ Feature: Global fake configuration
 
       it "is a class" do
         # because of the as: :class specified in the fake definition
-        library.should be_an_instance_of(Class)
+        expect(library).to be_an_instance_of(Class)
       end
 
       it "is a copy of PublicLibrary" do
         # because of the block passed into configuration
-        library.name.should == "PublicLibrary"
+        expect(library.name).to eq("PublicLibrary")
       end
 
       it "returns has stubbed books_by_author" do
         # because of the inline-stubbed books_by_author
-        library.books_by_author("Mark Twain").should == []
+        expect(library.books_by_author("Mark Twain")).to eq([])
       end
     end
     """
@@ -71,7 +71,7 @@ Feature: Global fake configuration
       fake(:library, books_by_author: ["Some Book"])
 
       it "can be overridden in the shortcut definition" do
-        library.books_by_author("Charles Dickens").should == ["Some Book"]
+        expect(library.books_by_author("Charles Dickens")).to eq(["Some Book"])
       end
     end
     """
@@ -85,7 +85,7 @@ Feature: Global fake configuration
     describe "The library fake" do
       it "can be overridden in the helper" do
         library = fake(:library, books_by_author: ["Some Book"])
-        library.books_by_author("Charles Dickens").should == ["Some Book"]
+        expect(library.books_by_author("Charles Dickens")).to eq(["Some Book"])
       end
     end
     """

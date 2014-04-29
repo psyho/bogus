@@ -34,7 +34,7 @@ Feature: Contract tests with spies
 
         student.read("Moby Dick", library)
 
-        library.should have_received.checkout("Moby Dick")
+        expect(library).to have_received.checkout("Moby Dick")
       end
     end
     """

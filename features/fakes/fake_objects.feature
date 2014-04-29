@@ -60,7 +60,7 @@ Feature: Faking existing classes
       fake(:library)
 
       it "does something" do
-        Student.learn(library).should be_true
+        expect(Student.learn(library)).to be_true
       end
     end
     """
@@ -77,7 +77,7 @@ Feature: Faking existing classes
       fake(:library) { PublicLibrary }
 
       it "uses the class provided in block instead of the guessed one" do
-        library.class.name.should == "PublicLibrary"
+        expect(library.class.name).to eq("PublicLibrary")
       end
     end
     """
@@ -91,11 +91,11 @@ Feature: Faking existing classes
       fake(:library, as: :class)
 
       it "is a class" do
-        library.should be_a(Class)
+        expect(library).to be_a(Class)
       end
 
       it "has the same name as original class" do
-        library.name.should == Library.name
+        expect(library.name).to eq(Library.name)
       end
 
       it "has same methods as original class" do
@@ -114,10 +114,10 @@ Feature: Faking existing classes
                                      return_book: "returned") }
 
       it "sets the default return value for provided functions" do
-        library.checkout("Moby Dick").should == "checked out"
-        library.checkout("Three Musketeers").should == "checked out"
-        library.return_book("Moby Dick").should == "returned"
-        library.return_book("Three Musketeers").should == "returned"
+        expect(library.checkout("Moby Dick")).to eq("checked out")
+        expect(library.checkout("Three Musketeers")).to eq("checked out")
+        expect(library.return_book("Moby Dick")).to eq("returned")
+        expect(library.return_book("Three Musketeers")).to eq("returned")
       end
     end
     """
@@ -140,7 +140,7 @@ Feature: Faking existing classes
       fake(:library)
 
       it "is identified as Library" do
-        library?(library).should be_true
+        expect(library?(library)).to be_true
       end
     end
     """

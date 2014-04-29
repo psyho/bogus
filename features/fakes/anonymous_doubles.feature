@@ -47,7 +47,7 @@ Feature: Anonymous test doubles
 
         jake.sign_up(library)
 
-        jake.library_card.should == "the card"
+        expect(jake.library_card).to eq("the card")
       end
     end
     """
@@ -64,7 +64,7 @@ Feature: Anonymous test doubles
       it "allows stubbing any method with any parameters" do
         jake.sign_up(library)
 
-        jake.library_card.should == "the card"
+        expect(jake.library_card).to eq("the card")
       end
     end
     """
@@ -92,7 +92,7 @@ Feature: Anonymous test doubles
 
         jake.sign_up(library)
 
-        jake.library_card.should == "the card"
+        expect(jake.library_card).to eq("the card")
       end
     end
     """
@@ -122,7 +122,7 @@ Feature: Anonymous test doubles
       it "allows stubbing any method with any parameters" do
         jake.sign_up(library)
 
-        jake.library_card.should == "the card"
+        expect(jake.library_card).to eq("the card")
       end
     end
     """
@@ -139,7 +139,7 @@ Feature: Anonymous test doubles
       it "allows spying on any method" do
         jake.sign_up(library)
 
-        library.should have_received.register_junior("Jake")
+        expect(library).to have_received.register_junior("Jake")
       end
     end
     """

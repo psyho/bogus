@@ -55,7 +55,7 @@ Feature: Replacing classes with fakes
                  {name: "Moby Dick", author: "Herman Melville"}]
         File.open(Library::FILE, "w") { |f| f.print books.to_yaml }
 
-        Library.books.should == books
+        expect(Library.books).to eq(books)
       end
 
       after do
@@ -77,7 +77,7 @@ Feature: Replacing classes with fakes
 
         fake_class(Library, books: [tom_sawyer, moby_dick])
 
-        BookIndex.by_author("Mark Twain").should == [tom_sawyer]
+        expect(BookIndex.by_author("Mark Twain")).to eq([tom_sawyer])
       end
     end
     """
@@ -99,7 +99,7 @@ Feature: Replacing classes with fakes
                  {name: "Moby Dick", author: "Herman Melville"}]
         File.open(Library::FILE, "w") { |f| f.print books.to_yaml }
 
-        Library.books.should == books
+        expect(Library.books).to eq(books)
       end
 
       after do
@@ -122,7 +122,7 @@ Feature: Replacing classes with fakes
         fake_class(Library, fake_name: :book_repository,
                             books: [tom_sawyer, moby_dick])
 
-        BookIndex.by_author("Mark Twain").should == [tom_sawyer]
+        expect(BookIndex.by_author("Mark Twain")).to eq([tom_sawyer])
       end
     end
     """
@@ -139,7 +139,7 @@ Feature: Replacing classes with fakes
       fake_class(Library, books: [])
 
       it "returns books written by author" do
-        BookIndex.by_author("Mark Twain").should == []
+        expect(BookIndex.by_author("Mark Twain")).to eq([])
       end
     end
     """

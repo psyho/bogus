@@ -35,7 +35,7 @@ describe PostAdder do
     
     post_adder.add("Bogus is safe!")
 
-    post_repository.should have_received.store("Bogus is safe!")
+    expect(post_repository).to have_received.store("Bogus is safe!")
   end
 end
 ```

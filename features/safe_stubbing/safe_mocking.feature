@@ -33,7 +33,7 @@ Feature: Safe mocking
         library = Library.new
         mock(library).checkout("some book") { :checked_out }
 
-        library.checkout("some book").should == :checked_out
+        expect(library.checkout("some book")).to eq(:checked_out)
       end
     end
     """
