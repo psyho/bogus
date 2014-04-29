@@ -29,7 +29,8 @@ module Bogus
       alias :__create__ :new
 
       def new(*args, &block)
-        __record__(:new, *args, &block)
+        value = __record__(:new, *args, &block)
+        return value unless ::Bogus::UndefinedReturnValue.undefined?(value)
         __create__
       end
     end

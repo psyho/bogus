@@ -11,5 +11,9 @@ module Bogus
     def method_missing(name, *args, &block)
       raise NoMethodError, "undefined method '#{name}' for #{self}"
     end
+
+    def self.undefined?(value)
+      value.is_a?(self)
+    end
   end
 end
