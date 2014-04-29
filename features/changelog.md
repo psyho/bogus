@@ -1,3 +1,14 @@
+## 0.1.5
+
+- Made it possible to use fake objects in case/when statements (override ===)
+- Allowed stubbing methods defined on Object, such as #to_json
+- Added `matches` - for matching single arguments when stubbing
+- Updated RSpec syntax in specs and features (thanks to Michael Durrant)
+- Done some housekeeping around development dependencies/Gemfile.lock/TravisCI configuration (thanks to Ken Dreyer)
+- Removed deprecation warnings when using Bogus with RSpec 3.0 (thanks to Michal Muskala)
+- Added support for Ruby 2.1 required keyword arguments (thanks to Indrek Juhkam)
+- Fixed a bug that made it impossible to stub .new on fake classes
+
 ## 0.1.4
 
 - Support for contracts in minitest
