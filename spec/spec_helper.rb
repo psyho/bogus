@@ -1,13 +1,13 @@
 require 'simplecov'
 begin
   require "coveralls"
+  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+    SimpleCov::Formatter::HTMLFormatter,
+    Coveralls::SimpleCov::Formatter]
 rescue LoadError
   warn "warning: coveralls gem not found; skipping Coveralls"
+  SimpleCov.formatter = SimpleCov::Formatter::HTMLFormatter
 end
-
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
-  SimpleCov::Formatter::HTMLFormatter,
-  Coveralls::SimpleCov::Formatter]
 
 SimpleCov.start do
   add_filter "/spec/"
