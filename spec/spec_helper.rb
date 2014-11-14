@@ -24,7 +24,14 @@ require_relative 'support/matchers'
 require_relative 'support/shared_examples_for_keyword_arguments'
 
 RSpec.configure do |config|
-  config.color_enabled = true
+  if config.respond_to? :color=
+    # RSpec 3
+    config.color = true
+  end
+  if config.respond_to? :color_enabled=
+    # RSpec 2
+    config.color_enabled = true
+  end
   config.mock_framework = :rr
 end
 
