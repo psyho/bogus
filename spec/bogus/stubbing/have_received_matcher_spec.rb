@@ -38,7 +38,7 @@ describe Bogus::HaveReceivedMatcher do
     it "returns a readable error message for object with no shadow" do
       bogus_have_received(:upcase)
 
-      expect(have_received_matcher.matches?("foo")).to be_false
+      expect(have_received_matcher.matches?("foo")).to be(false)
       expect(have_received_matcher.failure_message_for_should).to eq(Bogus::HaveReceivedMatcher::NO_SHADOW)
       expect(have_received_matcher.failure_message).to eq(Bogus::HaveReceivedMatcher::NO_SHADOW)
       expect(have_received_matcher.failure_message_for_should_not).to eq(Bogus::HaveReceivedMatcher::NO_SHADOW)

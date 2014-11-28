@@ -52,7 +52,7 @@ module Bogus
         first = create_interaction(first_interaction)
         second = create_interaction(second_interaction)
 
-        expect(Interaction.same?(recorded: first, stubbed: second)).to be_true
+        expect(Interaction.same?(recorded: first, stubbed: second)).to be(true)
       end
     end
 
@@ -61,7 +61,7 @@ module Bogus
         first = create_interaction(first_interaction)
         second = create_interaction(second_interaction)
 
-        expect(Interaction.same?(recorded: first, stubbed: second)).to be_false
+        expect(Interaction.same?(recorded: first, stubbed: second)).to be(false)
       end
     end
 
@@ -69,21 +69,21 @@ module Bogus
       first = Interaction.new(:foo, [:bar]) { raise SomeError }
       second = Interaction.new(:foo, [:bar]) { nil }
 
-      expect(Interaction.same?(recorded: first, stubbed: second)).to be_false
+      expect(Interaction.same?(recorded: first, stubbed: second)).to be(false)
     end
 
     it "differs raised exceptions from ones just returned from the block" do
       first = Interaction.new(:foo, [:bar]) { raise SomeError }
       second = Interaction.new(:foo, [:bar]) { SomeError }
 
-      expect(Interaction.same?(recorded: first, stubbed: second)).to be_false
+      expect(Interaction.same?(recorded: first, stubbed: second)).to be(false)
     end
 
     it "considers exceptions of the same type as equal" do
       first = Interaction.new(:foo, [:bar]) { raise SomeError }
       second = Interaction.new(:foo, [:bar]) { raise SomeError }
 
-      expect(Interaction.same?(recorded: first, stubbed: second)).to be_true
+      expect(Interaction.same?(recorded: first, stubbed: second)).to be(true)
     end
 
     context 'when comparing arguments with custom #== implementations' do
@@ -97,14 +97,14 @@ module Bogus
         first = Interaction.new(:with, [Dev.new(:psyho)])
         second = Interaction.new(:with, [Dev.new(:psyho)])
 
-        expect(Interaction.same?(recorded: first, stubbed: second)).to be_true
+        expect(Interaction.same?(recorded: first, stubbed: second)).to be(true)
       end
 
       it "considers two interactions != when the arguments are !=" do
         first = Interaction.new(:with, [Dev.new(:wrozka)])
         second = Interaction.new(:with, [Dev.new(:yundt)])
 
-        expect(Interaction.same?(recorded: first, stubbed: second)).to be_false
+        expect(Interaction.same?(recorded: first, stubbed: second)).to be(false)
       end
     end
   end

@@ -125,15 +125,15 @@ describe Bogus::CopiesClasses do
     end
 
     it "should override kind_of?" do
-      expect(fake.kind_of?(SomeModule::SomeClass)).to be_true
+      expect(fake.kind_of?(SomeModule::SomeClass)).to be(true)
     end
 
     it "should override instance_of?" do
-      expect(fake.instance_of?(SomeModule::SomeClass)).to be_true
+      expect(fake.instance_of?(SomeModule::SomeClass)).to be(true)
     end
 
     it "should override is_a?" do
-      expect(fake.is_a?(SomeModule::SomeClass)).to be_true
+      expect(fake.is_a?(SomeModule::SomeClass)).to be(true)
     end
 
     it "should include class name in the output of fake's class #to_s" do
@@ -145,7 +145,7 @@ describe Bogus::CopiesClasses do
     end
 
     it 'should override ===' do
-      expect(SomeModule::SomeClass === fake).to be_true
+      expect(SomeModule::SomeClass === fake).to be(true)
     end
   end
 

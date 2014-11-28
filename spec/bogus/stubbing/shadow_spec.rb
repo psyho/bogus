@@ -11,12 +11,12 @@ describe Bogus::Shadow do
       end
 
       it "returns the called methods" do
-        expect(shadow.has_received(:foo, ["a", "b"])).to be_true
+        expect(shadow.has_received(:foo, ["a", "b"])).to be(true)
       end
 
       it "does not return true for interactions that did not happen" do
-        expect(shadow.has_received(:foo, ["a", "c"])).to be_false
-        expect(shadow.has_received(:bar, ["a", "c"])).to be_false
+        expect(shadow.has_received(:foo, ["a", "c"])).to be(false)
+        expect(shadow.has_received(:bar, ["a", "c"])).to be(false)
       end
     end
   end
@@ -81,7 +81,7 @@ describe Bogus::Shadow do
     it "allows spying on calls using any args" do
       shadow.run(:foo, "a", "c")
 
-      expect(shadow.has_received(:foo, [Bogus::AnyArgs])).to be_true
+      expect(shadow.has_received(:foo, [Bogus::AnyArgs])).to be(true)
     end
   end
 
@@ -103,7 +103,7 @@ describe Bogus::Shadow do
     it "allows spying on calls using anything in args" do
       shadow.run(:foo, "a", "b")
 
-      expect(shadow.has_received(:foo, [Bogus::Anything, "b"])).to be_true
+      expect(shadow.has_received(:foo, [Bogus::Anything, "b"])).to be(true)
     end
   end
 
@@ -177,7 +177,7 @@ describe Bogus::Shadow do
 
     it "contributes towards unsatisfied interactions" do
       interactions = shadow.unsatisfied_interactions
-      expect(interactions).to have(1).item
+      expect(interactions.size).to eq(1)
       expect(interactions.first.method).to eq(:foo)
       expect(interactions.first.args).to eq(["a", "b"])
     end

@@ -11,13 +11,13 @@ describe Bogus::RecordInteractions do
   it "allows verifying that interactions happened" do
     sample.__record__(:foo, 1, 2, 3)
 
-    expect(sample.__shadow__.has_received(:foo, [1,2,3])).to be_true
+    expect(sample.__shadow__.has_received(:foo, [1,2,3])).to be(true)
   end
 
   it "allows verifying that interactions didn't happen" do
     sample.__record__(:bar)
 
-    expect(sample.__shadow__.has_received(:foo, [1,2,3])).to be_false
+    expect(sample.__shadow__.has_received(:foo, [1,2,3])).to be(false)
   end
 
   it "returns self from record by default" do

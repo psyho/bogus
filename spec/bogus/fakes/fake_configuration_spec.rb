@@ -4,7 +4,7 @@ describe Bogus::FakeConfiguration do
   let(:config) { Bogus::FakeConfiguration.new }
 
   it "does not contain not configured fakes" do
-    expect(config.include?(:foo)).to be_false
+    expect(config.include?(:foo)).to be(false)
   end
 
   def class_block(name)
@@ -26,8 +26,8 @@ describe Bogus::FakeConfiguration do
       end
     end
 
-    expect(config.include?(:foo)).to be_true
-    expect(config.include?(:bar)).to be_false
+    expect(config.include?(:foo)).to be(true)
+    expect(config.include?(:bar)).to be(false)
   end
 
   it "returns the configuration for a fake" do

@@ -60,7 +60,7 @@ Feature: Faking existing classes
       fake(:library)
 
       it "does something" do
-        expect(Student.learn(library)).to be_true
+        expect(Student.learn(library)).to be(true)
       end
     end
     """
@@ -140,7 +140,7 @@ Feature: Faking existing classes
       fake(:library)
 
       it "is identified as Library" do
-        expect(library?(library)).to be_true
+        expect(library?(library)).to be(true)
       end
     end
     """

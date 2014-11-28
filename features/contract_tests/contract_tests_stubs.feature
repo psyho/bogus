@@ -90,7 +90,7 @@ Feature: Contract tests with stubs
 
         library.checkout("Moby Dick")
 
-        expect(library.has_book?("Moby Dick")).to be_false
+        expect(library.has_book?("Moby Dick")).to be(false)
       end
     end
     """
@@ -108,11 +108,11 @@ Feature: Contract tests with stubs
       it "allows checking out books that are in the inventory" do
         library.return("Moby Dick")
 
-        expect(library.has_book?("Moby Dick")).to be_true
+        expect(library.has_book?("Moby Dick")).to be(true)
       end
 
       it "does not allow checking out unavailable books" do
-        expect(library.has_book?("Moby Dick")).to be_false
+        expect(library.has_book?("Moby Dick")).to be(false)
       end
 
       it "marks books as unavailable after they are checked out" do
@@ -120,7 +120,7 @@ Feature: Contract tests with stubs
 
         library.checkout("Moby Dick")
 
-        expect(library.has_book?("Moby Dick")).to be_false
+        expect(library.has_book?("Moby Dick")).to be(false)
       end
     end
     """
