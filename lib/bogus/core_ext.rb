@@ -1,5 +1,5 @@
 # This monkey patch should not break Ruby compatibility
-# but is necessary because MRI, insead of calling object.kind_of?(module),
+# but is necessary because MRI, instead of calling object.kind_of?(module),
 # calls the C function, which implements kind_of. This makes
 # using fake objects in switch cases produce unexpected results:
 #
@@ -15,7 +15,11 @@
 class Module
   # don't warn about redefining === method
   Bogus::Support.supress_warnings do
+    alias :__trequals__ :===
+
     def ===(object)
+      # BasicObjects do not have kind_of? method
+      return __trequals__(object) unless Object.__trequals__(object)
       object.kind_of?(self)
     end
   end
