@@ -35,6 +35,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rr'
   s.add_development_dependency 'relish'
   s.add_development_dependency 'coveralls'
+  s.add_development_dependency 'wwtd'
 
   s.add_development_dependency 'activerecord', '>= 3', '< 5'
   s.add_development_dependency 'activerecord-nulldb-adapter'
