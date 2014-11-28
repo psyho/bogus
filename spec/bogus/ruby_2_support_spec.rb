@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-if RUBY_VERSION >= '2.0'
+if RubyFeatures.keyword_arguments?
   describe "Ruby 2.0 keyword arguments" do
     class ExampleForKeywordArgs
       eval "def foo(x: 1); end"
