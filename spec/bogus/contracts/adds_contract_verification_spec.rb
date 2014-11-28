@@ -37,7 +37,7 @@ describe Bogus::AddsContractVerification do
     it "verifies the contract in after_suite" do
       syntax.run_after_suite
 
-      expect(verifies_contracts).to have_received.verify(:some_fake)
+      expect(verifies_contracts).to have_received(:verify).with(:some_fake)
     end
   end
 
@@ -49,17 +49,17 @@ describe Bogus::AddsContractVerification do
 
   let(:overwritten_class) { :the_overwritten_class }
 
-  let(:adds_recording) { stub }
-  let(:verifies_contracts) { stub }
-  let(:converts_name_to_class) { stub }
+  let(:adds_recording) { double }
+  let(:verifies_contracts) { double }
+  let(:converts_name_to_class) { double }
   let(:syntax) { FakeSyntax.new(described_class) }
 
   let(:adds_contract_verification) { isolate(Bogus::AddsContractVerification) }
 
   before do
-    stub(adds_recording).add { overwritten_class }
-    stub(verifies_contracts).verify
-    stub(converts_name_to_class).convert { ClassGuessedFromFakeName }
+    allow(adds_recording).to receive(:add) { overwritten_class }
+    allow(verifies_contracts).to receive(:verify)
+    allow(converts_name_to_class).to receive(:convert) { ClassGuessedFromFakeName }
   end
 
   context "with described_class" do
@@ -87,7 +87,7 @@ describe Bogus::AddsContractVerification do
     it "adds recording to described_class" do
       syntax.run_before
 
-      expect(adds_recording).to have_received.add(:some_fake, SomeClass)
+      expect(adds_recording).to have_received(:add).with(:some_fake, SomeClass)
     end
   end
 
@@ -119,7 +119,7 @@ describe Bogus::AddsContractVerification do
     it "adds recording to custom class" do
       syntax.run_before
 
-      expect(adds_recording).to have_received.add(:some_fake, ClassToOverwrite)
+      expect(adds_recording).to have_received(:add).with(:some_fake, ClassToOverwrite)
     end
   end
 
@@ -148,7 +148,7 @@ describe Bogus::AddsContractVerification do
     it "adds recording to class based on fake name" do
       syntax.run_before
 
-      expect(adds_recording).to have_received.add(:some_fake, ClassGuessedFromFakeName)
+      expect(adds_recording).to have_received(:add).with(:some_fake, ClassGuessedFromFakeName)
     end
   end
 end

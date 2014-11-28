@@ -1,7 +1,9 @@
 require "spec_helper"
 
 describe "Frozen Fakes" do
-  include Bogus::MockingDSL
+  before do
+    extend Bogus::MockingDSL
+  end
 
   class ExampleForFreezing
     def foo(x)

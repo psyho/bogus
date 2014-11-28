@@ -4,59 +4,59 @@ module Bogus
   describe Double do
     shared_examples_for "double behavior" do
       it "tracks existence of test doubles" do
-        mock(double_tracker).track(object)
+        expect(double_tracker).to receive(:track).with(object)
 
-        double.stub.foo("a", "b") { "the result" }
+        double_instance.stub.foo("a", "b") { "the result" }
       end
 
       it "does not track existence of the double if verify fails" do
-        stub(verifies_stub_definition).verify!(object, :foo, ["a", "b"]) { raise NameError }
+        allow(verifies_stub_definition).to receive(:verify!).with(object, :foo, ["a", "b"]) { raise NameError }
 
         expect {
-          double.stub.foo("a", "b") { "the result" }
+          double_instance.stub.foo("a", "b") { "the result" }
         }.to raise_error
 
-        expect(double_tracker).not_to have_received.track(object)
+        expect(double_tracker).not_to have_received(:track).with(object)
       end
 
       it "verifies stub definition" do
-        mock(verifies_stub_definition).verify!(object, :foo, ["a", "b"])
+        expect(verifies_stub_definition).to receive(:verify!).with(object, :foo, ["a", "b"])
 
-        double.stub.foo("a", "b") { "the result" }
+        double_instance.stub.foo("a", "b") { "the result" }
       end
 
       it "stubs shadow methods" do
         object.extend RecordInteractions
-        mock(object.__shadow__).stubs(:foo, "a", "b")
+        expect(object.__shadow__).to receive(:stubs).with(:foo, "a", "b")
 
-        double.stub.foo("a", "b") { "the result" }
+        double_instance.stub.foo("a", "b") { "the result" }
       end
 
       it "mocks shadow methods" do
         object.extend RecordInteractions
-        mock(object.__shadow__).mocks(:foo, "a", "b")
+        expect(object.__shadow__).to receive(:mocks).with(:foo, "a", "b")
 
-        double.mock.foo("a", "b") { "the result" }
+        double_instance.mock.foo("a", "b") { "the result" }
       end
 
       it "adds method overwriting" do
-        double.stub.foo("a", "b") { "the result" }
+        double_instance.stub.foo("a", "b") { "the result" }
 
         expect(overwrites_methods.overwrites).to eq([[object, :foo]])
       end
 
       it "records double interactions" do
-        mock(records_double_interactions).record(object, :foo, ["a", "b"])
+        expect(records_double_interactions).to receive(:record).with(object, :foo, ["a", "b"])
 
-        double.stub.foo("a", "b") { "the result" }
+        double_instance.stub.foo("a", "b") { "the result" }
       end
     end
 
-    let(:double_tracker) { stub(track: nil) }
-    let(:verifies_stub_definition) { stub(verify!: nil) }
-    let(:records_double_interactions) { stub(record: nil) }
+    let(:double_tracker) { double(:double_tracker, track: nil) }
+    let(:verifies_stub_definition) { double(:verifies_stub_definition, verify!: nil) }
+    let(:records_double_interactions) { double(:records_double_interactions, record: nil) }
     let(:overwrites_methods) { FakeMethodOverwriter.new }
-    let(:double) { isolate(Double) }
+    let(:double_instance) { isolate(Double) }
 
     context "with regular objects" do
       let(:object) { Samples::Foo.new }

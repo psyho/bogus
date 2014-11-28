@@ -4,7 +4,9 @@ describe "Stubbing .new on fake class" do
   class ExampleForStubbingNew
   end
 
-  include Bogus::MockingDSL
+  before do
+    extend Bogus::MockingDSL
+  end
 
   it "allows stubbing new on a class" do
     fake_class = fake(ExampleForStubbingNew, as: :class)

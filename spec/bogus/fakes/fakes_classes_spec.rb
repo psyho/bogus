@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe Bogus::FakesClasses do
   let(:creates_fakes_with_stubbed_methods) { FakeCreatorOfFakes.new }
-  let(:overwrites_classes) { stub }
-  let(:overwritten_classes) { stub }
+  let(:overwrites_classes) { double }
+  let(:overwritten_classes) { double }
 
   let(:fakes_classes) { isolate(Bogus::FakesClasses) }
 
@@ -13,8 +13,8 @@ describe Bogus::FakesClasses do
   end
 
   before do
-    stub(overwrites_classes).overwrite
-    stub(overwritten_classes).add
+    allow(overwrites_classes).to receive(:overwrite)
+    allow(overwritten_classes).to receive(:add)
   end
 
   it "creates a fake named after the class" do
@@ -29,13 +29,13 @@ describe Bogus::FakesClasses do
 
     fakes_classes.fake(Samples::WillBeOverwritten)
 
-    expect(overwrites_classes).to have_received.overwrite("Samples::WillBeOverwritten", fake)
+    expect(overwrites_classes).to have_received(:overwrite).with("Samples::WillBeOverwritten", fake)
   end
 
   it "stores the overwritten class so that it can be replaced back later" do
     fakes_classes.fake(Samples::WillBeOverwritten)
 
-    expect(overwritten_classes).to have_received.add("Samples::WillBeOverwritten", Samples::WillBeOverwritten)
+    expect(overwritten_classes).to have_received(:add).with("Samples::WillBeOverwritten", Samples::WillBeOverwritten)
   end
 
   it "uses the passed fake name if provided" do

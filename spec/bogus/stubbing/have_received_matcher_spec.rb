@@ -1,10 +1,9 @@
 require 'spec_helper'
 
 describe Bogus::HaveReceivedMatcher do
-  let(:verifies_stub_definition) { stub(verify!: nil) }
-  let(:records_double_interactions) { stub(record: nil) }
+  let(:verifies_stub_definition) { double(:verifies_stub_definition, verify!: nil) }
+  let(:records_double_interactions) { double(:records_double_interactions, record: nil) }
   let(:have_received_matcher) { isolate(Bogus::HaveReceivedMatcher) }
-  let(:have_received) { have_received_matcher.method_call }
   let(:fake) { Samples::FooFake.new }
 
   before do
@@ -13,31 +12,31 @@ describe Bogus::HaveReceivedMatcher do
 
   shared_examples_for "have_received_matcher" do
     it "matches when the spy has received the message" do
-      expect(fake).to have_received(:foo, "a", "b")
+      expect(fake).to bogus_have_received(:foo, "a", "b")
     end
 
     it "does not match if the spy hasn't received the message" do
-      expect(fake).not_to have_received(:foo, "a", "c")
+      expect(fake).not_to bogus_have_received(:foo, "a", "c")
     end
 
     it "verifies that the method call has the right signature" do
-      mock(verifies_stub_definition).verify!(fake, :foo, ["a", "b"])
+      expect(verifies_stub_definition).to receive(:verify!).with(fake, :foo, ["a", "b"])
 
-      have_received(:foo, "a", "b")
+      bogus_have_received(:foo, "a", "b")
 
       have_received_matcher.matches?(fake)
     end
 
     it "records the interaction so that it can be checked by contract tests" do
-      mock(records_double_interactions).record(fake, :foo, ["a", "b"])
+      expect(records_double_interactions).to receive(:record).with(fake, :foo, ["a", "b"])
 
-      have_received(:foo, "a", "b")
+      bogus_have_received(:foo, "a", "b")
 
       have_received_matcher.matches?(fake)
     end
 
     it "returns a readable error message for object with no shadow" do
-      have_received(:upcase)
+      bogus_have_received(:upcase)
 
       expect(have_received_matcher.matches?("foo")).to be_false
       expect(have_received_matcher.failure_message_for_should).to eq(Bogus::HaveReceivedMatcher::NO_SHADOW)
@@ -47,7 +46,7 @@ describe Bogus::HaveReceivedMatcher do
     end
 
     it "returns a readable error message for fakes" do
-      have_received(:foo, "a", "c")
+      bogus_have_received(:foo, "a", "c")
 
       have_received_matcher.matches?(fake)
 
@@ -62,7 +61,7 @@ describe Bogus::HaveReceivedMatcher do
   end
 
   context "with method_missing builder" do
-    def have_received(method, *args)
+    def bogus_have_received(method, *args)
       have_received_matcher.build.__send__(method, *args)
     end
 
@@ -70,7 +69,7 @@ describe Bogus::HaveReceivedMatcher do
   end
 
   context "with method call builder" do
-    def have_received(*args)
+    def bogus_have_received(*args)
       have_received_matcher.build(*args)
     end
 

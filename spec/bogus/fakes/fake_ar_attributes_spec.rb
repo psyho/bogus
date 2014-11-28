@@ -19,7 +19,9 @@ describe "Stubbing ActiveRecord::Base subclasses" do
     end
   end
 
-  include Bogus::MockingDSL
+  before do
+    extend Bogus::MockingDSL
+  end
 
   before do
     Bogus.configure do |c|

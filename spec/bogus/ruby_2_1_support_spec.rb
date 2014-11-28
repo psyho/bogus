@@ -7,7 +7,9 @@ if RubyFeatures.required_keyword_arguments?
       eval "def bar(x:, **rest); end"
     end
 
-    include Bogus::MockingDSL
+    before do
+      extend Bogus::MockingDSL
+    end
 
     context "with regular objects" do
       subject { ExampleForRequiredKeywordArgs.new }

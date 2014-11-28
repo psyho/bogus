@@ -1,9 +1,9 @@
  require 'spec_helper'
 
  describe "Stubbing existing methods on fakes" do
-   include Bogus::MockingDSL
 
    before do
+     extend Bogus::MockingDSL
      Bogus.clear
    end
 

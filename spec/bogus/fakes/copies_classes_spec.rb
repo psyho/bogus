@@ -151,7 +151,7 @@ describe Bogus::CopiesClasses do
 
   shared_examples_for 'spying' do
     def should_record(method, *args)
-      mock(subject).__record__(method, *args)
+      expect(subject).to receive(:__record__).with(method, *args)
 
       subject.send(method, *args)
     end

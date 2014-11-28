@@ -239,7 +239,9 @@ describe Bogus::MockingDSL do
   end
 
   describe "#fake" do
-    include Bogus::MockingDSL
+    before do
+      extend Bogus::MockingDSL
+    end
 
     it "creates objects that can be stubbed" do
       greeter = fake

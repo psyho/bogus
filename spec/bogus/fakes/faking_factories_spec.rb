@@ -1,7 +1,9 @@
 require 'spec_helper'
 
 describe "Faking Factories" do
-  include Bogus::MockingDSL
+  before do
+    extend Bogus::MockingDSL
+  end
 
   class ExampleFactory
     def initialize(model_class)

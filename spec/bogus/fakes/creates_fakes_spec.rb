@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe Bogus::CreatesFakes do
-  let(:fake_class) { stub }
-  let(:fake_instance) { stub }
-  let(:converts_name_to_class) { stub }
-  let(:copies_classes) { stub }
-  let(:makes_ducks) { stub }
+  let(:fake_class) { double }
+  let(:fake_instance) { double }
+  let(:converts_name_to_class) { double }
+  let(:copies_classes) { double }
+  let(:makes_ducks) { double }
   let(:creates_fakes) { isolate(Bogus::CreatesFakes) }
 
   module Foo
@@ -14,12 +14,12 @@ describe Bogus::CreatesFakes do
   module Bar
   end
 
-  before { stub(fake_class).__create__{fake_instance} }
+  before { allow(fake_class).to receive(:__create__){fake_instance} }
 
   context "without block" do
     before do
-      mock(converts_name_to_class).convert(:foo) { Foo }
-      mock(copies_classes).copy(Foo) { fake_class }
+      expect(converts_name_to_class).to receive(:convert).with(:foo) { Foo }
+      expect(copies_classes).to receive(:copy).with(Foo) { fake_class }
     end
 
     it "creates a new instance of copied class by default" do
@@ -43,8 +43,8 @@ describe Bogus::CreatesFakes do
 
   context "with block" do
     before do
-      stub(converts_name_to_class).convert
-      mock(copies_classes).copy(Bar) { fake_class }
+      allow(converts_name_to_class).to receive(:convert)
+      expect(copies_classes).to receive(:copy).with(Bar) { fake_class }
     end
 
     it "uses the class provided" do
@@ -54,7 +54,7 @@ describe Bogus::CreatesFakes do
     it "does not convert the class name" do
       creates_fakes.create(:foo) { Bar}
 
-      expect(copies_classes).to_not have_received.convert
+      expect(converts_name_to_class).not_to have_received(:convert)
     end
   end
 
@@ -63,8 +63,8 @@ describe Bogus::CreatesFakes do
 
   context "with multiple classes" do
     it "creates a duck type out of those classes and fakes it" do
-      stub(makes_ducks).make(Foo, Bar) { FooBarDuck }
-      stub(copies_classes).copy(FooBarDuck) { :the_fake }
+      allow(makes_ducks).to receive(:make).with(Foo, Bar) { FooBarDuck }
+      allow(copies_classes).to receive(:copy).with(FooBarDuck) { :the_fake }
 
       fake = creates_fakes.create(:role, as: :class) { [Foo, Bar] }
 

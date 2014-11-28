@@ -3,15 +3,15 @@ require 'spec_helper'
 module Bogus
   describe CreatesFakesWithStubbedMethods do
     let(:creates_fakes) { FakeCreatorOfFakes.new }
-    let(:fake_configuration) { stub }
-    let(:responds_to_everything) { stub }
-    let(:multi_stubber) { stub }
+    let(:fake_configuration) { double }
+    let(:responds_to_everything) { double }
+    let(:multi_stubber) { double }
 
     let(:creates_anonymous_stubs) { isolate(CreatesFakesWithStubbedMethods) }
 
     before do
-      stub(fake_configuration).include? { false }
-      stub(multi_stubber).stub_all { :stubbed_object }
+      allow(fake_configuration).to receive(:include?) { false }
+      allow(multi_stubber).to receive(:stub_all) { :stubbed_object }
     end
 
     context "given symbol as first parameter" do
@@ -26,7 +26,7 @@ module Bogus
       end
 
       it "stubs all the given methods" do
-        expect(multi_stubber).to have_received.stub_all(fake, bar: 1)
+        expect(multi_stubber).to have_received(:stub_all).with(fake, bar: 1)
       end
     end
 
@@ -40,7 +40,7 @@ module Bogus
       end
 
       it "stubs all the given methods" do
-        expect(multi_stubber).to have_received.stub_all(responds_to_everything, bar: 1)
+        expect(multi_stubber).to have_received(:stub_all).with(responds_to_everything, bar: 1)
       end
     end
 
@@ -56,7 +56,7 @@ module Bogus
       end
 
       it "stubs all the given methods" do
-        expect(multi_stubber).to have_received.stub_all(fake, {})
+        expect(multi_stubber).to have_received(:stub_all).with(fake, {})
       end
     end
 
@@ -70,7 +70,7 @@ module Bogus
       end
 
       it "stubs all the given methods" do
-        expect(multi_stubber).to have_received.stub_all(responds_to_everything, {})
+        expect(multi_stubber).to have_received(:stub_all).with(responds_to_everything, {})
       end
     end
 
@@ -78,8 +78,8 @@ module Bogus
       let(:fake) { [:foo, {as: :class}, "SomeClass"] }
 
       before do
-        stub(fake_configuration).include?(:foo) { true }
-        stub(fake_configuration).get(:foo) { FakeDefinition.new(opts: {as: :class},
+        allow(fake_configuration).to receive(:include?).with(:foo) { true }
+        allow(fake_configuration).to receive(:get).with(:foo) { FakeDefinition.new(opts: {as: :class},
                                                                 stubs: {xyz: "abc"},
                                                                 class_block: proc{"SomeClass"}) }
 
@@ -89,12 +89,12 @@ module Bogus
       it "uses the configuration to create fake" do
         expect(creates_fakes.fakes).to eq [fake]
 
-        expect(fake_configuration).to have_received.include?(:foo)
-        expect(fake_configuration).to have_received.get(:foo)
+        expect(fake_configuration).to have_received(:include?).with(:foo)
+        expect(fake_configuration).to have_received(:get).with(:foo)
       end
 
       it "stubs the methods defined in configuration" do
-        expect(multi_stubber).to have_received.stub_all(fake, xyz: "abc")
+        expect(multi_stubber).to have_received(:stub_all).with(fake, xyz: "abc")
       end
     end
 
@@ -102,10 +102,12 @@ module Bogus
       let(:fake) { [:foo, {as: :instance}, "SomeOtherClass"] }
 
       before do
-        stub(fake_configuration).include?(:foo) { true }
-        stub(fake_configuration).get(:foo) { FakeDefinition.new(opts: {as: :class},
-                                                                stubs: {a: "b", b: "c"},
-                                                                class_block: proc{"SomeClass"}) }
+        allow(fake_configuration).to receive(:include?).with(:foo) { true }
+        allow(fake_configuration).to receive(:get).with(:foo) {
+          FakeDefinition.new(opts: {as: :class},
+                             stubs: {a: "b", b: "c"},
+                             class_block: proc{"SomeClass"})
+        }
 
         creates_anonymous_stubs.create(:foo, as: :instance, b: "d", c: "e") { "SomeOtherClass" }
       end
@@ -115,7 +117,7 @@ module Bogus
       end
 
       it "overrides the stubbed methods" do
-        expect(multi_stubber).to have_received.stub_all(fake, a: "b", b: "d", c: "e")
+        expect(multi_stubber).to have_received(:stub_all).with(fake, a: "b", b: "d", c: "e")
       end
     end
   end

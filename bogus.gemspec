@@ -32,7 +32,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'guard-ctags-bundler'
   s.add_development_dependency 'growl'
   s.add_development_dependency 'libnotify'
-  s.add_development_dependency 'rr'
   s.add_development_dependency 'relish'
   s.add_development_dependency 'coveralls'
   s.add_development_dependency 'wwtd'
