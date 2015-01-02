@@ -1,3 +1,11 @@
+## 0.1.6
+
+- Removed dependency on Coveralls::SimpleCov::Formatter (thanks to Ken Dreyer)
+- Made all tests pass on Rubinious
+- Updated tests to use RSpec Mocks instead of RR in unit tests
+- Updated tests to use RSpec 3
+- Fixed described_class in RSpec 3.*
+
 ## 0.1.5
 
 - Made it possible to use fake objects in case/when statements (override ===)
