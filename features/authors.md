@@ -29,9 +29,10 @@ The mocking DSL syntax was inspired by the [RR framework][rr].
 
 ## Sponsor
 
-The development of Bogus was partially sponsored by [Lunar Logic][llp].
+The development of Bogus was partially sponsored by [GunpowderLabs][gunpowderlabs] and [Lunar Logic][llp].
 
 [llp]: http://www.lunarlogicpolska.com
+[gunpowderlabs]: http://www.gunpowderlabs.com
 
 [psyho]: https://github.com/psyho
 [apohorecki]: http://twitter.com/apohorecki
