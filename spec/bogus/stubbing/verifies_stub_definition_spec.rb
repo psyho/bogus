@@ -2,6 +2,9 @@ require 'spec_helper'
 
 describe Bogus::VerifiesStubDefinition do
   class ExampleForVerify
+    def initialize(test)
+
+    end
     def foo(bar)
     end
 
@@ -15,7 +18,7 @@ describe Bogus::VerifiesStubDefinition do
     end
   end
 
-  let(:object) { ExampleForVerify.new }
+  let(:object) { ExampleForVerify.new(1) }
   let(:verifies_stub_definition) { Bogus::VerifiesStubDefinition.new(method_stringifier) }
   let(:method_stringifier) { isolate(Bogus::MethodStringifier) }
 
@@ -44,6 +47,16 @@ describe Bogus::VerifiesStubDefinition do
       it "disallows #{arg_count} arguments" do
         it_disallows(method_name, [1] * arg_count)
       end
+    end
+  end
+
+  context "when checking #new" do
+    let(:object) { ExampleForVerify }
+    it "checks arity" do
+      it_allows(:new, [1])
+    end
+    it "errors with the wrong number of arguments" do
+      it_disallows(:new, [])
     end
   end
 

@@ -8,7 +8,11 @@ module Bogus
       stubbing_non_existent_method!(object, method_name) unless object.respond_to?(method_name)
       return unless object.methods.include?(method_name)
       return if WithArguments.with_matcher?(args)
-      method = object.method(method_name)
+      if method_name.to_sym == :new && object.kind_of?(Class)
+        method = object.allocate.method(:initialize)
+      else
+        method = object.method(method_name)
+      end
       verify_call!(method, args)
     end
 
