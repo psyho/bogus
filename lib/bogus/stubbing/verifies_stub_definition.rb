@@ -8,15 +8,16 @@ module Bogus
       stubbing_non_existent_method!(object, method_name) unless object.respond_to?(method_name)
       return unless object.methods.include?(method_name)
       return if WithArguments.with_matcher?(args)
-      if method_name.to_sym == :new && object.kind_of?(Class)
-        method = object.allocate.method(:initialize)
-      else
-        method = object.method(method_name)
-      end
+      method = get_method_object(object, method_name)
       verify_call!(method, args)
     end
 
     private
+
+    def get_method_object(object, method_name)
+      return object.instance_method(:initialize) if constructor?(object, method_name)
+      object.method(method_name)
+    end
 
     def verify_call!(method, args)
       object = Object.new
@@ -34,6 +35,10 @@ module Bogus
 
     def stubbing_non_existent_method!(object, method_name)
       raise NameError, "#{object.inspect} does not respond to #{method_name}"
+    end
+
+    def constructor?(object, method_name)
+      method_name.to_sym == :new && object.kind_of?(Class)
     end
   end
 end

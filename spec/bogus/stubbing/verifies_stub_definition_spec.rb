@@ -3,8 +3,8 @@ require 'spec_helper'
 describe Bogus::VerifiesStubDefinition do
   class ExampleForVerify
     def initialize(test)
-
     end
+
     def foo(bar)
     end
 
