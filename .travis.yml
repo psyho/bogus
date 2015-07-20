@@ -6,8 +6,5 @@ rvm:
   - 2.2
   - jruby
   - rbx
-before_install:
-  - rvm uninstall jruby
-  - rvm use jruby-1.7.18 --install
 script: bundle exec rspec spec && bundle exec cucumber --tag ~@wip
 sudo: false
