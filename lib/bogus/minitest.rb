@@ -38,8 +38,8 @@ module Bogus::Minitest
 end
 
 # minitest 5 vs 4.7
-if defined? Minitest::Test
-  class Minitest::Test
+if defined? ::Minitest::Test
+  class ::Minitest::Test
     include Bogus::Minitest
   end
 else
