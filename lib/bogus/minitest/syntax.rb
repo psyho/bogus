@@ -17,8 +17,8 @@ module Bogus
 
     def after_suite(&block)
       # minitest 5 vs 4.7
-      if defined? Minitest.after_run
-        Minitest.after_run(&block)
+      if defined? ::Minitest.after_run
+        ::Minitest.after_run(&block)
       else
         MiniTest::Unit.after_tests(&block)
       end
