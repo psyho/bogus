@@ -34,7 +34,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'coveralls'
   s.add_development_dependency 'wwtd'
 
-  s.add_development_dependency 'activerecord', '>= 3', '< 5'
+  s.add_development_dependency 'activerecord', '>= 3', '< 7'
   s.add_development_dependency 'activerecord-nulldb-adapter'
 
   s.add_development_dependency 'minitest', '>= 4.7'
