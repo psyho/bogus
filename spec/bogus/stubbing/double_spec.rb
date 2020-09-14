@@ -14,7 +14,7 @@ module Bogus
 
         expect {
           double_instance.stub.foo("a", "b") { "the result" }
-        }.to raise_error
+        }.to raise_error NameError
 
         expect(double_tracker).not_to have_received(:track).with(object)
       end

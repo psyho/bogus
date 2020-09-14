@@ -81,7 +81,7 @@ describe Bogus::FakeConfiguration do
       end
 
       block = stubs(:foo)[:bar]
-      expect{ block.call }.to raise_error
+      expect{ block.call }.to raise_error RuntimeError
     end
   end
 
