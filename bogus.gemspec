@@ -12,8 +12,6 @@ Gem::Specification.new do |s|
   s.summary     = %q{Create fakes to make your isolated unit tests reliable.}
   s.description = %q{Decreases the need to write integration tests by ensuring that the things you stub or mock actually exist.}
 
-  s.rubyforge_project = "bogus"
-
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
@@ -36,7 +34,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'coveralls'
   s.add_development_dependency 'wwtd'
 
-  s.add_development_dependency 'activerecord', '>= 3', '< 5'
+  s.add_development_dependency 'activerecord', '>= 3', '< 7'
   s.add_development_dependency 'activerecord-nulldb-adapter'
 
   s.add_development_dependency 'minitest', '>= 4.7'
