@@ -27,12 +27,12 @@ module Bogus
 
     def argument_to_string(name, type, default)
       case type
-      when :block then "&#{name}"
+      when :block then "&#{name == :& ? 'block' : name}"
       when :key then default ? "#{name}: #{default}" : "#{name}: #{name}"
       when :keyreq then default ? "#{name}:" : "#{name}: #{name}"
       when :opt then default ? "#{name} = #{default}" : name
       when :req then name
-      when :rest then "*#{name}"
+      when :rest then "*#{name == :* ? 'rest' : name}"
       when :keyrest then "**#{name}"
       else raise "unknown argument type: #{type}"
       end
