@@ -40,7 +40,7 @@ module Bogus
       it { should respond_to(:foo) }
 
       it "should have arity -3 for foo" do
-        expect(duck.method(:foo).arity).to eq -3
+        expect(duck.method(:foo).arity).to eq(-3)
       end
 
       it { should_not respond_to(:bar) }
