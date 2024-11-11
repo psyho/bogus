@@ -49,7 +49,7 @@ describe "Faking Factories" do
   it "works with classes with no explicit constructor" do
     model_class = fake(:example_model, as: :class) { ExampleModel3 }
 
-    model = model_class.new
+    model_class.new
 
     expect(model_class).to have_received.new
   end
