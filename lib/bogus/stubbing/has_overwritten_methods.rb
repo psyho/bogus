@@ -7,7 +7,9 @@ module Bogus
     end
 
     def self.alias(object, new_name, name)
-      object.singleton_class.send(:alias_method, new_name, name)
+      singleton = object.singleton_class
+      singleton.undef_method(new_name) if singleton.method_defined?(new_name)
+      singleton.send(:alias_method, new_name, name)
     end
 
     def __overwritten_methods__

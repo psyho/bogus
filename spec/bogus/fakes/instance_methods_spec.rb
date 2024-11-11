@@ -3,12 +3,14 @@ require 'spec_helper'
 module Bogus
   describe InstanceMethods do
     class SampleClass
+      undef_method(:foo)
       def foo(bar)
       end
 
       def hello
       end
 
+      self.singleton_class.undef_method(:bar)
       def self.bar(bam)
       end
     end
