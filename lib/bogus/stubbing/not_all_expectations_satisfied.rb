@@ -15,7 +15,7 @@ module Bogus
       <% end %>
       EOF
       str = str.gsub(/ {6}/, '')
-      template = ERB.new(str, nil, "<>")
+      template = ERB.new(str, trim_mode: "<>")
       new(template.result(binding))
     end
 
