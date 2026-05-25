@@ -62,6 +62,7 @@ MIT. See the [LICENSE file][license].
 * [Paweł Pierzchała](http://github.com/wrozka)
 * [Piotr Szotkowski](https://github.com/chastell)
 * [Marek Nowak](https://github.com/yundt)
+* [Paweł Pacana](https://github.com/mostlyobvious)
 
 [docs]: http://www.relishapp.com/bogus/bogus/docs 
 
